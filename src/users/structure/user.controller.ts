@@ -79,6 +79,7 @@ export class UserController {
             throw new BadRequestException(error.message);
         }
     }
+    
     @Post("/login")
     async login(@Body() body: any): Promise<DtoPayloadResponse> {
         try {

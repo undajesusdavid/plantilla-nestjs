@@ -1,6 +1,7 @@
+import { Uuid } from "src/shared/core/Uuid";
 
 export interface UserProps {
-    id: string;
+    id: Uuid;
     username: string;
     password: string;
     email: string;
@@ -8,7 +9,7 @@ export interface UserProps {
 }
 
 export class User {
-    private id: string;
+    private id: Uuid;
     private username: string;
     private password: string;
     private email: string;
@@ -25,7 +26,7 @@ export class User {
 
     // Getters
     getId(): string {
-        return this.id;
+        return this.id.toString();
     }
 
     getUsername(): string {

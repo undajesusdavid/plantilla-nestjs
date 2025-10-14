@@ -4,14 +4,18 @@ import { User } from '../../core/User';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserModel } from '../user.sequealize';
 import { ErrorRepositoryService } from 'src/users/app/errors/ErrorRepositoryService';
+import { Uuid } from 'src/shared/core/Uuid';
 
 @Injectable()
 export class UserRepositoryImp implements UserRepository {
   constructor(@InjectModel(UserModel) private userModel: typeof UserModel) { }
 
   private toDomain(record: UserModel): User {
+    if(!Uuid.isValid(record.id)){
+      throw new Error("El id del usuario almacenado no es un uuid valido")
+    }
     return new User({
-      id: record.id,
+      id: Uuid.create(record.id),
       username: record.username,
       password: record.password,
       email: record.email,

@@ -6,7 +6,7 @@ import { UserModel } from './user.sequealize';
 
 // Services
 import { HashedServiceImp } from './services/HashedServiceImp';
-import { UuidServiceImp } from './services/UuidServiceImp';
+import { UuidServiceImp } from 'src/shared/structure/services/UuidServiceImp';
 import { AuthTokenServiceImp } from './services/AuthTokenServiceImp';
 
 
@@ -19,6 +19,8 @@ import { GetUsersImp } from '../app/get-users/GetUsersImp';
 
 import { AuthUserToken } from '../app/user-auth/AuthUser';
 import { AuthUserImp } from '../app/user-auth/AuthUserImp';
+import { SharedModule } from 'src/shared/structure/shared.module';
+
 
 const CreateUserProvider = {
   provide: CreateUserToken,
@@ -49,12 +51,11 @@ const AuthUserProvider = {
 
 
 @Module({
-  imports: [SequelizeModule.forFeature([UserModel])],
+  imports: [SharedModule, SequelizeModule.forFeature([UserModel])],
   controllers: [UserController],
   providers: [
     UserRepositoryImp,
     HashedServiceImp,
-    UuidServiceImp,
     AuthTokenServiceImp,
     CreateUserProvider,
     GetUsersProvider,

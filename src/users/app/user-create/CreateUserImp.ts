@@ -10,12 +10,13 @@ import { User } from "../../core/User";
 
 // Importamos los Servicios
 import { UserRepository } from "../contracts/UserRepository";
-import { UuidService } from "../contracts/UuidService";
+import { UuidService } from "src/shared/app/contracts/UuidService";
 import { HashedService } from "../contracts/HashedService";
 import { ErrorUseCase } from "../errors/ErrorUseCase";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
-import { ErrorUuidService } from "../errors/ErrorUuidService";
+import { ErrorUuidService } from "src/shared/app/errors/ErrorUuidService";
 import { ErrorHashedService } from "../errors/ErrorHashedService";
+import { Uuid } from "src/shared/core/Uuid";
 
 // Exportamos la clase que implementa el caso de uso
 export class CreateUserImp implements CreateUser {
@@ -38,8 +39,13 @@ export class CreateUserImp implements CreateUser {
                 throw new Error("El email ya existe");
             }
 
+            const id = this.uuidService.generateV7();
+            if(!Uuid.isValid(id)){
+                throw new Error("El ID generado no es una version de UUID valida")
+            }
+            
             const user = new User({
-                id: this.uuidService.generate(),
+                id: Uuid.create(id),
                 username: props.username,
                 password: this.hashedService.hashed(props.password),
                 email: props.email,
