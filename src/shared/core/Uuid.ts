@@ -1,7 +1,7 @@
 export class Uuid {
     private readonly value: string;
 
-    private constructor(id: string) {
+    protected constructor(id: string) {
         this.value = id;
     }
 

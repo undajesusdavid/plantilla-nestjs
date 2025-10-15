@@ -1,11 +1,9 @@
-export class PermissionId {
-    private id: string;
+import { Uuid } from "src/shared/core/Uuid";
+
+export class PermissionID extends Uuid{
 
     constructor(id : string){
-        this.id = id;
+        super(id);
     }
 
-    getId(){
-        return this.id;
-    }
 }
