@@ -1,4 +1,4 @@
-import { PermissionID } from "./PermissionId";
+import { PermissionID } from "./PermissionID";
 
 class Permission {
     private _id: PermissionID;
