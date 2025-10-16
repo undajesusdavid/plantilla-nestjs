@@ -14,6 +14,9 @@ import { AuthTokenServiceImp } from './services/AuthTokenServiceImp';
 import { CreateUserImp } from '../app/user-create/CreateUserImp';
 import { CreateUserToken  } from '../app/user-create/CreateUser';
 
+import { UpdateUserImp } from '../app/user-update/UpdateUserImp';
+import { UpdateUserToken } from '../app/user-update/UpdateUser';
+
 import { GetUsersToken } from '../app/get-users/GetUsers';
 import { GetUsersImp } from '../app/get-users/GetUsersImp';
 
@@ -28,6 +31,14 @@ const CreateUserProvider = {
     return new CreateUserImp(repo, uuid, hash);
   },
   inject: [UserRepositoryImp, UuidServiceImp, HashedServiceImp],
+}
+
+const UpdateUserProvider = {
+  provide: UpdateUserToken,
+  useFactory: (repo: UserRepositoryImp) => {
+    return new UpdateUserImp(repo);
+  },
+  inject: [UserRepositoryImp],
 }
 
 const GetUsersProvider = {
@@ -58,11 +69,12 @@ const AuthUserProvider = {
     HashedServiceImp,
     AuthTokenServiceImp,
     CreateUserProvider,
+    UpdateUserProvider,
     GetUsersProvider,
     AuthUserProvider,
 
   ],
-  exports: [CreateUserToken, GetUsersToken, AuthUserToken]
+  exports: [CreateUserToken, UpdateUserToken, GetUsersToken, AuthUserToken]
 })
 export class UserModule {
 

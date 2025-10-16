@@ -12,7 +12,7 @@ export class UserRepositoryImp implements UserRepository {
   constructor(@InjectModel(UserModel) private userModel: typeof UserModel) { }
 
   private toDomain(record: UserModel): User {
-    if(!UserID.isValid(record.id)){
+    if (!UserID.isValid(record.id)) {
       throw new Error("El id del usuario almacenado no es un uuid valido")
     }
     return new User({
@@ -39,6 +39,30 @@ export class UserRepositoryImp implements UserRepository {
         'Error al intentar crear el usuario',
         'USER_CREATE_FAILED',
         { originalError: error, class: this.constructor.name, method: "create" }
+      );
+    }
+  }
+
+  async update(id: string, user: User): Promise<boolean> {
+    try {
+      const record = await this.userModel.update({
+        username: user.getUsername(),
+        password: user.getPassword(),
+        email: user.getEmail(),
+        active: user.isActive(),
+      }, {
+        where: {
+          id: id
+        }
+      });
+
+      return !!record;
+
+    } catch (error) {
+      throw new ErrorRepositoryService(
+        'Error al intentar actualizar el usuario',
+        'USER_UPDATE_FAILED',
+        { originalError: error, class: this.constructor.name, method: "update" }
       );
     }
   }
@@ -75,7 +99,7 @@ export class UserRepositoryImp implements UserRepository {
 
   async getOneByUsername(username: string): Promise<User | null> {
     try {
-      const record = await this.userModel.findOne({where: {username}});
+      const record = await this.userModel.findOne({ where: { username } });
       if (!record) {
         return null;
       }

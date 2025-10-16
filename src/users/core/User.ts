@@ -1,8 +1,7 @@
-
 import { UserID } from "./UserID";
 
 export interface UserProps {
-    id: UserID
+    id: UserID;
     username: string;
     password: string;
     email: string;
@@ -15,7 +14,6 @@ export class User {
     private password: string;
     private email: string;
     private active: boolean;
-
 
     constructor(props: UserProps) {
         this.id = props.id;
@@ -44,5 +42,35 @@ export class User {
 
     isActive(): boolean {
         return this.active;
+    }
+
+    // Setters
+    setUsername(username: string): void {
+        if (!username || username.trim() === "") {
+            throw new Error("El nombre de usuario no puede estar vacío.");
+        }
+        this.username = username;
+    }
+
+    setPassword(password: string): void {
+        if (password.length < 6) {
+            throw new Error("La contraseña debe tener al menos 6 caracteres.");
+        }
+        this.password = password;
+    }
+
+    setEmail(email: string): void {
+        if (!email.includes("@")) {
+            throw new Error("El correo electrónico no es válido.");
+        }
+        this.email = email;
+    }
+
+    setActive(active: boolean): void {
+        this.active = active;
+    }
+
+    setId(id: UserID): void {
+        this.id = id;
     }
 }

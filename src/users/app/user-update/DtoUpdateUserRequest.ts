@@ -23,7 +23,7 @@ export class DtoUpdateUserRequest {
     static create(props: PropsUpdateUserRequest) {
         const errors: string[] = [];
 
-        if (typeof props.username !== 'string') {
+        if (typeof props.id !== 'string') {
             errors.push('El ID del usuario a editar es requerido');
         }
 
