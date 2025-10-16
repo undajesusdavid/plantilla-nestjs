@@ -15,7 +15,6 @@ import {
 })
 export class PermissionModel extends Model<PermissionModel> {
     @PrimaryKey
-    @Default(DataType.UUIDV4)
     @Column(DataType.UUID)
     declare id: string;
 
@@ -26,6 +25,10 @@ export class PermissionModel extends Model<PermissionModel> {
     @AllowNull(false)
     @Column(DataType.STRING)
     declare description: string;
+
+    @AllowNull(true)
+    @Column(DataType.STRING)
+    declare module: string;
 
     @AllowNull(false)
     @Column(DataType.STRING)
@@ -40,11 +43,7 @@ export class PermissionModel extends Model<PermissionModel> {
     @Column(DataType.BOOLEAN)
     declare isActive: boolean;
 
-    @AllowNull(true)
-    @Column(DataType.INTEGER)
-    declare roleId?: number;
 
-    @AllowNull(true)
-    @Column(DataType.STRING)
-    declare module?: string;
+
+    
 }

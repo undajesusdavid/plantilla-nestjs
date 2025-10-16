@@ -16,7 +16,7 @@ import { ErrorUseCase } from "../errors/ErrorUseCase";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUuidService } from "src/shared/app/errors/ErrorUuidService";
 import { ErrorHashedService } from "../errors/ErrorHashedService";
-import { Uuid } from "src/shared/core/Uuid";
+import { UserID } from "src/users/core/UserID";
 
 // Exportamos la clase que implementa el caso de uso
 export class CreateUserImp implements CreateUser {
@@ -40,12 +40,12 @@ export class CreateUserImp implements CreateUser {
             }
 
             const id = this.uuidService.generateV7();
-            if(!Uuid.isValid(id)){
+            if(!UserID.isValid(id)){
                 throw new Error("El ID generado no es una version de UUID valida")
             }
             
             const user = new User({
-                id: Uuid.create(id),
+                id: UserID.create(id),
                 username: props.username,
                 password: this.hashedService.hashed(props.password),
                 email: props.email,

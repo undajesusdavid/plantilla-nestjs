@@ -1,33 +1,31 @@
 import { PermissionID } from "./PermissionID";
 
-class Permission {
+export class Permission {
     private _id: PermissionID;
     private _name: string;
     private _description: string;
+    private _module: string;
     private _resource: string;
-    private _action: 'read' | 'write' | 'update' | 'delete' | string;
+    private _action: string;
     private _isActive: boolean;
-    private _roleId?: number;
-    private _module?: string;
+
 
     constructor(
         id: PermissionID,
         name: string,
         description: string,
+        module: string,
         resource: string,
-        action: 'read' | 'write' | 'update' | 'delete' | string,
+        action: string,
         isActive: boolean,
-        roleId?: number,
-        module?: string
     ) {
         this._id = id;
         this._name = name;
         this._description = description;
+        this._module = module;
         this._resource = resource;
         this._action = action;
         this._isActive = isActive;
-        this._roleId = roleId;
-        this._module = module;
     }
 
     get id(): string {
@@ -42,6 +40,10 @@ class Permission {
         return this._description;
     }
 
+    get module(): string | undefined {
+        return this._module;
+    }
+
     get resource(): string {
         return this._resource;
     }
@@ -54,11 +56,4 @@ class Permission {
         return this._isActive;
     }
 
-    get roleId(): number | undefined {
-        return this._roleId;
-    }
-
-    get module(): string | undefined {
-        return this._module;
-    }
 }

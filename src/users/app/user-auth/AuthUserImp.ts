@@ -5,7 +5,6 @@ import { ErrorAuthTokenService } from "../errors/ErrorAuthTokenService";
 import { ErrorHashedService } from "../errors/ErrorHashedService";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUseCase } from "../errors/ErrorUseCase";
-import { ErrorValidation } from "../errors/ErrorValidation";
 import { AuthUser } from "./AuthUser";
 import { DtoCredentialsRequest } from "./DtoCredentialsRequest";
 import { DtoPayloadResponse } from "./DtoPayloadResponse";

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PermissionModule } from './permissions/structure/permission.module';
 import { RoleModule } from './roles/structure/role.module';
 import { UserModule } from './users/structure/user.module';
-import { DatabaseModule } from './database.module';
+import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 
 
