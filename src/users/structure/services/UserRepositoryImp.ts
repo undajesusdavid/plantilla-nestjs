@@ -114,6 +114,20 @@ export class UserRepositoryImp implements UserRepository {
 
   }
 
+  async delete(id: string): Promise<boolean> {
+    try {
+      const process = await this.userModel.destroy({where: {id}});
+      return !!process;
+      
+    } catch (error) {
+      throw new ErrorRepositoryService(
+        `Error al intentar eliminar el usuario con ID ${id}`,
+        'USER_DELETE_FAILED',
+        { originalError: error, class: this.constructor.name, method: "delete" }
+      );
+    }
+  }
+
   async usernameExists(username: string): Promise<boolean> {
     try {
       const record = await this.userModel.findOne({ where: { username } });

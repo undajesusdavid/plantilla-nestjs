@@ -12,7 +12,7 @@ import { User } from "../../core/User";
 import { UserRepository } from "../contracts/UserRepository";
 import { UuidService } from "src/shared/app/contracts/UuidService";
 import { HashedService } from "../contracts/HashedService";
-import { ErrorUseCase } from "../errors/ErrorUseCase";
+import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUuidService } from "src/shared/app/errors/ErrorUuidService";
 import { ErrorHashedService } from "../errors/ErrorHashedService";

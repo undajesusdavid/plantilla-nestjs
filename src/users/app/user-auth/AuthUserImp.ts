@@ -4,7 +4,7 @@ import { UserRepository } from "../contracts/UserRepository";
 import { ErrorAuthTokenService } from "../errors/ErrorAuthTokenService";
 import { ErrorHashedService } from "../errors/ErrorHashedService";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
-import { ErrorUseCase } from "../errors/ErrorUseCase";
+import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { AuthUser } from "./AuthUser";
 import { DtoCredentialsRequest } from "./DtoCredentialsRequest";
 import { DtoPayloadResponse } from "./DtoPayloadResponse";

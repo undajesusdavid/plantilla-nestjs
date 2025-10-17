@@ -3,7 +3,7 @@ import { UserRepository } from "../contracts/UserRepository";
 import { DtoUpdateUserRequest } from "./DtoUpdateUserRequest";
 import { DtoUpdateUserReponse } from "./DtoUpdateUserResponse";
 import { UpdateUser } from "./UpdateUser";
-import { ErrorUseCase } from "../errors/ErrorUseCase";
+import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 
 export class UpdateUserImp implements UpdateUser {

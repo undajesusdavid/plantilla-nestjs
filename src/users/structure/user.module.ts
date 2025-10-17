@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
+import { UserController } from './controllers/user.controller';
 import { UserRepositoryImp } from './services/UserRepositoryImp';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModel } from './user.sequealize';
@@ -12,13 +12,16 @@ import { AuthTokenServiceImp } from './services/AuthTokenServiceImp';
 
 // uses Case
 import { CreateUserImp } from '../app/user-create/CreateUserImp';
-import { CreateUserToken  } from '../app/user-create/CreateUser';
+import { CreateUserToken } from '../app/user-create/CreateUser';
 
 import { UpdateUserImp } from '../app/user-update/UpdateUserImp';
 import { UpdateUserToken } from '../app/user-update/UpdateUser';
 
 import { GetUsersToken } from '../app/get-users/GetUsers';
 import { GetUsersImp } from '../app/get-users/GetUsersImp';
+
+import { DeleteUserToken } from '../app/user-delete/DeleteUser';
+import { DeleteUserImp } from '../app/user-delete/DeleteUserImp';
 
 import { AuthUserToken } from '../app/user-auth/AuthUser';
 import { AuthUserImp } from '../app/user-auth/AuthUserImp';
@@ -49,15 +52,23 @@ const GetUsersProvider = {
   inject: [UserRepositoryImp],
 }
 
+const DeleteUserProvider = {
+  provide: DeleteUserToken,
+  useFactory: (repo: UserRepositoryImp) => {
+    return new DeleteUserImp(repo);
+  },
+  inject: [UserRepositoryImp],
+}
+
 const AuthUserProvider = {
   provide: AuthUserToken,
   useFactory: (
-    repo: UserRepositoryImp, 
-    authToken: AuthTokenServiceImp, 
+    repo: UserRepositoryImp,
+    authToken: AuthTokenServiceImp,
     hashed: HashedServiceImp) => {
-    return new AuthUserImp(repo,authToken,hashed);
+    return new AuthUserImp(repo, authToken, hashed);
   },
-  inject: [UserRepositoryImp,AuthTokenServiceImp,HashedServiceImp],
+  inject: [UserRepositoryImp, AuthTokenServiceImp, HashedServiceImp],
 }
 
 
@@ -71,10 +82,11 @@ const AuthUserProvider = {
     CreateUserProvider,
     UpdateUserProvider,
     GetUsersProvider,
+    DeleteUserProvider,
     AuthUserProvider,
 
   ],
-  exports: [CreateUserToken, UpdateUserToken, GetUsersToken, AuthUserToken]
+  exports: [CreateUserToken, UpdateUserToken, GetUsersToken, DeleteUserToken, AuthUserToken]
 })
 export class UserModule {
 

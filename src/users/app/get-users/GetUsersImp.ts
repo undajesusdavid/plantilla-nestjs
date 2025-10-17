@@ -1,6 +1,6 @@
 import { UserRepository } from "../contracts/UserRepository";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
-import { ErrorUseCase } from "../errors/ErrorUseCase";
+import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { DtoGetUsersResponse } from "./DtoGetUsersResponse";
 import { DtoUserIdRequest } from "./DtoUserIdRequest";
 import { GetUsers } from "./GetUsers";

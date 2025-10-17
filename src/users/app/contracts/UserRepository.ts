@@ -7,6 +7,7 @@ export interface UserRepository {
     getAll(): Promise<User[]>
     getOneById(id: string): Promise<User>
     getOneByUsername(username: string): Promise<User | null>
+    delete(id: string) : Promise<boolean>
     usernameExists(username: string): Promise<boolean>;
     emailExists(email: string): Promise<boolean>;
 }

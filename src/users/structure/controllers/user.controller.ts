@@ -1,25 +1,28 @@
-import { Body, Controller, Get, Inject, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from '@nestjs/common';
 
 // Import DTO
-import { DtoCreateUserRequest } from '../app/user-create/DtoCreateUserRequest';
-import { DtoCreateUserResponse } from '../app/user-create/DtoCreateUserResponse';
-import { DtoUpdateUserReponse } from '../app/user-update/DtoUpdateUserResponse';
-import { DtoUpdateUserRequest } from '../app/user-update/DtoUpdateUserRequest';
-import { DtoGetUsersResponse } from '../app/get-users/DtoGetUsersResponse';
-import { DtoUserIdRequest } from '../app/get-users/DtoUserIdRequest';
-import { DtoPayloadResponse } from '../app/user-auth/DtoPayloadResponse';
-import { DtoCredentialsRequest } from '../app/user-auth/DtoCredentialsRequest';
+import { DtoCreateUserRequest } from '../../app/user-create/DtoCreateUserRequest';
+import { DtoCreateUserResponse } from '../../app/user-create/DtoCreateUserResponse';
+import { DtoUpdateUserReponse } from '../../app/user-update/DtoUpdateUserResponse';
+import { DtoUpdateUserRequest } from '../../app/user-update/DtoUpdateUserRequest';
+import { DtoGetUsersResponse } from '../../app/get-users/DtoGetUsersResponse';
+import { DtoUserIdRequest } from '../../app/get-users/DtoUserIdRequest';
+import { DtoPayloadResponse } from '../../app/user-auth/DtoPayloadResponse';
+import { DtoCredentialsRequest } from '../../app/user-auth/DtoCredentialsRequest';
 //Import Errors
-import { ErrorUseCase } from '../app/errors/ErrorUseCase';
+import { ErrorUseCase } from '../../../shared/app/errors/ErrorUseCase';
 import { BadRequestException, InternalServerErrorException } from "@nestjs/common";
 // Import Guards
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 // import uses case
-import { type CreateUser, CreateUserToken } from '../app/user-create/CreateUser';
-import { type GetUsers, GetUsersToken } from '../app/get-users/GetUsers';
-import { type AuthUser, AuthUserToken } from '../app/user-auth/AuthUser';
-import { type UpdateUser, UpdateUserToken } from '../app/user-update/UpdateUser';
+import { type CreateUser, CreateUserToken } from '../../app/user-create/CreateUser';
+import { type GetUsers, GetUsersToken } from '../../app/get-users/GetUsers';
+import { type AuthUser, AuthUserToken } from '../../app/user-auth/AuthUser';
+import { type UpdateUser, UpdateUserToken } from '../../app/user-update/UpdateUser';
+import { type DeleteUser, DeleteUserToken } from 'src/users/app/user-delete/DeleteUser';
+import { DtoDeleteUserResponse } from 'src/users/app/user-delete/DtoDeleteUserResponse';
+import { DtoDeleteUserRequest } from 'src/users/app/user-delete/DtoDeleteUserRequest';
 
 
 
@@ -30,6 +33,7 @@ export class UserController {
         @Inject(CreateUserToken) private readonly createUser: CreateUser,
         @Inject(UpdateUserToken) private readonly updateUser: UpdateUser,
         @Inject(GetUsersToken) private readonly getUsers: GetUsers,
+        @Inject(DeleteUserToken) private readonly deleteUser: DeleteUser,
         @Inject(AuthUserToken) private readonly authUser: AuthUser,
     ) { }
 
@@ -87,6 +91,21 @@ export class UserController {
         }
 
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(":id")
+    async delete(@Param('id') id:string ): Promise<DtoDeleteUserResponse> {
+        try {
+            const dtoRequest = DtoDeleteUserRequest.create({id});
+            return await this.deleteUser.delete(dtoRequest);
+        } catch (error) {
+            if (error instanceof ErrorUseCase) {
+                throw new InternalServerErrorException(error.message, error.code);
+            }
+            throw new BadRequestException(error.message);
+        }
+    }
+
     @UseGuards(JwtAuthGuard)
     @Get(":id")
     async getOne(@Param('id') id: string): Promise<DtoGetUsersResponse> {
