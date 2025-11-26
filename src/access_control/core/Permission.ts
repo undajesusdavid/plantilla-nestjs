@@ -1,12 +1,9 @@
-import { PermissionID } from "./PermissionID";
+import { PermissionID } from "./PermissionId";
 
 export class Permission {
     private _id: PermissionID;
     private _name: string;
     private _description: string;
-    private _module: string;
-    private _resource: string;
-    private _action: string;
     private _isActive: boolean;
 
 
@@ -14,17 +11,11 @@ export class Permission {
         id: PermissionID,
         name: string,
         description: string,
-        module: string,
-        resource: string,
-        action: string,
         isActive: boolean,
     ) {
         this._id = id;
         this._name = name;
         this._description = description;
-        this._module = module;
-        this._resource = resource;
-        this._action = action;
         this._isActive = isActive;
     }
 
@@ -38,18 +29,6 @@ export class Permission {
 
     get description(): string {
         return this._description;
-    }
-
-    get module(): string | undefined {
-        return this._module;
-    }
-
-    get resource(): string {
-        return this._resource;
-    }
-
-    get action(): string {
-        return this._action;
     }
 
     get isActive(): boolean {

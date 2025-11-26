@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PermissionModule } from './permissions/structure/permission.module';
-import { RoleModule } from './roles/structure/role.module';
+import { AccessControlModule } from './access_control/structure/access_control.module';
 import { UserModule } from './users/structure/user.module';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
@@ -13,8 +12,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     DatabaseModule,
     UserModule,
-    PermissionModule, 
-    RoleModule, 
+    AccessControlModule, 
     
   ],
   controllers: [],
