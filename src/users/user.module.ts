@@ -1,31 +1,31 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './controllers/user.controller';
-import { UserRepositoryImp } from './services/UserRepositoryImp';
+import { UserController } from './structure/controllers/user.controller';
+import { UserRepositoryImp } from './structure/services/UserRepositoryImp';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UserModel } from './user.sequealize';
+import { UserModel } from './structure/user.sequealize';
 
 // Services
-import { HashedServiceImp } from './services/HashedServiceImp';
-import { UuidServiceImp } from 'src/shared/structure/services/UuidServiceImp';
-import { AuthTokenServiceImp } from './services/AuthTokenServiceImp';
+import { HashedServiceImp } from './structure/services/HashedServiceImp';
+import { UuidServiceImp } from '../shared/structure/services/UuidServiceImp';
+import { AuthTokenServiceImp } from './structure/services/AuthTokenServiceImp';
 
 
 // uses Case
-import { CreateUserImp } from '../app/user-create/CreateUserImp';
-import { CreateUserToken } from '../app/user-create/CreateUser';
+import { CreateUserImp } from './app/user-create/CreateUserImp';
+import { CreateUserToken } from './app/user-create/CreateUser';
 
-import { UpdateUserImp } from '../app/user-update/UpdateUserImp';
-import { UpdateUserToken } from '../app/user-update/UpdateUser';
+import { UpdateUserImp } from './app/user-update/UpdateUserImp';
+import { UpdateUserToken } from './app/user-update/UpdateUser';
 
-import { GetUsersToken } from '../app/get-users/GetUsers';
-import { GetUsersImp } from '../app/get-users/GetUsersImp';
+import { GetUsersToken } from './app/get-users/GetUsers';
+import { GetUsersImp } from './app/get-users/GetUsersImp';
 
-import { DeleteUserToken } from '../app/user-delete/DeleteUser';
-import { DeleteUserImp } from '../app/user-delete/DeleteUserImp';
+import { DeleteUserToken } from './app/user-delete/DeleteUser';
+import { DeleteUserImp } from './app/user-delete/DeleteUserImp';
 
-import { AuthUserToken } from '../app/user-auth/AuthUser';
-import { AuthUserImp } from '../app/user-auth/AuthUserImp';
-import { SharedModule } from 'src/shared/structure/shared.module';
+import { AuthUserToken } from './app/user-auth/AuthUser';
+import { AuthUserImp } from './app/user-auth/AuthUserImp';
+import { SharedModule } from '../shared/shared.module';
 
 
 const CreateUserProvider = {
