@@ -14,7 +14,7 @@ import {
 import { RoleModel } from './role.sequelize';
 
 @Table({
-    tableName: 'permissions',
+    tableName: 'ac_permisos',
     timestamps: true,
 })
 export class PermissionModel extends Model {
@@ -36,7 +36,7 @@ export class PermissionModel extends Model {
     @Column(DataType.BOOLEAN)
     declare isActive: boolean;
 
-    @BelongsToMany(() => RoleModel, 'role_permissions', 'permissionId', 'roleId')
+    @BelongsToMany(() => RoleModel, 'ac_role_permissions', 'permissionId', 'roleId')
     roles: RoleModel[];
 
 

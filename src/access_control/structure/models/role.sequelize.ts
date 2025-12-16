@@ -2,7 +2,7 @@ import { AutoIncrement, Model } from "sequelize-typescript";
 import { BelongsToMany, Column, DataType, PrimaryKey, Table } from "sequelize-typescript";
 import { PermissionModel } from './permission.sequelize';
 
-@Table({ tableName: 'roles' })
+@Table({ tableName: 'ac_roles' })
 export class RoleModel extends Model {
 
   @PrimaryKey
@@ -19,6 +19,6 @@ export class RoleModel extends Model {
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: true })
   declare isActive: boolean;
 
-  @BelongsToMany(() => PermissionModel, 'role_permissions', 'roleId', 'permissionId')
+  @BelongsToMany(() => PermissionModel, 'ac_role_permissions', 'roleId', 'permissionId')
   permissions: PermissionModel[];
 }

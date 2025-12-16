@@ -1,3 +1,4 @@
+import { Op, Transaction } from "sequelize";
 //DATA
 import { PERMISSIONS } from "../../../core/Permission.seeds";
 import { ROLES } from "../../../core/roles.seeds";
@@ -8,64 +9,16 @@ import { PermissionModel } from "../../models/permission.sequelize";
 import { ErrorConsole } from "src/shared/app/errors/ErrorConsole";
 
 export async function seedAccessControl() {
-
     const sequelize = PermissionModel.sequelize;
     if (!sequelize) {
         throw new Error("No se pudo obtener la instancia de Sequelize");
     }
-
     const transaction = await sequelize.transaction();
-
     try {
-        // Poblar permisos con UPSERT (Postgres)
-        const permissionsData = Object.values(PERMISSIONS).map((p) => ({
-            name: p.name,
-            description: p.description,
-            isActive: true,
-        }));
-
-        for (const p of permissionsData) {
-            await PermissionModel.upsert(p, { transaction });
-        }
-
-        // Poblar roles con UPSERT (Postgres)
-        const rolesData = Object.values(ROLES).map((r) => ({
-            name: r.name,
-            description: r.description,
-            isActive: true,
-        }));
-
-        for (const r of rolesData) {
-            await RoleModel.upsert(r, { transaction });
-        }
-
-        // Lecturas en paralelo (más eficiente)
-        const [allPermissions, allRoles] = await Promise.all([
-            PermissionModel.findAll({ transaction }),
-            RoleModel.findAll({ transaction }),
-        ]);
-
-        // Relacionar roles con permisos
-        for (const role of allRoles) {
-            switch (role.name) {
-                case ROLES.ROOT.name:
-                    // ROOT obtiene todos los permisos
-                    await role.$set("permissions", allPermissions, { transaction });
-                    break;
-
-                // Ejemplo de extensión:
-                // case ROLES.ADMIN.name:
-                //   await role.$set("permissions", allPermissions.filter(p => p.name !== PERMISSIONS.DELETE_USER.name), { transaction });
-                //   break;
-                // case ROLES.USER.name:
-                //   await role.$set("permissions", allPermissions.filter(p => p.name === PERMISSIONS.READ_USERS.name), { transaction });
-                //   break;
-            }
-        }
-
+        await populateTables(transaction);
+        await createRelations(transaction);
         await transaction.commit();
         console.log("✅ Seeding completed!");
-
     } catch (error) {
         await transaction.rollback();
         throw new ErrorConsole(
@@ -73,5 +26,100 @@ export async function seedAccessControl() {
             "ACCESSCONTROL_SEEDER_FAILED",
             { originalError: error, class: "AccessControlSeeder", method: "seedAccessControl" }
         );
+    }
+}
+
+
+const populateTables = async (transaction: Transaction) => {
+    // Poblar permisos con UPSERT (Postgres)
+    const permissionsData = Object.values(PERMISSIONS).map((p) => ({
+        name: p.name,
+        description: p.description,
+        isActive: true,
+    }));
+
+    for (const p of permissionsData) {
+        await PermissionModel.upsert(p, { transaction });
+    }
+
+    console.log("✅ Tabla de permisos poblada!.");
+
+    // Poblar roles con UPSERT (Postgres)
+    const rolesData = Object.values(ROLES).map((r) => ({
+        name: r.name,
+        description: r.description,
+        isActive: true,
+    }));
+
+    for (const r of rolesData) {
+        await RoleModel.upsert(r, { transaction });
+    }
+
+    console.log("✅ Tabla de roles poblada!.");
+
+}
+
+
+const createRelations = async (transaction: Transaction) => {
+    const EXCLUDE_ROLE_ADMIN = ['*', ':role', ':permission'];
+    const INCLUDE_ROLE_USER = ['nothing...'];
+
+
+    // Lecturas en paralelo (más eficiente)
+    const resultsQuery = await Promise.all([
+        //roles
+        RoleModel.findAll({ transaction }),
+        //permissions de root
+        PermissionModel.findAll({
+            where: { name: PERMISSIONS.ALL.name },
+            transaction
+        }),
+        //permissions de admin
+        PermissionModel.findAll({
+            where: {
+                [Op.and]: [
+                    ...EXCLUDE_ROLE_ADMIN.map(word => ({
+                        name: { [Op.notILike]: `%${word}%` },
+                    })),
+                ],
+            },
+            transaction,
+        }),
+        //permissions de user
+        PermissionModel.findAll({
+            where: {
+                [Op.and]: [
+                    ...INCLUDE_ROLE_USER.map(word => ({
+                        name: { [Op.iLike]: `%${word}%` },
+                    })),
+                ],
+            },
+            transaction,
+        })
+    ]);
+
+    const [
+        allRoles,
+        rootPermissions,
+        adminPermissions,
+        userPermissions
+    ] = resultsQuery;
+
+    // Relacionar roles con permisos
+    for (const role of allRoles) {
+        switch (role.name) {
+            case ROLES.ROOT.name:
+                await role.$set("permissions", rootPermissions, { transaction });
+                console.log("✅ Permisos asignados a rol ROOT");
+                break;
+            case ROLES.ADMIN.name:
+                await role.$set("permissions", adminPermissions, { transaction });
+                console.log("✅ Permisos asignados a rol ADMIN");
+                break;
+            case ROLES.USER.name:
+                await role.$set("permissions", userPermissions, { transaction });
+                console.log("✅ Permisos asignados a rol USER");
+            break;
+        }
     }
 }
