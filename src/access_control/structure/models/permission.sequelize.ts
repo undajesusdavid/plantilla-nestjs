@@ -11,7 +11,7 @@ import {
     AutoIncrement,
 } from 'sequelize-typescript';
 
-import { RoleModel } from './role.sequealize';
+import { RoleModel } from './role.sequelize';
 
 @Table({
     tableName: 'permissions',

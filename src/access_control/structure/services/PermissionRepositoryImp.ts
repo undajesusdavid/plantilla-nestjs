@@ -1,9 +1,7 @@
-//import { InjectModel } from "@nestjs/sequelize";
 import { Injectable } from "@nestjs/common";
 import { PermissionRepository } from "src/access_control/app/contracts/PermissionRepository";
 import { PermissionID } from "src/access_control/core/PermissionId";
-import { PermissionModel } from "../permission.sequealize";
-import { PERMISSIONS } from "../../core/Permission.seeds";
+import { PermissionModel } from "../models/permission.sequelize";
 import { ErrorRepositoryService } from "src/shared/app/errors/ErrorRepositoryService";
 
 @Injectable()
@@ -65,34 +63,5 @@ export class PermissionRepositoryImp implements PermissionRepository {
             );
         }
     }
-    async seedPermissions(): Promise<void> {
-        const transaction = await PermissionModel.sequelize?.transaction();
-        if (!transaction) {
-            throw new Error('No se pudo iniciar la transacción');
-        }
 
-        try {
-            const permissionsToSeed = Object.values(PERMISSIONS);
-            await Promise.all(
-                permissionsToSeed.map((p) =>
-                    PermissionModel.upsert(
-                        { name: p.name, description: p.description, isActive: true },
-                        { transaction }
-                    ),
-                ),
-            );
-
-            await transaction.commit();
-
-        } catch (error) {
-            await transaction.rollback();
-            throw new ErrorRepositoryService(
-                'Error al intentar ejecutar el seeder de permisos',
-                'PERMISSION_SEEDER_FAILED',
-                { originalError: error, class: this.constructor.name, method: "seedPermissions" }
-            );
-
-        }
-
-    }
 } 
