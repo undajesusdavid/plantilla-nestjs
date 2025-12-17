@@ -12,6 +12,7 @@ import {
 } from 'sequelize-typescript';
 
 import { RoleModel } from './role.sequelize';
+import { RolePermissionModel } from './role_permission.sequelize';
 
 @Table({
     tableName: 'ac_permisos',
@@ -36,8 +37,10 @@ export class PermissionModel extends Model {
     @Column(DataType.BOOLEAN)
     declare isActive: boolean;
 
-    @BelongsToMany(() => RoleModel, 'ac_role_permissions', 'permissionId', 'roleId')
-    roles: RoleModel[];
+    @BelongsToMany(() => RoleModel, () => RolePermissionModel) roles: RoleModel[];
+
+    // @BelongsToMany(() => RoleModel, 'ac_role_permissions', 'permissionId', 'roleId')
+    // roles: RoleModel[];
 
 
 }

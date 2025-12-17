@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { UserController } from './structure/controllers/user.controller';
 import { UserRepositoryImp } from './structure/services/UserRepositoryImp';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UserModel } from './structure/user.sequealize';
+//Models
+import { UserModel } from './structure/models/user.sequelize';
+import { UserRoleModel } from './structure/models/user_roles.sequelize';
 
 // Services
 import { HashedServiceImp } from './structure/services/HashedServiceImp';
@@ -26,6 +28,8 @@ import { DeleteUserImp } from './app/user-delete/DeleteUserImp';
 import { AuthUserToken } from './app/user-auth/AuthUser';
 import { AuthUserImp } from './app/user-auth/AuthUserImp';
 import { SharedModule } from '../shared/shared.module';
+import { seedUsers } from './structure/console/seed/seedUsers';
+
 
 
 const CreateUserProvider = {
@@ -73,7 +77,7 @@ const AuthUserProvider = {
 
 
 @Module({
-  imports: [SharedModule, SequelizeModule.forFeature([UserModel])],
+  imports: [SharedModule, SequelizeModule.forFeature([UserModel, UserRoleModel])],
   controllers: [UserController],
   providers: [
     UserRepositoryImp,
@@ -84,9 +88,16 @@ const AuthUserProvider = {
     GetUsersProvider,
     DeleteUserProvider,
     AuthUserProvider,
-
+    { provide: 'seedUsers', useValue: seedUsers },
   ],
-  exports: [CreateUserToken, UpdateUserToken, GetUsersToken, DeleteUserToken, AuthUserToken]
+  exports: [
+    CreateUserToken,
+    UpdateUserToken,
+    GetUsersToken,
+    DeleteUserToken,
+    AuthUserToken,
+    'seedUsers'
+  ]
 })
 export class UserModule {
 

@@ -3,30 +3,30 @@ import { Sequelize } from 'sequelize-typescript';
 import { AppModule } from 'src/app.module';
 import { ErrorConsole } from 'src/shared/app/errors/ErrorConsole';
 
-async function seed() {
+async function executeSeedUsers() {
     const appContext = await NestFactory.createApplicationContext(AppModule);
     const sequelize = appContext.get(Sequelize);
     if (!sequelize) {
         throw new Error("No se pudo obtener la instancia de Sequelize");
     }
     const transaction = await sequelize.transaction();
-    const seedAccessControl = appContext.get('seedAccessControl');
+
+    const seedUsers = appContext.get('seedUsers');
     try {
-        await seedAccessControl(transaction);
+        await seedUsers(transaction);
         transaction.commit();
-        console.log("✅ Access Control seeding completed!");
+        console.log("✅ Users seeding completed!");
     } catch (error) {
         await transaction.rollback();
         throw new ErrorConsole(
-            "Error al intentar ejecutar los seeders de access control",
-            "ACCESS_CONTROL_SEEDER_FAILED",
-            { originalError: error, class: "AccessControlSeeder", method: "seedAccessControl" }
+            "Error al intentar ejecutar los seeders de users",
+            "USERS_SEEDER_FAILED",
+            { originalError: error, class: "UsersSeeder", method: "seedUsers" }
         );
     }
-
     await appContext.close();
 }
 
-seed()
+executeSeedUsers()
     .then(() => console.log('Seeding completed!'))
     .catch((error) => console.error('Seeding failed:', error));

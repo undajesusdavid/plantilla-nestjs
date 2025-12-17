@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "seed:access_control": "ts-node -r tsconfig-paths/register src/access_control/structure/console/seed/execute.ts",
+    "seed:users": "ts-node -r tsconfig-paths/register src/users/structure/console/seed/execute.ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

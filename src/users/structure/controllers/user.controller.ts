@@ -13,7 +13,7 @@ import { DtoCredentialsRequest } from '../../app/user-auth/DtoCredentialsRequest
 import { ErrorUseCase } from '../../../shared/app/errors/ErrorUseCase';
 import { BadRequestException, InternalServerErrorException } from "@nestjs/common";
 // Import Guards
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 // import uses case
 import { type CreateUser, CreateUserToken } from '../../app/user-create/CreateUser';

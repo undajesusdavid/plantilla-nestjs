@@ -1,4 +1,6 @@
-import { Table, Column, Model, DataType, Unique } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, Unique, BelongsToMany } from 'sequelize-typescript';
+import { RoleModel } from 'src/access_control/structure/models/role.sequelize';
+import { UserRoleModel } from './user_roles.sequelize';
 
 export interface UserAttributes {
   id: string;
@@ -31,9 +33,12 @@ export class UserModel extends Model<UserAttributes> implements UserAttributes {
   @Column({ type: DataType.STRING, allowNull: false })
   declare email: string;
 
-  @Column
+  @Column({ type: DataType.STRING, allowNull: false })
   declare password: string;
 
-  @Column
+  @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: true })
   declare active: boolean;
+
+  @BelongsToMany(() => RoleModel, () => UserRoleModel) roles: RoleModel[];
+
 }

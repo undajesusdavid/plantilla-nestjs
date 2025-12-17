@@ -3,7 +3,7 @@ import { UserRepository } from '../../app/contracts/UserRepository';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserID } from '../../core/UserID';
 import { User } from '../../core/User';
-import { UserModel } from '../user.sequealize';
+import { UserModel } from '../models/user.sequelize';
 import { ErrorRepositoryService } from 'src/users/app/errors/ErrorRepositoryService';
 
 

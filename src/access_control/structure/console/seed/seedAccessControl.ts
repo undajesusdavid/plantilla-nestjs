@@ -5,30 +5,12 @@ import { ROLES } from "../../../core/roles.seeds";
 //MODELS
 import { RoleModel } from "../../models/role.sequelize";
 import { PermissionModel } from "../../models/permission.sequelize";
-//ERRORS
-import { ErrorConsole } from "src/shared/app/errors/ErrorConsole";
 
-export async function seedAccessControl() {
-    const sequelize = PermissionModel.sequelize;
-    if (!sequelize) {
-        throw new Error("No se pudo obtener la instancia de Sequelize");
-    }
-    const transaction = await sequelize.transaction();
-    try {
-        await populateTables(transaction);
-        await createRelations(transaction);
-        await transaction.commit();
-        console.log("✅ Seeding completed!");
-    } catch (error) {
-        await transaction.rollback();
-        throw new ErrorConsole(
-            "Error al intentar ejecutar los seeders de access control",
-            "ACCESSCONTROL_SEEDER_FAILED",
-            { originalError: error, class: "AccessControlSeeder", method: "seedAccessControl" }
-        );
-    }
+
+export async function seedAccessControl(transaction: Transaction) {
+    await populateTables(transaction);
+    await createRelations(transaction);
 }
-
 
 const populateTables = async (transaction: Transaction) => {
     // Poblar permisos con UPSERT (Postgres)
@@ -59,14 +41,13 @@ const populateTables = async (transaction: Transaction) => {
 
 }
 
-
 const createRelations = async (transaction: Transaction) => {
     const EXCLUDE_ROLE_ADMIN = ['*', ':role', ':permission'];
     const INCLUDE_ROLE_USER = ['nothing...'];
 
 
     // Lecturas en paralelo (más eficiente)
-    const resultsQuery = await Promise.all([
+    const query = await Promise.all([
         //roles
         RoleModel.findAll({ transaction }),
         //permissions de root
@@ -103,7 +84,7 @@ const createRelations = async (transaction: Transaction) => {
         rootPermissions,
         adminPermissions,
         userPermissions
-    ] = resultsQuery;
+    ] = query;
 
     // Relacionar roles con permisos
     for (const role of allRoles) {
@@ -119,7 +100,7 @@ const createRelations = async (transaction: Transaction) => {
             case ROLES.USER.name:
                 await role.$set("permissions", userPermissions, { transaction });
                 console.log("✅ Permisos asignados a rol USER");
-            break;
+                break;
         }
     }
 }
