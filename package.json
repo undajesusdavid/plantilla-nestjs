@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "seed:*": "ts-node -r tsconfig-paths/register src/shared/structure/console/executeSeeders.ts",
     "seed:access_control": "ts-node -r tsconfig-paths/register src/access_control/structure/console/seed/execute.ts",
     "seed:users": "ts-node -r tsconfig-paths/register src/users/structure/console/seed/execute.ts",
     "build": "nest build",
