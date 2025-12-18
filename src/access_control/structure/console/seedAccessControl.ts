@@ -1,15 +1,28 @@
 import { Op, Transaction } from "sequelize";
 //DATA
-import { PERMISSIONS } from "../../../core/Permission.seeds";
-import { ROLES } from "../../../core/roles.seeds";
+import { PERMISSIONS } from "../../core/Permission.seeds";
+import { ROLES } from "../../core/roles.seeds";
 //MODELS
-import { RoleModel } from "../../models/role.sequelize";
-import { PermissionModel } from "../../models/permission.sequelize";
+import { RoleModel } from "../models/role.sequelize";
+import { PermissionModel } from "../models/permission.sequelize";
 
 
 export async function seedAccessControl(transaction: Transaction) {
-    await populateTables(transaction);
-    await createRelations(transaction);
+    try {
+        await populateTables(transaction);
+    } catch (error) {
+        console.error(
+            "Error en la funcion de poblar las tablas de roles y permisos"
+        );
+    }
+
+    try {
+        await createRelations(transaction);
+    } catch (error) {
+        console.error(
+            "Error en la funcion que crea las relaciones de roles y permisos"
+        );
+    }
 }
 
 const populateTables = async (transaction: Transaction) => {

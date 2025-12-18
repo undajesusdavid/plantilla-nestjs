@@ -28,7 +28,7 @@ import { DeleteUserImp } from './app/user-delete/DeleteUserImp';
 import { AuthUserToken } from './app/user-auth/AuthUser';
 import { AuthUserImp } from './app/user-auth/AuthUserImp';
 import { SharedModule } from '../shared/shared.module';
-import { seedUsers } from './structure/console/seed/seedUsers';
+import { seedUsers } from './structure/console/seedUsers';
 
 
 

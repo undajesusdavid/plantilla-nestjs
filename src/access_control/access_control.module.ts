@@ -13,7 +13,7 @@ import { PermissionRepositoryImp } from './structure/services/PermissionReposito
 import { RoleRepositoryToken } from './app/contracts/RoleRepository';
 import { RoleRepositoryImp } from './structure/services/RoleRepositoryImp';
 //Seeders
-import { seedAccessControl } from './structure/console/seed/seedAccessControl';
+import { seedAccessControl } from './structure/console/seedAccessControl';
 
 
 @Module({
