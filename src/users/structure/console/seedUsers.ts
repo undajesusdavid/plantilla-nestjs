@@ -22,7 +22,6 @@ export async function seedUsers(transaction: Transaction) {
 
 const populateTable = async (transaction: Transaction) => {
 
-
     const usersData = Object.values(USERS).map((u) => ({
         id: new UuidServiceImp().generateV7(),
         username: u.username,
@@ -36,9 +35,6 @@ const populateTable = async (transaction: Transaction) => {
     }
 
     console.log("✅ Tabla de usuarios poblada!.");
-
-
-
 
 }
 
