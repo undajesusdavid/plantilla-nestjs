@@ -29,6 +29,7 @@ import { AuthUserToken } from './app/user-auth/AuthUser';
 import { AuthUserImp } from './app/user-auth/AuthUserImp';
 import { SharedModule } from '../shared/shared.module';
 import { seedUsers } from './structure/console/seedUsers';
+import { UserMapper } from './structure/mappers/UserMapper';
 
 
 
@@ -88,6 +89,7 @@ const AuthUserProvider = {
     GetUsersProvider,
     DeleteUserProvider,
     AuthUserProvider,
+    UserMapper,
     { provide: 'seedUsers', useValue: seedUsers },
   ],
   exports: [

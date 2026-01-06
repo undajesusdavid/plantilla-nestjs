@@ -8,6 +8,7 @@ export interface UserAttributes {
   password: string;
   email: string;
   active: boolean;
+  roles?: RoleModel[];
 }
 
 @Table({
@@ -39,6 +40,7 @@ export class UserModel extends Model<UserAttributes> implements UserAttributes {
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: true })
   declare active: boolean;
 
-  @BelongsToMany(() => RoleModel, () => UserRoleModel) roles: RoleModel[];
+  @BelongsToMany(() => RoleModel, () => UserRoleModel) 
+  declare roles: RoleModel[];
 
 }

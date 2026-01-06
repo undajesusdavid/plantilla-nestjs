@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { RoleRepository } from "../../app/contracts/RoleRepository";
 import { Role } from "src/access_control/core/Role";
 import { RoleID } from "src/access_control/core/RoleId";
@@ -6,15 +6,17 @@ import { RoleModel } from "../models/role.sequelize";
 import { RoleMapper } from "../mappers/RoleMapper";
 import { ErrorRepositoryService } from "src/shared/app/errors/ErrorRepositoryService";
 
-
-
 @Injectable()
 export class RoleRepositoryImp implements RoleRepository {
+
+    constructor(
+        @Inject(RoleMapper) private mapper: RoleMapper
+    ) { }
 
     async getAll(): Promise<Role[]> {
         try {
             const roles = await RoleModel.findAll({});
-            return new RoleMapper().toEntityList(roles);
+            return this.mapper.toEntityList(roles);
         } catch (error) {
             throw new ErrorRepositoryService(
                 'Error al intentar optener todos los Roles',
@@ -30,7 +32,7 @@ export class RoleRepositoryImp implements RoleRepository {
             if (!role) {
                 return null;
             }
-            return new RoleMapper().toEntity(role);
+            return this.mapper.toEntity(role);
 
         } catch (error) {
             throw new ErrorRepositoryService(

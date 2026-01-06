@@ -35,7 +35,11 @@ export class AuthUserImp implements AuthUser {
 
             const userId = user.getId();
             const userName = user.getUsername();
-            const token = await this.authToken.auth({ id: userId, username: userName });
+            const token = await this.authToken.auth({ 
+                id: userId, 
+                username: userName,
+                permissions: user.getPermissions()
+            });
             return new DtoPayloadResponse(token, userId, userName);
 
         } catch (error) {

@@ -23,6 +23,9 @@ import { type UpdateUser, UpdateUserToken } from '../../app/user-update/UpdateUs
 import { type DeleteUser, DeleteUserToken } from 'src/users/app/user-delete/DeleteUser';
 import { DtoDeleteUserResponse } from 'src/users/app/user-delete/DtoDeleteUserResponse';
 import { DtoDeleteUserRequest } from 'src/users/app/user-delete/DtoDeleteUserRequest';
+import { AccessGuard } from 'src/access_control/structure/controllers/guards/access.guard';
+import { Permissions } from 'src/access_control/structure/controllers/decorators/permissions.decorator';
+import { PERMISSIONS } from 'src/access_control/core/Permission.seeds';
 
 
 
@@ -38,7 +41,7 @@ export class UserController {
     ) { }
 
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, AccessGuard)
     @Post("/create")
     async register(@Body() body: any): Promise<DtoCreateUserResponse> {
         const dto = new DtoCreateUserRequest(
@@ -77,8 +80,10 @@ export class UserController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
+   
     @Get()
+    @Permissions(PERMISSIONS.READ_USERS.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
     async getAll(): Promise<DtoGetUsersResponse[]> {
         try {
             const dtoGetUsersResponse = await this.getUsers.getAll();

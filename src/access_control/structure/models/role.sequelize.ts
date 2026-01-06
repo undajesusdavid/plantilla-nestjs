@@ -22,10 +22,10 @@ export class RoleModel extends Model {
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: true })
   declare isActive: boolean;
 
-  @BelongsToMany(() => PermissionModel, () => RolePermissionModel) permissions: PermissionModel[];
+  @BelongsToMany(() => PermissionModel, () => RolePermissionModel) 
+  
+  declare permissions: PermissionModel[];
 
-  // @BelongsToMany(() => PermissionModel, 'ac_role_permissions', 'roleId', 'permissionId')
-  // permissions: PermissionModel[];
-
-  @BelongsToMany(() => UserModel, () => UserRoleModel) users: UserModel[];
+  @BelongsToMany(() => UserModel, () => UserRoleModel) 
+  declare users: UserModel[];
 }

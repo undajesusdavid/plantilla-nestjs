@@ -1,11 +1,14 @@
 import { UserID } from "./UserID";
 
+
 export interface UserProps {
     id: UserID;
     username: string;
     password: string;
     email: string;
     active: boolean;
+    roles?: string[];
+    permissions?: string[];
 }
 
 export class User {
@@ -14,6 +17,8 @@ export class User {
     private password: string;
     private email: string;
     private active: boolean;
+    private roles: string[];
+    private permissions: string[];
 
     constructor(props: UserProps) {
         this.id = props.id;
@@ -21,6 +26,8 @@ export class User {
         this.password = props.password;
         this.email = props.email;
         this.active = props.active;
+        this.roles = props.roles || [];
+        this.permissions = props.permissions || [];
     }
 
     // Getters
@@ -38,6 +45,13 @@ export class User {
 
     getEmail(): string {
         return this.email;
+    }
+    getRoles(): string[] {
+        return this.roles;
+    }
+
+    getPermissions(): string[] {
+        return this.permissions;
     }
 
     isActive(): boolean {

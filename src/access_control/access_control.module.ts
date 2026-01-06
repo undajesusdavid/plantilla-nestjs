@@ -14,12 +14,14 @@ import { RoleRepositoryToken } from './app/contracts/RoleRepository';
 import { RoleRepositoryImp } from './structure/services/RoleRepositoryImp';
 //Seeders
 import { seedAccessControl } from './structure/console/seedAccessControl';
+import { RoleMapper } from './structure/mappers/RoleMapper';
 
 
 @Module({
   imports: [SequelizeModule.forFeature([PermissionModel, RoleModel, RolePermissionModel])],
   controllers: [PermissionController],
   providers: [
+    RoleMapper,
     {
       provide: PermissionRepositoryToken,
       useClass: PermissionRepositoryImp
