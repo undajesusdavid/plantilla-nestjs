@@ -5,6 +5,7 @@ import { USERS } from "src/users/core/User.seeds";
 import { UuidServiceImp } from "src/shared/structure/services/UuidServiceImp";
 import { HashedServiceImp } from "../services/HashedServiceImp";
 
+export const SeedUsersToken = Symbol("seedUsers");
 
 export async function seedUsers(transaction: Transaction) {
     try {

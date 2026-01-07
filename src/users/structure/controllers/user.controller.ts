@@ -82,8 +82,8 @@ export class UserController {
             
             throw new BadRequestException(error.message);
         }
-
     }
+
     @Get(":id")
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
@@ -98,6 +98,7 @@ export class UserController {
             throw new BadRequestException(error.message);
         }
     }
+    
     
     @Delete(":id")
     @Permissions(PERMISSIONS.DELETE_USER.name)

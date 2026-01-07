@@ -6,6 +6,7 @@ import { ROLES } from "../../core/roles.seeds";
 import { RoleModel } from "../models/role.sequelize";
 import { PermissionModel } from "../models/permission.sequelize";
 
+export const seedAccessControlToken = Symbol("seedAccessControl");
 
 export async function seedAccessControl(transaction: Transaction) {
     try {
