@@ -1,10 +1,8 @@
-import { DtoGetUsersResponse } from "./DtoGetUsersResponse";
-import { DtoUserIdRequest } from "./DtoUserIdRequest";
+import { User } from "src/users/core/User";
 
 export interface GetUsers {
-    getAll(): Promise<DtoGetUsersResponse[]>;
-    getOne(id: DtoUserIdRequest): Promise<DtoGetUsersResponse>;
-    //getSome(ids: string[]): Promise<DtoGetUsersResponse[]>;
+    getAll(): Promise<User[]>;
+    getOne(id: string): Promise<User>;
 }
 
 export const GetUsersToken = Symbol("GetUsers");

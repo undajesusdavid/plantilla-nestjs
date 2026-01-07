@@ -1,8 +1,7 @@
-import { DtoDeleteUserRequest } from "./DtoDeleteUserRequest"
-import { DtoDeleteUserResponse } from "./DtoDeleteUserResponse"
+import { User } from "src/users/core/User"
 
 export interface DeleteUser {
-    delete(dtoDelete : DtoDeleteUserRequest ): Promise<DtoDeleteUserResponse> 
+    delete(id : string ): Promise<User> 
 }
 
 export const DeleteUserToken = Symbol('DeleteUser')

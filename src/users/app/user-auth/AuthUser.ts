@@ -1,8 +1,7 @@
-import { DtoCredentialsRequest } from "./DtoCredentialsRequest";
-import { DtoPayloadResponse } from "./DtoPayloadResponse";
+import { AuthUserPropsInput, AuthUserPropsOutput } from "./AuthUserProps";
 
 export interface AuthUser {
-    login(credentials : DtoCredentialsRequest) : Promise<DtoPayloadResponse>
+    login(credentials : AuthUserPropsInput) : Promise<AuthUserPropsOutput>;
 }
 
 export const AuthUserToken = Symbol("AuthUser");

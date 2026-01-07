@@ -15,11 +15,13 @@ import { RoleRepositoryImp } from './structure/services/RoleRepositoryImp';
 //Seeders
 import { seedAccessControl } from './structure/console/seedAccessControl';
 import { RoleMapper } from './structure/mappers/RoleMapper';
+import { Role } from './core/Role';
+import { RoleController } from './structure/controllers/role.controller';
 
 
 @Module({
   imports: [SequelizeModule.forFeature([PermissionModel, RoleModel, RolePermissionModel])],
-  controllers: [PermissionController],
+  controllers: [PermissionController, RoleController],
   providers: [
     RoleMapper,
     {

@@ -1,32 +1,28 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from '@nestjs/common';
 
 // Import DTO
-import { DtoCreateUserRequest } from '../../app/user-create/DtoCreateUserRequest';
-import { DtoCreateUserResponse } from '../../app/user-create/DtoCreateUserResponse';
-import { DtoUpdateUserReponse } from '../../app/user-update/DtoUpdateUserResponse';
-import { DtoUpdateUserRequest } from '../../app/user-update/DtoUpdateUserRequest';
-import { DtoGetUsersResponse } from '../../app/get-users/DtoGetUsersResponse';
-import { DtoUserIdRequest } from '../../app/get-users/DtoUserIdRequest';
-import { DtoPayloadResponse } from '../../app/user-auth/DtoPayloadResponse';
-import { DtoCredentialsRequest } from '../../app/user-auth/DtoCredentialsRequest';
+import { CreateUserDtoRequest, CreateUserDtoResponse } from './dto/CreateUserDto';
+import { UpdateUserDtoRequest, UpdateUserDtoResponse } from './dto/UpdateUserDto';
+import { GetUserDtoResponse } from './dto/GetUserDto';
+import { AuthUserDtoRequest, AuthUserDtoResponse } from './dto/AuthUserDto';
 //Import Errors
 import { ErrorUseCase } from '../../../shared/app/errors/ErrorUseCase';
 import { BadRequestException, InternalServerErrorException } from "@nestjs/common";
 // Import Guards
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-
+import { AccessGuard } from 'src/access_control/structure/controllers/guards/access.guard';
+// Import Pipes
+import { UserIdPipe } from './pipes/UserIdPipe';
+// Custom decorators
+import { Permissions } from 'src/access_control/structure/controllers/decorators/permissions.decorator';
+// Import Permissions
+import { PERMISSIONS } from 'src/access_control/core/Permission.seeds';
 // import uses case
 import { type CreateUser, CreateUserToken } from '../../app/user-create/CreateUser';
 import { type GetUsers, GetUsersToken } from '../../app/get-users/GetUsers';
 import { type AuthUser, AuthUserToken } from '../../app/user-auth/AuthUser';
 import { type UpdateUser, UpdateUserToken } from '../../app/user-update/UpdateUser';
 import { type DeleteUser, DeleteUserToken } from 'src/users/app/user-delete/DeleteUser';
-import { DtoDeleteUserResponse } from 'src/users/app/user-delete/DtoDeleteUserResponse';
-import { DtoDeleteUserRequest } from 'src/users/app/user-delete/DtoDeleteUserRequest';
-import { AccessGuard } from 'src/access_control/structure/controllers/guards/access.guard';
-import { Permissions } from 'src/access_control/structure/controllers/decorators/permissions.decorator';
-import { PERMISSIONS } from 'src/access_control/core/Permission.seeds';
-
 
 
 @Controller('users')
@@ -40,24 +36,13 @@ export class UserController {
         @Inject(AuthUserToken) private readonly authUser: AuthUser,
     ) { }
 
-
-    @UseGuards(JwtAuthGuard, AccessGuard)
     @Post("/create")
-    async register(@Body() body: any): Promise<DtoCreateUserResponse> {
-        const dto = new DtoCreateUserRequest(
-            body.username,
-            body.password,
-            body.email,
-            body.active
-        );
-
-        const errors = dto.validate();
-        if (errors.length > 0) {
-            throw new BadRequestException(errors);
-        }
-
+    @Permissions(PERMISSIONS.CREATE_USER.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async register(@Body() dto: CreateUserDtoRequest): Promise<CreateUserDtoResponse> { 
         try {
-            return await this.createUser.create(dto);
+            const user = await this.createUser.create(dto);
+            return new CreateUserDtoResponse(user);
         } catch (error) {
             if (error instanceof ErrorUseCase) {
                 throw new InternalServerErrorException(error.message, error.code);
@@ -66,12 +51,14 @@ export class UserController {
         }
     }
 
-    @UseGuards(JwtAuthGuard)
     @Put("/update")
-    async update(@Body() data: any): Promise<DtoUpdateUserReponse> {
+    @Permissions(PERMISSIONS.UPDATE_USER.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async update(@Body() dto: UpdateUserDtoRequest): Promise<UpdateUserDtoResponse> {
         try {
-            const dto = DtoUpdateUserRequest.create(data);
-            return await this.updateUser.update(dto);
+            console.log('DTO recibido en el controlador:', dto);
+            const user = await this.updateUser.update(dto);
+            return new UpdateUserDtoResponse(user);
         } catch (error) {
             if (error instanceof ErrorUseCase) {
                 throw new InternalServerErrorException(error.message, error.code);
@@ -84,40 +71,41 @@ export class UserController {
     @Get()
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
-    async getAll(): Promise<DtoGetUsersResponse[]> {
+    async getAll(): Promise<GetUserDtoResponse[]> {
         try {
-            const dtoGetUsersResponse = await this.getUsers.getAll();
-            return dtoGetUsersResponse;
+            const users = await this.getUsers.getAll();
+            return users.map(user => new GetUserDtoResponse(user));
         } catch (error) {
             if (error instanceof ErrorUseCase) {
                 throw new InternalServerErrorException(error.message, error.code);
             }
+            
             throw new BadRequestException(error.message);
         }
 
     }
-
-    @UseGuards(JwtAuthGuard)
-    @Delete(":id")
-    async delete(@Param('id') id:string ): Promise<DtoDeleteUserResponse> {
-        try {
-            const dtoRequest = DtoDeleteUserRequest.create({id});
-            return await this.deleteUser.delete(dtoRequest);
-        } catch (error) {
-            if (error instanceof ErrorUseCase) {
-                throw new InternalServerErrorException(error.message, error.code);
-            }
-            throw new BadRequestException(error.message);
-        }
-    }
-
-    @UseGuards(JwtAuthGuard)
     @Get(":id")
-    async getOne(@Param('id') id: string): Promise<DtoGetUsersResponse> {
+    @Permissions(PERMISSIONS.READ_USERS.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async getOne(@Param('id',UserIdPipe) id: string): Promise<GetUserDtoResponse> {
         try {
-            const dtoRequest = new DtoUserIdRequest(id);
-            dtoRequest.validate();
-            return await this.getUsers.getOne(dtoRequest);
+            const user = await this.getUsers.getOne(id);
+            return new GetUserDtoResponse(user);
+        } catch (error) {
+            if (error instanceof ErrorUseCase) {
+                throw new InternalServerErrorException(error.message, error.code);
+            }
+            throw new BadRequestException(error.message);
+        }
+    }
+    
+    @Delete(":id")
+    @Permissions(PERMISSIONS.DELETE_USER.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async delete(@Param('id', UserIdPipe) id: string): Promise<GetUserDtoResponse> {
+        try {
+            const user = await this.deleteUser.delete(id);
+            return new GetUserDtoResponse(user);
         } catch (error) {
             if (error instanceof ErrorUseCase) {
                 throw new InternalServerErrorException(error.message, error.code);
@@ -126,13 +114,12 @@ export class UserController {
         }
     }
 
-
+   
     @Post("/login")
-    async login(@Body() body: any): Promise<DtoPayloadResponse> {
+    async login(@Body() dto: AuthUserDtoRequest): Promise<AuthUserDtoResponse> {
         try {
-            const dtoRequest = new DtoCredentialsRequest(body.username, body.password);
-            dtoRequest.validate();
-            return await this.authUser.login(dtoRequest);
+            const authUser = await this.authUser.login(dto);
+            return new AuthUserDtoResponse(authUser);
         } catch (error) {
             if (error instanceof ErrorUseCase) {
                 throw new InternalServerErrorException(error.message, error.code);

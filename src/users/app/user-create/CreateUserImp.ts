@@ -1,10 +1,6 @@
 // Importamos la Interfaz para el caso de uso
 import { CreateUser } from "./CreateUser";
 
-// Importamos los DTO
-import { DtoCreateUserRequest } from "./DtoCreateUserRequest";
-import { DtoCreateUserResponse } from "./DtoCreateUserResponse";
-
 // Importamos La entidad Usuario
 import { User } from "../../core/User";
 
@@ -17,6 +13,7 @@ import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUuidService } from "src/shared/app/errors/ErrorUuidService";
 import { ErrorHashedService } from "../errors/ErrorHashedService";
 import { UserID } from "src/users/core/UserID";
+import { CreateUserProps } from "./CreateUserProps";
 
 // Exportamos la clase que implementa el caso de uso
 export class CreateUserImp implements CreateUser {
@@ -26,7 +23,7 @@ export class CreateUserImp implements CreateUser {
         private hashedService: HashedService
     ) { }
 
-    async create(props: DtoCreateUserRequest): Promise<DtoCreateUserResponse> {
+    async create(props: CreateUserProps): Promise<User> {
         try {
 
             const usernameExists = await this.userRepo.usernameExists(props.username);
@@ -49,7 +46,7 @@ export class CreateUserImp implements CreateUser {
                 username: props.username,
                 password: this.hashedService.hashed(props.password),
                 email: props.email,
-                active: props.active,
+                active: true, // aca debo agregar una opcion de configuracion futura
             });
 
             const created = await this.userRepo.create(user);
@@ -57,7 +54,7 @@ export class CreateUserImp implements CreateUser {
                 throw new Error("El usuario no pudo ser registrado");
             }
 
-            return new DtoCreateUserResponse(user);
+            return user;
 
         } catch (error) {
             if (

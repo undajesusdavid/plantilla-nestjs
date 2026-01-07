@@ -6,8 +6,7 @@ import { ErrorHashedService } from "../errors/ErrorHashedService";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { AuthUser } from "./AuthUser";
-import { DtoCredentialsRequest } from "./DtoCredentialsRequest";
-import { DtoPayloadResponse } from "./DtoPayloadResponse";
+import { AuthUserPropsInput, AuthUserPropsOutput } from "./AuthUserProps";
 
 export class AuthUserImp implements AuthUser {
 
@@ -17,7 +16,7 @@ export class AuthUserImp implements AuthUser {
         private hashed: HashedService
     ) { }
 
-    async login(credentials: DtoCredentialsRequest): Promise<DtoPayloadResponse> {
+    async login(credentials: AuthUserPropsInput): Promise<AuthUserPropsOutput> {
         try {
 
             const user = await this.userRepo.getOneByUsername(credentials.username);
@@ -40,7 +39,12 @@ export class AuthUserImp implements AuthUser {
                 username: userName,
                 permissions: user.getPermissions()
             });
-            return new DtoPayloadResponse(token, userId, userName);
+
+            return {
+                token: token,
+                id: userId,
+                username: userName
+            } as AuthUserPropsOutput;
 
         } catch (error) {
             if (

@@ -2,9 +2,8 @@ import { UserRepository } from "../contracts/UserRepository";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUseCase } from "src/shared/app/errors/ErrorUseCase";
 import { DeleteUser } from "./DeleteUser";
-import { DtoDeleteUserRequest } from "./DtoDeleteUserRequest";
-import { DtoDeleteUserResponse } from "./DtoDeleteUserResponse";
 import { UserID } from "src/users/core/UserID";
+import { User } from "src/users/core/User";
 
 export class DeleteUserImp implements DeleteUser {
 
@@ -12,13 +11,13 @@ export class DeleteUserImp implements DeleteUser {
         private userRepo: UserRepository
     ) { }
 
-    async delete(dtoRequest: DtoDeleteUserRequest): Promise<DtoDeleteUserResponse> {
+    async delete(id: string): Promise<User> {
         try {
 
-            if (!UserID.isValid(dtoRequest.id)) {
+            if (!UserID.isValid(id)) {
                 throw new Error("El ID del usuario ha eliminar es invalido");
             }
-            const user = await this.userRepo.getOneById(dtoRequest.id);
+            const user = await this.userRepo.getOneById(id);
             if(!user){
                 throw new Error("No existe el usuario que desa eliminar");
             }
@@ -26,7 +25,7 @@ export class DeleteUserImp implements DeleteUser {
             if(!process){
                 throw new Error("Error durante el proceso de eliminacion del usuario");
             }
-            return new DtoDeleteUserResponse(user);
+            return user;
 
         } catch (error) {
             if (

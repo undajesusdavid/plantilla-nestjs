@@ -61,12 +61,12 @@ export class UserRepositoryImp implements UserRepository {
   }
 
 
-  async getOneById(id: string): Promise<User> {
+  async getOneById(id: string): Promise<User | null> {
 
     try {
       const record = await this.userModel.findByPk(id);
       if (!record) {
-        throw new Error(`No se encontró ningún usuario con el ID: ${id}`);
+        return null;
       }
       return this.mapper.toEntity(record);
     } catch (error) {

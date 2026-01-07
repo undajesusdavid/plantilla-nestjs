@@ -1,8 +1,8 @@
-import { DtoUpdateUserRequest } from "./DtoUpdateUserRequest";
-import { DtoUpdateUserReponse } from "./DtoUpdateUserResponse";
+import { User } from "src/users/core/User";
+import { UpdateUserProps } from "./UpdateUserProps";
 
 export interface UpdateUser {
-    update(dtoRequest : DtoUpdateUserRequest): Promise<DtoUpdateUserReponse>
+    update(dtoRequest : UpdateUserProps): Promise<User>
 }
 
 export const UpdateUserToken = Symbol("UpdateUser");

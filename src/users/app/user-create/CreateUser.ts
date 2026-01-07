@@ -1,8 +1,8 @@
-import { DtoCreateUserRequest } from "./DtoCreateUserRequest";
-import { DtoCreateUserResponse } from "./DtoCreateUserResponse";
+import { CreateUserProps } from "./CreateUserProps";
+import { User } from "src/users/core/User";
 
 export interface CreateUser {
-    create(props: DtoCreateUserRequest): Promise<DtoCreateUserResponse>;
+    create(props: CreateUserProps): Promise<User>;
 }
 
 export const CreateUserToken = Symbol("CreateUser");

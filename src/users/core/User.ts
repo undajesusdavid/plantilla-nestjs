@@ -1,7 +1,7 @@
 import { UserID } from "./UserID";
 
 
-export interface UserProps {
+export interface UserPropsInput {
     id: UserID;
     username: string;
     password: string;
@@ -20,7 +20,7 @@ export class User {
     private roles: string[];
     private permissions: string[];
 
-    constructor(props: UserProps) {
+    constructor(props: UserPropsInput) {
         this.id = props.id;
         this.username = props.username;
         this.password = props.password;
