@@ -3,7 +3,7 @@ import { IsBoolean, IsDefined, IsEmail, IsOptional, IsString, MinLength } from "
 import { ToBoolean } from "src/shared/structure/decorators/transform/ToBoolean";
 import { IsUUIDv7 } from "src/shared/structure/decorators/validation/IsUUIDv7";
 import { UpdateUserProps } from "src/users/app/user-update/UpdateUserProps";
-import { User } from "src/users/core/User";
+import { User } from "src/users/core/entities/User";
 
 export class UpdateUserDtoRequest implements UpdateUserProps {
     

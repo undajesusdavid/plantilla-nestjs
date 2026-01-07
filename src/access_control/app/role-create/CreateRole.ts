@@ -5,7 +5,7 @@ export interface CreateRolePropsInput {
 
 export interface CreateRolePropsOutput {
     id: string;
-    name: string;
+    name?: string;
     description?: string;
 }
 

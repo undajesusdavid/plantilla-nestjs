@@ -1,7 +1,7 @@
 import { Transform } from "class-transformer";
 import { IsDefined, IsString } from "class-validator";
 import { IsUUIDv7 } from "src/shared/structure/decorators/validation/IsUUIDv7";
-import { User } from "src/users/core/User";
+import { User } from "src/users/core/entities/User";
 
 export class GetUserIdDtoRequest {
     @IsDefined({ message: 'El id es obligatorio' })

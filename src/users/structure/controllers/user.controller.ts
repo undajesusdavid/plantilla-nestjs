@@ -16,7 +16,7 @@ import { UserIdPipe } from './pipes/UserIdPipe';
 // Custom decorators
 import { Permissions } from 'src/access_control/structure/controllers/decorators/permissions.decorator';
 // Import Permissions
-import { PERMISSIONS } from 'src/access_control/core/Permission.seeds';
+import { PERMISSIONS } from 'src/access_control/core/rules/Permission.seeds';
 // import uses case
 import { type CreateUser, CreateUserToken } from '../../app/user-create/CreateUser';
 import { type GetUsers, GetUsersToken } from '../../app/get-users/GetUsers';

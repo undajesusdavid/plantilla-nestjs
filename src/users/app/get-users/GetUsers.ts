@@ -1,4 +1,4 @@
-import { User } from "src/users/core/User";
+import { User } from "src/users/core/entities/User";
 
 export interface GetUsers {
     getAll(): Promise<User[]>;

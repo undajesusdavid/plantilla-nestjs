@@ -1,8 +1,8 @@
-import { UserRepository } from "../contracts/UserRepository";
+import { UserRepository } from "../../core/contracts/UserRepository";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { GetUsers } from "./GetUsers";
-import { User } from "src/users/core/User";
+import { User } from "src/users/core/entities/User";
 
 export class GetUsersImp implements GetUsers {
 

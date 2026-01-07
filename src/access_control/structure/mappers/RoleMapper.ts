@@ -1,8 +1,8 @@
 
 import {MapperService} from "src/shared/app/contracts/MapperService";
-import { Role } from "src/access_control/core/Role";
+import { Role } from "src/access_control/core/entities/Role";
 import { RoleModel } from "../models/role.sequelize";
-import { RoleID } from "src/access_control/core/RoleId";
+import { RoleID } from "src/access_control/core/entities/RoleId";
 
 export class RoleMapper extends MapperService<RoleModel, Role> {
 

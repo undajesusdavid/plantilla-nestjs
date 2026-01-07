@@ -1,4 +1,4 @@
-import { AuthTokenService } from 'src/users/app/contracts/AuthTokenService';
+import { AuthTokenService } from 'src/users/core/contracts/AuthTokenService';
 import * as jwt from 'jsonwebtoken';
 import { ErrorAuthTokenService } from 'src/users/app/errors/ErrorAuthTokenService';
 import { Injectable } from '@nestjs/common';

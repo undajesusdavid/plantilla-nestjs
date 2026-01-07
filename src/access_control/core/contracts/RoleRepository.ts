@@ -1,8 +1,9 @@
-import { RoleID } from "../../core/RoleId";
-import { Role } from "../../core/Role";
+import { RoleID } from "../entities/RoleId";
+import { Role } from "../entities/Role";
 
 
 export interface RoleRepository {
+    create(Role: Role): Promise<boolean>;
     getAll(): Promise<Role[]>;
     getOneById(id: RoleID): Promise<Role | null>;
     getOneByName(name: string): Promise<Role | null>;

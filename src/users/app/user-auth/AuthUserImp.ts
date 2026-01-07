@@ -1,6 +1,6 @@
-import { AuthTokenService } from "../contracts/AuthTokenService";
-import { HashedService } from "../contracts/HashedService";
-import { UserRepository } from "../contracts/UserRepository";
+import { AuthTokenService } from "../../core/contracts/AuthTokenService";
+import { HashedService } from "../../core/contracts/HashedService";
+import { UserRepository } from "../../core/contracts/UserRepository";
 import { ErrorAuthTokenService } from "../errors/ErrorAuthTokenService";
 import { ErrorHashedService } from "../errors/ErrorHashedService";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";

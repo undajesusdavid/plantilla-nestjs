@@ -1,7 +1,7 @@
 import { Op, Transaction } from "sequelize";
 //DATA
-import { PERMISSIONS } from "../../core/Permission.seeds";
-import { ROLES } from "../../core/roles.seeds";
+import { PERMISSIONS } from "../../core/rules/Permission.seeds";
+import { ROLES } from "../../core/rules/roles.seeds";
 //MODELS
 import { RoleModel } from "../models/role.sequelize";
 import { PermissionModel } from "../models/permission.sequelize";

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { RoleRepository } from "../../app/contracts/RoleRepository";
-import { Role } from "src/access_control/core/Role";
-import { RoleID } from "src/access_control/core/RoleId";
+import { RoleRepository } from "../../core/contracts/RoleRepository";
+import { Role } from "src/access_control/core/entities/Role";
+import { RoleID } from "src/access_control/core/entities/RoleId";
 import { RoleModel } from "../models/role.sequelize";
 import { RoleMapper } from "../mappers/RoleMapper";
 import { ErrorRepositoryService } from "src/shared/app/errors/ErrorRepositoryService";
@@ -12,6 +12,10 @@ export class RoleRepositoryImp implements RoleRepository {
     constructor(
         @Inject(RoleMapper) private mapper: RoleMapper
     ) { }
+    
+    create(Role: Role): Promise<boolean> {
+        throw new Error("Method not implemented.");
+    }
 
     async getAll(): Promise<Role[]> {
         try {

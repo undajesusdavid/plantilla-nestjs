@@ -1,8 +1,8 @@
 
 import {MapperService} from "src/shared/app/contracts/MapperService";
-import { User } from "src/users/core/User";
+import { User } from "src/users/core/entities/User";
 import { UserModel } from "../models/user.sequelize";
-import { UserID } from "src/users/core/UserID";
+import { UserID } from "src/users/core/entities/UserID";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()

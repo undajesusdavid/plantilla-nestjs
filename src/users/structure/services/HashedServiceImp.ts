@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { HashedService } from "src/users/app/contracts/HashedService";
+import { HashedService } from "src/users/core/contracts/HashedService";
 import * as bcrypt from 'bcrypt';
 import { ErrorHashedService } from "src/users/app/errors/ErrorHashedService";
 

@@ -1,5 +1,4 @@
-import { Transaction } from "sequelize";
-import { PermissionID } from "src/access_control/core/PermissionId";
+import { PermissionID } from "src/access_control/core/entities/PermissionId";
 import { PermissionModel } from "src/access_control/structure/models/permission.sequelize";
 
 export interface PermissionRepository {

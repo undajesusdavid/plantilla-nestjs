@@ -1,7 +1,7 @@
 import { Transaction } from "sequelize";
 import { UserModel } from "../models/user.sequelize";
 import { RoleModel } from "../../../access_control/structure/models/role.sequelize";
-import { USERS } from "src/users/core/User.seeds";
+import { USERS } from "src/users/core/rules/User.seeds";
 import { UuidServiceImp } from "src/shared/structure/services/UuidServiceImp";
 import { HashedServiceImp } from "../services/HashedServiceImp";
 

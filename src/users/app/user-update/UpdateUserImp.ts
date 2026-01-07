@@ -1,10 +1,10 @@
-import { UserID } from "src/users/core/UserID";
-import { UserRepository } from "../contracts/UserRepository";
+import { UserID } from "src/users/core/entities/UserID";
+import { UserRepository } from "../../core/contracts/UserRepository";
 import { UpdateUser } from "./UpdateUser";
 import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { UpdateUserProps } from "./UpdateUserProps";
-import { User } from "src/users/core/User";
+import { User } from "src/users/core/entities/User";
 
 export class UpdateUserImp implements UpdateUser {
 

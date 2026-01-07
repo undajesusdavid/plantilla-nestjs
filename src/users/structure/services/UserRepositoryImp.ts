@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UserRepository } from '../../app/contracts/UserRepository';
+import { UserRepository } from '../../core/contracts/UserRepository';
 import { InjectModel } from '@nestjs/sequelize';
-import { User } from '../../core/User';
+import { User } from '../../core/entities/User';
 import { UserModel } from '../models/user.sequelize';
 import { ErrorRepositoryService } from 'src/users/app/errors/ErrorRepositoryService';
 import { UserMapper } from '../mappers/UserMapper';

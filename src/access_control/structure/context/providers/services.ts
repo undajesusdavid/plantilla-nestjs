@@ -1,6 +1,6 @@
-import { PermissionRepositoryToken } from '../../../app/contracts/PermissionRepository';
+import { PermissionRepositoryToken } from '../../../core/contracts/PermissionRepository';
 import { PermissionRepositoryImp } from '../../services/PermissionRepositoryImp';
-import { RoleRepositoryToken } from '../../../app/contracts/RoleRepository';
+import { RoleRepositoryToken } from '../../../core/contracts/RoleRepository';
 import { RoleRepositoryImp } from '../../services/RoleRepositoryImp';
 
 export const Services = [

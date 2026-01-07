@@ -2,17 +2,17 @@
 import { CreateUser } from "./CreateUser";
 
 // Importamos La entidad Usuario
-import { User } from "../../core/User";
+import { User } from "../../core/entities/User";
 
 // Importamos los Servicios
-import { UserRepository } from "../contracts/UserRepository";
+import { UserRepository } from "../../core/contracts/UserRepository";
 import { UuidService } from "src/shared/app/contracts/UuidService";
-import { HashedService } from "../contracts/HashedService";
+import { HashedService } from "../../core/contracts/HashedService";
 import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUuidService } from "src/shared/app/errors/ErrorUuidService";
 import { ErrorHashedService } from "../errors/ErrorHashedService";
-import { UserID } from "src/users/core/UserID";
+import { UserID } from "src/users/core/entities/UserID";
 import { CreateUserProps } from "./CreateUserProps";
 
 // Exportamos la clase que implementa el caso de uso

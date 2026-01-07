@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { PermissionRepository } from "src/access_control/app/contracts/PermissionRepository";
-import { PermissionID } from "src/access_control/core/PermissionId";
+import { PermissionRepository } from "src/access_control/core/contracts/PermissionRepository";
+import { PermissionID } from "src/access_control/core/entities/PermissionId";
 import { PermissionModel } from "../models/permission.sequelize";
 import { ErrorRepositoryService } from "src/shared/app/errors/ErrorRepositoryService";
 

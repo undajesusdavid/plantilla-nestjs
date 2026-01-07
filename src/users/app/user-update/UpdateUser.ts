@@ -1,4 +1,4 @@
-import { User } from "src/users/core/User";
+import { User } from "src/users/core/entities/User";
 import { UpdateUserProps } from "./UpdateUserProps";
 
 export interface UpdateUser {
