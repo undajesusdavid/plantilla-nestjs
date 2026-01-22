@@ -5,7 +5,7 @@ import { USERS } from "src/users/core/rules/User.seeds";
 import { UuidServiceImp } from "src/shared/structure/services/UuidServiceImp";
 import { HashedServiceImp } from "../services/HashedServiceImp";
 
-export const SeedUsersToken = Symbol("seedUsers");
+export const SeedUsersToken = "seedUsers";
 
 export async function seedUsers(transaction: Transaction) {
     try {
@@ -24,7 +24,7 @@ export async function seedUsers(transaction: Transaction) {
 const populateTable = async (transaction: Transaction) => {
 
     const usersData = Object.values(USERS).map((u) => ({
-        id: new UuidServiceImp().generateV7(),
+        id: new UuidServiceImp().generateUUID(),
         username: u.username,
         email: u.email,
         password: new HashedServiceImp().hashed(u.password),

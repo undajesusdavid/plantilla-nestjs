@@ -5,8 +5,8 @@ import { seedAccessControlToken } from 'src/access_control/structure/seeders/see
 import { SeedUsersToken } from 'src/users/structure/seeders/seedUsers';
 
 const seeders = new BuildSeeders([
-    seedAccessControlToken.toString(),
-    SeedUsersToken.toString()
+    seedAccessControlToken,
+    SeedUsersToken
 ]);
 
 seeders.execute()

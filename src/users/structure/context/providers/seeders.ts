@@ -6,5 +6,5 @@ export const Seeders = [
 ]
 
 export const SeedersExport = [
-    ...Seeders.map(s => s.provide)
+  SeedUsersToken
 ]

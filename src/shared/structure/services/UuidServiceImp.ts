@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { UuidService } from "src/shared/app/contracts/UuidService";
+import { UuidService } from "src/shared/core/contracts/UuidService";
 import { ErrorUuidService } from "src/shared/app/errors/ErrorUuidService";
 import { uuidv7 } from "uuidv7";
 
@@ -10,7 +10,7 @@ export class UuidServiceImp implements UuidService {
         return uuidV7Regex.test(uuid);
     }
 
-    generateV7(): string {
+    generateUUID(): string {
         try {
             return uuidv7();
         } catch (error) {

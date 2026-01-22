@@ -1,4 +1,4 @@
 export interface UuidService {
-    generateV7(): string;
+    generateUUID(): string;
     isValidUUID(uuid: string): boolean;
 }

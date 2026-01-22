@@ -1,21 +1,63 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { RoleRepository } from "../../core/contracts/RoleRepository";
-import { Role } from "src/access_control/core/entities/Role";
-import { RoleID } from "src/access_control/core/entities/RoleId";
+import { RoleRepository } from "../../core/role/RoleRepository";
+import { Role } from "../../core/role/Role";
 import { RoleModel } from "../models/role.sequelize";
 import { RoleMapper } from "../mappers/RoleMapper";
 import { ErrorRepositoryService } from "src/shared/app/errors/ErrorRepositoryService";
+import { InjectModel } from "@nestjs/sequelize";
+
 
 @Injectable()
 export class RoleRepositoryImp implements RoleRepository {
 
     constructor(
-        @Inject(RoleMapper) private mapper: RoleMapper
+        @Inject(RoleMapper) private mapper: RoleMapper,
+        @InjectModel(RoleModel) private readonly roleModel: typeof RoleModel
     ) { }
+
     
-    create(Role: Role): Promise<boolean> {
-        throw new Error("Method not implemented.");
+
+    async saveRoleUpdated(role: Role): Promise<boolean> {
+        const roleModel = this.mapper.toModel(role);
+        roleModel.isNewRecord = false;
+        try {
+            await roleModel.save();
+            return true;
+        }catch(error){
+            return false;
+        }
     }
+
+    async saveAssignedPermissions(roleId: string, permissionIds: number[]): Promise<boolean> {
+        const role = await this.roleModel.findByPk(roleId);
+        if (!role) return false;
+        try {
+            await role.$set("permissions", permissionIds);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    async create(role: Role, permissions: number[]): Promise<Role> {
+        try {
+            const roleModel = this.mapper.toModel(role);
+            await roleModel.save();
+            if (permissions) {
+                await roleModel.$set("permissions", permissions);
+            }
+            const createdRole = await roleModel.reload({ include: { association: "permissions" } });
+            return this.mapper.toEntity(createdRole);
+        } catch (error) {
+            throw new ErrorRepositoryService(
+                'Error al intentar registrar el rol',
+                'ROLES_CREATE_FAILED',
+                { originalError: error, class: this.constructor.name, method: "create" }
+            );
+        }
+    }
+
+
 
     async getAll(): Promise<Role[]> {
         try {
@@ -29,10 +71,10 @@ export class RoleRepositoryImp implements RoleRepository {
             );
         }
     }
-    async getOneById(id: RoleID): Promise<Role | null> {
+    async getOneById(id: string): Promise<Role | null> {
 
         try {
-            const role = await RoleModel.findByPk(id.toString());
+            const role = await RoleModel.findByPk(id);
             if (!role) {
                 return null;
             }
@@ -61,11 +103,11 @@ export class RoleRepositoryImp implements RoleRepository {
             );
         }
     }
-    async changeRoleStatus(id: RoleID, status: boolean): Promise<boolean> {
+    async changeRoleStatus(id: string, status: boolean): Promise<boolean> {
         try {
             const [updatedRows] = await RoleModel.update(
                 { isActive: status },
-                { where: { id: id.toString() } }
+                { where: { id: id } }
             );
             return updatedRows > 0;
         } catch (error) {

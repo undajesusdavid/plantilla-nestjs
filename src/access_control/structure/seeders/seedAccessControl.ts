@@ -5,8 +5,9 @@ import { ROLES } from "../../core/rules/roles.seeds";
 //MODELS
 import { RoleModel } from "../models/role.sequelize";
 import { PermissionModel } from "../models/permission.sequelize";
+import { UuidServiceImp } from "src/shared/structure/services/UuidServiceImp";
 
-export const seedAccessControlToken = Symbol("seedAccessControl");
+export const seedAccessControlToken = "seedAccessControl";
 
 export async function seedAccessControl(transaction: Transaction) {
     try {
@@ -42,6 +43,7 @@ const populateTables = async (transaction: Transaction) => {
 
     // Poblar roles con UPSERT (Postgres)
     const rolesData = Object.values(ROLES).map((r) => ({
+        id: new UuidServiceImp().generateUUID(),
         name: r.name,
         description: r.description,
         isActive: true,

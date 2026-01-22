@@ -1,8 +1,8 @@
-export class ErrorConsole extends Error {
+export class ErrorRecordNotFound extends Error {
     public readonly code: string;
     public readonly context?: any;
 
-    constructor(message: string, code: string = 'CONSOLE_ERROR', context?: any) {
+    constructor(message: string, code: string = 'RECORD_NOT_FOUND_ERROR', context?: any) {
         super(message); // Esto asigna el mensaje al error base
         this.name = this.constructor.name;
         this.code = code;
@@ -10,7 +10,7 @@ export class ErrorConsole extends Error {
 
         // Mantiene el stack trace correcto
         if (Error.captureStackTrace) {
-            Error.captureStackTrace(this, ErrorConsole);
+            Error.captureStackTrace(this, ErrorRecordNotFound);
         }
     }
 }

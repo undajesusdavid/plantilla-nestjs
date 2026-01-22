@@ -6,7 +6,7 @@ import { User } from "../../core/entities/User";
 
 // Importamos los Servicios
 import { UserRepository } from "../../core/contracts/UserRepository";
-import { UuidService } from "src/shared/app/contracts/UuidService";
+import { UuidService } from "src/shared/core/contracts/UuidService";
 import { HashedService } from "../../core/contracts/HashedService";
 import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
@@ -36,7 +36,7 @@ export class CreateUserImp implements CreateUser {
                 throw new Error("El email ya existe");
             }
 
-            const id = this.uuidService.generateV7();
+            const id = this.uuidService.generateUUID();
             if(!UserID.isValid(id)){
                 throw new Error("El ID generado no es una version de UUID valida")
             }

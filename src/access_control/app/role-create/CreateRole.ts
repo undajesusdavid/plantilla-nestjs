@@ -1,16 +1,13 @@
+import { Role } from "../../core/role/Role";
+
 export interface CreateRolePropsInput {
     name: string;
     description?: string;
-}
-
-export interface CreateRolePropsOutput {
-    id: string;
-    name?: string;
-    description?: string;
+    permissions: number[]
 }
 
 export interface CreateRole {
-    execute(props: CreateRolePropsInput): Promise<CreateRolePropsOutput>;
+    execute(props: CreateRolePropsInput): Promise<Role>;
 }
 
 export const CreateRoleToken = Symbol('CreateRole');

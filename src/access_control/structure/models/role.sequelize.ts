@@ -1,17 +1,29 @@
-import { AutoIncrement, Model } from "sequelize-typescript";
+import { Model } from "sequelize-typescript";
 import { BelongsToMany, Column, DataType, PrimaryKey, Table } from "sequelize-typescript";
 import { PermissionModel } from './permission.sequelize';
 import { UserModel } from "src/users/structure/models/user.sequelize";
 import { UserRoleModel } from "src/users/structure/models/user_roles.sequelize";
 import { RolePermissionModel } from "./role_permission.sequelize";
 
+export interface RoleAttributes {
+  id: string;
+  name: string;
+  description: string;
+  isActive: string;
+  permissions?: PermissionModel[];
+  users?: UserModel[];
+}
+
+
 @Table({ tableName: 'ac_roles' })
 export class RoleModel extends Model {
 
-  @PrimaryKey
-  @AutoIncrement
-  @Column({ type: DataType.INTEGER, unique: true })
-  declare id: number;
+ @Column({
+    type: DataType.UUID,
+    primaryKey: true,
+    allowNull: false,
+  })
+  declare id: string;
 
   @Column({ type: DataType.STRING, allowNull: false, unique: true })
   declare name: string;
@@ -23,7 +35,6 @@ export class RoleModel extends Model {
   declare isActive: boolean;
 
   @BelongsToMany(() => PermissionModel, () => RolePermissionModel) 
-  
   declare permissions: PermissionModel[];
 
   @BelongsToMany(() => UserModel, () => UserRoleModel) 

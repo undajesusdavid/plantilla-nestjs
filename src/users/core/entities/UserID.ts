@@ -1,4 +1,4 @@
-import { Uuid } from "src/shared/core/Uuid";
+import { Uuid } from "src/shared/core/entities/Uuid";
 
 export class UserID extends Uuid {
 

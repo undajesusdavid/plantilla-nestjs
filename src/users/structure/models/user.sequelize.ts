@@ -20,7 +20,6 @@ export interface UserAttributes {
 export class UserModel extends Model<UserAttributes> implements UserAttributes {
   @Column({
     type: DataType.UUID,
-    defaultValue: DataType.UUIDV4,
     primaryKey: true,
     allowNull: false,
   })

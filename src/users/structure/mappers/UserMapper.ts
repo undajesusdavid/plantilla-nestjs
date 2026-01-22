@@ -1,5 +1,5 @@
 
-import {MapperService} from "src/shared/app/contracts/MapperService";
+import {MapperService} from "src/shared/structure/mappers/MapperService";
 import { User } from "src/users/core/entities/User";
 import { UserModel } from "../models/user.sequelize";
 import { UserID } from "src/users/core/entities/UserID";

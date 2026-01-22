@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { PermissionRepository } from "src/access_control/core/contracts/PermissionRepository";
-import { PermissionID } from "src/access_control/core/entities/PermissionId";
+import { PermissionRepository } from "src/access_control/core/permission/PermissionRepository";
+import { PermissionID } from "src/access_control/core/permission/PermissionId";
 import { PermissionModel } from "../models/permission.sequelize";
 import { ErrorRepositoryService } from "src/shared/app/errors/ErrorRepositoryService";
+import { Op } from 'sequelize';
 
 @Injectable()
 export class PermissionRepositoryImp implements PermissionRepository {
@@ -62,6 +63,20 @@ export class PermissionRepositoryImp implements PermissionRepository {
                 { originalError: error, class: this.constructor.name, method: "changePermissionStatus" }
             );
         }
+    }
+
+    async findExistingIds(ids: number[]): Promise<number[]> {
+        const uniqueIds = [...new Set(ids)];
+
+        const permissions = await PermissionModel.findAll({
+            where: {
+                id: { [Op.in]: uniqueIds }
+            },
+            attributes: ['id'], // Optimización: no traemos descripción ni otros campos
+            raw: true
+        });
+
+        return permissions.map(p => p.id);
     }
 
 } 
