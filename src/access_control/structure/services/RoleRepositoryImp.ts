@@ -15,15 +15,23 @@ export class RoleRepositoryImp implements RoleRepository {
         @InjectModel(RoleModel) private readonly roleModel: typeof RoleModel
     ) { }
 
-    
 
+    async delete(id: string): Promise<boolean> {
+        const process = await this.roleModel.destroy({ where: { id: id } });
+        if (process > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     async saveRoleUpdated(role: Role): Promise<boolean> {
         const roleModel = this.mapper.toModel(role);
         roleModel.isNewRecord = false;
         try {
             await roleModel.save();
             return true;
-        }catch(error){
+        } catch (error) {
             return false;
         }
     }
@@ -118,4 +126,6 @@ export class RoleRepositoryImp implements RoleRepository {
             );
         }
     }
+
+
 }

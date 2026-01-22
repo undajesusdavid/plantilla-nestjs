@@ -8,7 +8,9 @@ import { RoleDtoResponse } from './dto_response/RoleDtoResponse';
 import { ErrorUseCase } from 'src/shared/app/errors/ErrorUseCase';
 import { type CreateRole, CreateRoleToken } from 'src/access_control/app/role-create/CreateRole';
 import { type UpdateRole, UpdateRoleToken } from 'src/access_control/app/role-update/UpdateRole';
+import { type DeleteRole, DeleteRoleToken } from 'src/access_control/app/role-delete/DeleteRole';
 import { RoleDtoUpdate } from './dto_request/RoleDtoUpdate';
+
 
 
 @Controller('roles')
@@ -17,6 +19,7 @@ export class RoleController {
     constructor(
         @Inject(CreateRoleToken) private readonly createRole: CreateRole,
         @Inject(UpdateRoleToken) private readonly updateRole: UpdateRole,
+        @Inject(DeleteRoleToken) private readonly deleteRole: DeleteRole,
     ) { }
 
     @Post('/create')
@@ -39,13 +42,28 @@ export class RoleController {
     @UseGuards(JwtAuthGuard, AccessGuard)
     async update(@Param('id') id: string, @Body() dto: RoleDtoUpdate): Promise<RoleDtoResponse> {
         try {
-            const role = await this.updateRole.execute(id,dto);
+            const role = await this.updateRole.execute(id, dto);
             return new RoleDtoResponse(role);
         } catch (error) {
             if (error instanceof ErrorUseCase) {
                 throw new InternalServerErrorException(error.message, error.code);
             }
             throw new BadRequestException(error.message);
+        }
+    }
+
+    @Delete('/delete/:id')
+    @Permissions(PERMISSIONS.DELETE_ROLE.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async delete(@Param('id') id: string): Promise<RoleDtoResponse> {
+        try {
+            const role = await this.deleteRole.execute(id);
+            return new RoleDtoResponse(role);
+        } catch (error) {
+            if (error instanceof ErrorUseCase) {
+                throw new BadRequestException(error.message);
+            }
+            throw new InternalServerErrorException(error.message, error.code);
         }
     }
 

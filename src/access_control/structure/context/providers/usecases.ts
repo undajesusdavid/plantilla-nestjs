@@ -8,6 +8,8 @@ import { UpdateRoleImp } from "src/access_control/app/role-update/UpdateRoleImp"
 import { SequelizeTransaction } from "src/database/structure/services/SequelizeTransaction";
 import { UuidServiceImp } from "src/shared/structure/services/UuidServiceImp";
 import { PermissionRepositoryImp } from "../../services/PermissionRepositoryImp";
+import { DeleteRoleToken } from "src/access_control/app/role-delete/DeleteRole";
+import { DeleteRoleImp } from "src/access_control/app/role-delete/RoleDeleteImp";
 
 export const UseCases = [
     {
@@ -23,9 +25,15 @@ export const UseCases = [
             tm: SequelizeTransaction) => new UpdateRoleImp(r,p,tm),
         inject: [RoleRepositoryImp, PermissionRepositoryImp, SequelizeTransaction],
     },
+    {
+        provide: DeleteRoleToken,
+        useFactory: (rp: RoleRepositoryImp) => new DeleteRoleImp(rp),
+        inject: [RoleRepositoryImp],
+    },
 ];
 
 export const UseCaseExport = [
     CreateRoleToken,
-    UpdateRoleToken
+    UpdateRoleToken,
+    DeleteRoleToken
 ]
