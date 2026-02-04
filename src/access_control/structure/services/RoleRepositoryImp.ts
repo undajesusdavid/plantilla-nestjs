@@ -15,6 +15,44 @@ export class RoleRepositoryImp implements RoleRepository {
         @InjectModel(RoleModel) private readonly roleModel: typeof RoleModel
     ) { }
 
+    async findById(id: string): Promise<Role | null> {
+        try {
+            const role = await this.roleModel.findByPk(id, { include: { association: "permissions" } });
+            if (!role) return null;
+            return this.mapper.toEntity(role);
+        } catch (error) {
+            throw new ErrorRepositoryService(
+                'Error al intentar buscar el rol por ID',
+                'ROLES_FINDBYID_FAILED',
+                { originalError: error, class: this.constructor.name, method: "findById" }
+            );
+        }
+    }
+
+    async save(role: Role): Promise<boolean> {
+
+        const record = await this.roleModel.findByPk(role.getId());
+        if (record) {
+            await record.update({
+                name: role.getName(),
+                description: role.getDescription(),
+                isActive: role.getIsActive()
+            });
+            return true;
+        }
+
+        // Creamos uno nuevo
+        await this.roleModel.create({
+            id: role.getId(),
+            name: role.getName(),
+            description: role.getDescription(),
+            isActive: role.getIsActive()
+        }, { returning: false })
+
+        return true;
+    }
+
+
 
     async delete(id: string): Promise<boolean> {
         const process = await this.roleModel.destroy({ where: { id: id } });
@@ -24,7 +62,7 @@ export class RoleRepositoryImp implements RoleRepository {
             return false;
         }
     }
-    
+
     async saveRoleUpdated(role: Role): Promise<boolean> {
         const roleModel = this.mapper.toModel(role);
         roleModel.isNewRecord = false;
@@ -47,16 +85,21 @@ export class RoleRepositoryImp implements RoleRepository {
         }
     }
 
-    async create(role: Role, permissions: number[]): Promise<Role> {
+    async create(role: Role): Promise<void> {
+        const transaction = await this.roleModel.sequelize!.transaction();
         try {
-            const roleModel = this.mapper.toModel(role);
-            await roleModel.save();
-            if (permissions) {
-                await roleModel.$set("permissions", permissions);
-            }
-            const createdRole = await roleModel.reload({ include: { association: "permissions" } });
-            return this.mapper.toEntity(createdRole);
+            const createdRole = await this.roleModel.create({
+                id: role.getId(),
+                name: role.getName(),
+                description: role.getDescription(),
+                isActive: role.getIsActive()
+            }, { transaction });
+
+            await (createdRole as any).setPermissions(role.getPermissions(), { transaction });
+            await transaction.commit();
         } catch (error) {
+            await transaction.rollback();
+            console.log("Error en metodo create del repositorio de roles ", error);
             throw new ErrorRepositoryService(
                 'Error al intentar registrar el rol',
                 'ROLES_CREATE_FAILED',

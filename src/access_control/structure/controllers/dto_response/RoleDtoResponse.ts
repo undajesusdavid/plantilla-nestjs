@@ -11,7 +11,7 @@ export class RoleDtoResponse {
         this.id = role.getId();
         this.name = role.getName();
         this.description = role.getDescription();
-        this.permissions = role.getPermisions();
+        this.permissions = role.getPermissions();
     }
 }
 

@@ -1,8 +1,8 @@
-import { UserID } from "./UserID";
+import { UserID } from "./value-objects/UserID";
 
 
 export interface UserPropsInput {
-    id: UserID;
+    id: string;
     username: string;
     password: string;
     email: string;
@@ -21,7 +21,7 @@ export class User {
     private permissions: string[];
 
     constructor(props: UserPropsInput) {
-        this.id = props.id;
+        this.id = new UserID(props.id);
         this.username = props.username;
         this.password = props.password;
         this.email = props.email;
@@ -32,7 +32,7 @@ export class User {
 
     // Getters
     getId(): string {
-        return this.id.toString();
+        return this.id.getValue();
     }
 
     getUsername(): string {

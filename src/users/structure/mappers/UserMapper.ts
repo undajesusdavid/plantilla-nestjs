@@ -2,7 +2,7 @@
 import {MapperService} from "src/shared/structure/mappers/MapperService";
 import { User } from "src/users/core/entities/User";
 import { UserModel } from "../models/user.sequelize";
-import { UserID } from "src/users/core/entities/UserID";
+import { UserID } from "src/users/core/entities/value-objects/UserID";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
@@ -14,7 +14,7 @@ export class UserMapper extends MapperService<UserModel, User> {
         const permissions = model.roles ? model.roles.flatMap(r => r.permissions.map(perm => perm.name)) : [];
 
         const user = new User({
-            id: new UserID(model.getDataValue('id')),
+            id: model.getDataValue('id'),
             username: model.getDataValue('username'),
             password: model.getDataValue('password'),
             email: model.getDataValue('email'),

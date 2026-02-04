@@ -2,7 +2,7 @@ import { UserRepository } from "../../core/contracts/UserRepository";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
 import { ErrorUseCase } from "src/shared/app/errors/ErrorUseCase";
 import { DeleteUser } from "./DeleteUser";
-import { UserID } from "src/users/core/entities/UserID";
+import { UserID } from "src/users/core/entities/value-objects/UserID";
 import { User } from "src/users/core/entities/User";
 
 export class DeleteUserImp implements DeleteUser {
@@ -13,10 +13,6 @@ export class DeleteUserImp implements DeleteUser {
 
     async delete(id: string): Promise<User> {
         try {
-
-            if (!UserID.isValid(id)) {
-                throw new Error("El ID del usuario ha eliminar es invalido");
-            }
             const user = await this.userRepo.getOneById(id);
             if(!user){
                 throw new Error("No existe el usuario que desa eliminar");

@@ -7,14 +7,13 @@ export class RoleMapper extends MapperService<RoleModel, Role> {
 
     toEntity(model: RoleModel): Role {
         
-        const role = new Role({
+        const role = Role.restore({
             id: model.getDataValue('id'),
             name: model.getDataValue('name'),
             description: model.getDataValue('description'),
-            isActive: model.getDataValue('isActive')
+            isActive: model.getDataValue('isActive'),
+            permissions: model.getDataValue('permissions') || []
         });
-        
-
         
         return role;
     }

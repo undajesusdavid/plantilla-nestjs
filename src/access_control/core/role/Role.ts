@@ -1,60 +1,74 @@
-import { RoleID } from "./RoleId";
+import { RoleID } from "./value-objetcs/RoleId";
+import { RoleName } from "./value-objetcs/RoleName";
+import { RolePermissionList } from "./value-objetcs/RolePermissionList";
 
 export interface RoleProps {
     id: string,
     name: string,
     description: string,
-    isActive: boolean
+    isActive: boolean,
+    permissions: number[]
 }
 
 export class Role {
     private readonly id: RoleID;
-    private  name: string;
+    private name: RoleName;
     private description: string;
     private isActive: boolean;
-    private permissions : number[]
+    private permissions : RolePermissionList;
 
-    constructor(props: RoleProps) {
+    private constructor(props: RoleProps) {
         this.id = new RoleID(props.id);
-        this.name = props.name;
+        this.name = new RoleName(props.name);
         this.description = props.description;
         this.isActive = props.isActive;
+        this.permissions = new RolePermissionList(props.permissions);
+    }
+
+    public static create(props: RoleProps): Role {
+        return new Role({...props, isActive: true});
+    }
+
+    public static restore(props: RoleProps): Role {
+        return new Role(props);
     }
 
     setPermissions(permissions: number[]){
-        this.permissions = permissions;
+        this.permissions = new RolePermissionList(permissions);
     }
 
     getId(): string {
-        return this.id.toString();
+        return this.id.getValue();
     }
 
     getName(): string {
-        return this.name;
+        return this.name.getValue();
     }
 
     getDescription(): string {
         return this.description;
     }
+
     getIsActive(): boolean {
         return this.isActive!;
     }
     
-    getPermisions(): number[] {
-        return this.permissions;
+    getPermissions(): number[] {
+        return this.permissions.getValue();
     }
 
     getProps(): RoleProps {
         return {
-            id: this.id.toString(),
-            name: this.name,
+            id: this.id.getValue(),
+            name: this.name.getValue(),
             description: this.description,
-            isActive: this.isActive
+            isActive: this.isActive,
+            permissions: this.permissions.getValue()
         }
     }
 
     setName(name: string): void{
-        this.name = name;
+        this.name = new RoleName(name);
     }
 
     setDescription(description: string): void{

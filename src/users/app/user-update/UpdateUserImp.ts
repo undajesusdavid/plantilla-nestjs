@@ -1,4 +1,4 @@
-import { UserID } from "src/users/core/entities/UserID";
+import { UserID } from "src/users/core/entities/value-objects/UserID";
 import { UserRepository } from "../../core/contracts/UserRepository";
 import { UpdateUser } from "./UpdateUser";
 import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
@@ -14,10 +14,6 @@ export class UpdateUserImp implements UpdateUser {
 
     async update(props: UpdateUserProps): Promise<User> {
         try {
-            // Validamos el ID del usuario
-            if (!UserID.isValid(props.id)) {
-                throw new Error("El ID del usuario ha actualizar es invalido");
-            }
             const user = await this.userRepo.getOneById(props.id);
 
             if (!user) {
