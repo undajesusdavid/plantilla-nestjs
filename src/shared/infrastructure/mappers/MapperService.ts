@@ -1,5 +1,3 @@
-
-
 export abstract class MapperService<M, E> {
         
     abstract toEntity(model: M): E;

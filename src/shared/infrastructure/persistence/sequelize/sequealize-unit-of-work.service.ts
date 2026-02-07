@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { transactionStorage } from 'src/database/core/transaction-context';
+import { transactionStorage } from 'src/shared/infrastructure/persistence/transaction-context';
 import { IUnitOfWork } from 'src/shared/core/interfaces/unit-of-work.interface';
 
 @Injectable()
