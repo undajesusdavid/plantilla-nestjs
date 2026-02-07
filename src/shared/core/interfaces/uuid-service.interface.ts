@@ -1,4 +1,3 @@
-
 export const UUID_SERVICE = Symbol("UuidService");
 
 export interface IUuidService {
