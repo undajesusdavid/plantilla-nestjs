@@ -1,8 +1,8 @@
 
 export interface UpdateRolePropsInput {
-    id: string,
-    data: {
-        name?: string;
+    readonly id: string,
+    readonly data: {
+        readonlyname?: string;
         description?: string;
         isActive?: boolean;
         permissions?: number[];
