@@ -6,7 +6,7 @@ import { User } from "../../core/entities/User";
 
 // Importamos los Servicios
 import { UserRepository } from "../../core/contracts/UserRepository";
-import { UuidService } from "src/shared/core/contracts/UuidService";
+import { IUuidService } from "src/shared/core/interfaces/uuid-service.interface";
 import { HashedService } from "../../core/contracts/HashedService";
 import { ErrorUseCase } from "../../../shared/app/errors/ErrorUseCase";
 import { ErrorRepositoryService } from "../errors/ErrorRepositoryService";
@@ -19,7 +19,7 @@ import { CreateUserProps } from "./CreateUserProps";
 export class CreateUserImp implements CreateUser {
     constructor(
         private userRepo: UserRepository,
-        private uuidService: UuidService,
+        private uuidService: IUuidService,
         private hashedService: HashedService
     ) { }
 

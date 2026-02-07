@@ -1,5 +1,7 @@
 import { PermissionID } from "src/access_control/core/permission/PermissionId";
-import { PermissionModel } from "src/access_control/structure/models/permission.sequelize";
+import { PermissionModel } from "src/access_control/infrastructure/models/permission.sequelize";
+
+export const PERMISSION_REPOSITORY = Symbol("PermissionRepository");
 
 export interface PermissionRepository {
     getAll(): Promise<PermissionModel[]>;
@@ -9,4 +11,3 @@ export interface PermissionRepository {
     findExistingIds(ids: number[]): Promise<number[]>;
 }
 
-export const PermissionRepositoryToken = Symbol("PermissionRepository");

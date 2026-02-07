@@ -1,12 +1,10 @@
 import { Role } from "./Role";
 
+export const ROLE_REPOSITORY = Symbol("RoleRepository");
 
 export interface RoleRepository{
     
     create(role: Role): Promise<void>;
-   
-    
-   
     saveRoleUpdated(role:Role): Promise<boolean>;
     saveAssignedPermissions(roleId : string, permissionIds : number []): Promise<boolean> ;
     delete(id: string ): Promise<boolean>
@@ -19,4 +17,3 @@ export interface RoleRepository{
    
 }
 
-export const RoleRepositoryToken = Symbol("RoleRepository");

@@ -1,0 +1,1 @@
+export const CREATE_ROLE = Symbol('CreateRoleUseCase');
