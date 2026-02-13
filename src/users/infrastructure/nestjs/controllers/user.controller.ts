@@ -1,16 +1,16 @@
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, UseGuards } from '@nestjs/common';
 
 // Import DTO
-import { CreateUserRequestDto, CreateUserDtoResponse } from '../nestjs/dto/create-user-request.dto';
-import { UpdateUserRequestDto, UpdateUserDtoResponse } from '../nestjs/dto/update-user-request.dto';
-import { GetUserDtoResponse } from '../nestjs/dto/get-user-request.dto';
-import { AuthUserRequestDto, AuthUserDtoResponse } from '../nestjs/dto/auth-user-request.dto';
+import { CreateUserRequestDto, CreateUserDtoResponse } from '../dto/create-user-request.dto';
+import { UpdateUserRequestDto, UpdateUserDtoResponse } from '../dto/update-user-request.dto';
+import { GetUserDtoResponse } from '../dto/get-user-request.dto';
+import { AuthUserRequestDto, AuthUserDtoResponse } from '../dto/auth-user-request.dto';
 
 // Import Guards
-import { JwtAuthGuard } from '../nestjs/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { AccessGuard } from 'src/access_control/infrastructure/nestjs/guards/access.guard';
 // Import Pipes
-import { UserIdPipe } from '../nestjs/pipes/user-id.pipe';
+import { UserIdPipe } from '../pipes/user-id.pipe';
 // Custom decorators
 import { Permissions } from 'src/access_control/infrastructure/nestjs/decorators/permissions.decorator';
 // Import Permissions

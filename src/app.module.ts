@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AccessControlModule } from './access_control/infrastructure/context/access_control.module';
-import { UserModule } from './users/infrastructure/context/user.module';
+import { AccessControlModule } from './access_control/infrastructure/nestjs/context/access_control.module';
+import { UserModule } from './users/infrastructure/nestjs/context/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { SharedModule } from './shared/infrastructure/context/shared.module';
 
