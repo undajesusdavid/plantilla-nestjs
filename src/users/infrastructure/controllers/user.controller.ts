@@ -18,114 +18,86 @@ import { Permissions } from 'src/access_control/infrastructure/controllers/decor
 // Import Permissions
 import { PERMISSIONS } from 'src/access_control/core/rules/Permission.seeds';
 // import uses case
-import { type CreateUser, CreateUserToken } from '../../app/user-create/CreateUser';
-import { type GetUsers, GetUsersToken } from '../../app/get-users/GetUsers';
-import { type AuthUser, AuthUserToken } from '../../app/user-auth/AuthUser';
-import { type UpdateUser, UpdateUserToken } from '../../app/user-update/UpdateUser';
-import { type DeleteUser, DeleteUserToken } from 'src/users/app/user-delete/DeleteUser';
+
+// Import CommandBus and QueryBus
+import { COMMAND_BUS, type CommandBus } from 'src/shared/app/bus/command-bus';
+import { QUERY_BUS, type QueryBus } from 'src/shared/app/bus/query-bus';
+import { GetUserQuery } from 'src/users/app/get-user/get-user.query';
+import { User } from 'src/users/core/entities/User';
+import { GetUsersQuery } from 'src/users/app/get-users/get-users.query';
+import { AuthUserCommand } from 'src/users/app/auth-user/auth-user.command';
+import { AuthUserResponse } from 'src/users/app/auth-user/auth-user.response';
+import { CreateUserCommand } from 'src/users/app/create-user/create-user.command';
+import { DeleteUserCommand } from 'src/users/app/delete-user/delete-user.command';
+import { UpdateUserCommand } from 'src/users/app/update-user/update-user.command';
 
 
 @Controller('users')
 export class UserController {
 
     constructor(
-        @Inject(CreateUserToken) private readonly createUser: CreateUser,
-        @Inject(UpdateUserToken) private readonly updateUser: UpdateUser,
-        @Inject(GetUsersToken) private readonly getUsers: GetUsers,
-        @Inject(DeleteUserToken) private readonly deleteUser: DeleteUser,
-        @Inject(AuthUserToken) private readonly authUser: AuthUser,
+        @Inject(COMMAND_BUS) private readonly command: CommandBus,
+        @Inject(QUERY_BUS) private readonly query: QueryBus,
     ) { }
+
+
+    @Get()
+    @Permissions(PERMISSIONS.READ_USERS.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async getAll(): Promise<GetUserDtoResponse[]> {
+        const users = await this.query.execute<User[]>(new GetUsersQuery());
+        return users.map(user => new GetUserDtoResponse(user));
+    }
+
+    @Get(":id")
+    @Permissions(PERMISSIONS.READ_USERS.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async getOne(@Param('id', UserIdPipe) id: string): Promise<GetUserDtoResponse> {
+        const user = await this.query.execute<User>(new GetUserQuery(id));
+        return new GetUserDtoResponse(user);
+    }
+
+
+    @Post("/login")
+    async login(@Body() dto: AuthUserDtoRequest): Promise<AuthUserDtoResponse> {
+        const authUser = await this.command.execute<AuthUserResponse>(new AuthUserCommand(dto.username, dto.password));
+        return new AuthUserDtoResponse(authUser);
+
+    }
 
     @Post("/create")
     @Permissions(PERMISSIONS.CREATE_USER.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
-    async register(@Body() dto: CreateUserDtoRequest): Promise<CreateUserDtoResponse> { 
-        try {
-            const user = await this.createUser.create(dto);
-            return new CreateUserDtoResponse(user);
-        } catch (error) {
-            if (error instanceof ErrorUseCase) {
-                throw new InternalServerErrorException(error.message, error.code);
-            }
-            throw new BadRequestException(error.message);
-        }
+    async register(@Body() dto: CreateUserDtoRequest): Promise<CreateUserDtoResponse> {
+
+        const user = await this.command.execute<User>(new CreateUserCommand(
+            dto.username,
+            dto.password,
+            dto.email
+        ));
+        return new CreateUserDtoResponse(user);
     }
 
     @Put("/update")
     @Permissions(PERMISSIONS.UPDATE_USER.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
     async update(@Body() dto: UpdateUserDtoRequest): Promise<UpdateUserDtoResponse> {
-        try {
-            console.log('DTO recibido en el controlador:', dto);
-            const user = await this.updateUser.update(dto);
-            return new UpdateUserDtoResponse(user);
-        } catch (error) {
-            if (error instanceof ErrorUseCase) {
-                throw new InternalServerErrorException(error.message, error.code);
+        const user = await this.command.execute<User>(new UpdateUserCommand({
+            id: dto.id, 
+            data: {
+                username: dto.username,
+                email: dto.email,
+                active: dto.active
             }
-            throw new BadRequestException(error.message);
-        }
+        }));
+        return new UpdateUserDtoResponse(user);
     }
 
-   
-    @Get()
-    @Permissions(PERMISSIONS.READ_USERS.name)
-    @UseGuards(JwtAuthGuard, AccessGuard)
-    async getAll(): Promise<GetUserDtoResponse[]> {
-        try {
-            const users = await this.getUsers.getAll();
-            return users.map(user => new GetUserDtoResponse(user));
-        } catch (error) {
-            if (error instanceof ErrorUseCase) {
-                throw new InternalServerErrorException(error.message, error.code);
-            }
-            
-            throw new BadRequestException(error.message);
-        }
-    }
-
-    @Get(":id")
-    @Permissions(PERMISSIONS.READ_USERS.name)
-    @UseGuards(JwtAuthGuard, AccessGuard)
-    async getOne(@Param('id',UserIdPipe) id: string): Promise<GetUserDtoResponse> {
-        try {
-            const user = await this.getUsers.getOne(id);
-            return new GetUserDtoResponse(user);
-        } catch (error) {
-            if (error instanceof ErrorUseCase) {
-                throw new InternalServerErrorException(error.message, error.code);
-            }
-            throw new BadRequestException(error.message);
-        }
-    }
-    
-    
     @Delete(":id")
     @Permissions(PERMISSIONS.DELETE_USER.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
     async delete(@Param('id', UserIdPipe) id: string): Promise<GetUserDtoResponse> {
-        try {
-            const user = await this.deleteUser.delete(id);
-            return new GetUserDtoResponse(user);
-        } catch (error) {
-            if (error instanceof ErrorUseCase) {
-                throw new InternalServerErrorException(error.message, error.code);
-            }
-            throw new BadRequestException(error.message);
-        }
-    }
-
-   
-    @Post("/login")
-    async login(@Body() dto: AuthUserDtoRequest): Promise<AuthUserDtoResponse> {
-        try {
-            const authUser = await this.authUser.login(dto);
-            return new AuthUserDtoResponse(authUser);
-        } catch (error) {
-            if (error instanceof ErrorUseCase) {
-                throw new InternalServerErrorException(error.message, error.code);
-            }
-            throw new BadRequestException(error.message);
-        }
+        const user = await this.command.execute<User>(new DeleteUserCommand({ id }));
+        return new GetUserDtoResponse(user);
     }
 }

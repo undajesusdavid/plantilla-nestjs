@@ -2,9 +2,9 @@
 import { seedUsers, SeedUsersToken } from "../../seeders/seedUsers";
 
 export const Seeders = [
-  { provide: SeedUsersToken, useValue: seedUsers },
+  //{ provide: SeedUsersToken, useValue: seedUsers },
 ]
 
 export const SeedersExport = [
-  SeedUsersToken
+  //SeedUsersToken
 ]

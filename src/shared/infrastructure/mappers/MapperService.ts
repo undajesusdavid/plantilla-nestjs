@@ -1,12 +1,12 @@
-export abstract class MapperService<M, E> {
+export abstract class MapperService<Domain, Persistence> {
         
-    abstract toEntity(model: M): E;
-    abstract toModel(entity: E): M;
+    abstract toDomain(persistence: Persistence): Domain;
+    abstract toPersistence(entity: Domain): Persistence;
 
-    public toEntityList(models: M[]): E[] {
-        return models.map(model => this.toEntity(model));
+    public toDomainList(persistences: Persistence[]): Domain[] {
+        return persistences.map(persistence => this.toDomain(persistence));
     }
-    public toModelList(entities: E[]): M[] {
-        return entities.map(entity => this.toModel(entity));
+    public toPersistenceList(entities: Domain[]): Persistence[] {
+        return entities.map(entity => this.toPersistence(entity));
     }
 }

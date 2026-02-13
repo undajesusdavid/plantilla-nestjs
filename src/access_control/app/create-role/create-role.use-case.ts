@@ -1,13 +1,13 @@
-import { CreateRolePropsInput } from "./create-role.props";
 import { RoleRepository } from "../../core/role/RoleRepository";
 import { PermissionRepository } from "../../core/permission/PermissionRepository";
 import { IUuidService } from "src/shared/core/interfaces/uuid-service.interface";
 import { Role } from "../../core/role/Role";
 import { IUnitOfWork } from "src/shared/core/interfaces/unit-of-work.interface";
 import { BaseUseCase } from "src/shared/app/use-cases/base.use-case";
+import { CreateRoleCommand } from "./create-role.command";
 
 
-export class CreateRoleUseCase extends BaseUseCase<CreateRolePropsInput, Role> {
+export class CreateRoleUseCase extends BaseUseCase<CreateRoleCommand, Role> {
 
     constructor(
         private uow: IUnitOfWork,
@@ -18,12 +18,14 @@ export class CreateRoleUseCase extends BaseUseCase<CreateRolePropsInput, Role> {
         super();
     }
 
-    protected async internalExecute(props: CreateRolePropsInput): Promise<Role> {
+    protected async internalExecute(command: CreateRoleCommand): Promise<Role> {
+
+        const props = command.props;
 
         return this.uow.runInTransaction(async () => {
 
             // Verificamos si ya existe un rol con el mismo nombre
-            const existRole = await this.roleRepo.getOneByName(props.name);
+            const existRole = await this.roleRepo.findByName(props.name);
             if (existRole) {
                 throw new Error(`Ya existe un rol con el nombre ${props.name}`);
             }

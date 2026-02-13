@@ -1,8 +1,8 @@
 import { Transform, Type } from "class-transformer";
 import { IsDefined, IsString, IsArray, ArrayNotEmpty, IsInt, Min } from "class-validator";
-import { CreateRolePropsInput } from "src/access_control/app/create-role/create-role.props";
 
-export class RoleDtoCreate implements CreateRolePropsInput {
+
+export class RoleDtoCreate {
 
     @IsDefined({ message: "El nombre del rol es obligatorio" })
     @IsString({ message: "El nombre del rol debe ser de tipo string" })

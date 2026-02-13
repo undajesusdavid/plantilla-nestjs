@@ -1,4 +1,4 @@
-import { RoleMapper } from "../../mappers/RoleMapper";
+import { RoleMapper } from "../../mappers/role-mapper.sequelize";
 
 
 export const Mappers = [

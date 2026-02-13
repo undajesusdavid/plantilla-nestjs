@@ -1,50 +1,52 @@
 // Servicios Externos
-import { UuidServiceImp } from '../../../../shared/infrastructure/services/UuidServiceImp';
+
 // Servicios
-import { UserRepositoryImp } from '../../services/UserRepositoryImp';
-import { HashedServiceImp } from '../../services/HashedServiceImp';
-import { AuthTokenServiceImp } from '../../services/AuthTokenServiceImp';
-// Casos de Uso
-import { CreateUserImp } from '../../../app/user-create/CreateUserImp';
-import { CreateUserToken } from '../../../app/user-create/CreateUser';
-import { UpdateUserImp } from '../../../app/user-update/UpdateUserImp';
-import { UpdateUserToken } from '../../../app/user-update/UpdateUser';
-import { GetUsersImp } from '../../../app/get-users/GetUsersImp';
-import { GetUsersToken } from '../../../app/get-users/GetUsers';
-import { DeleteUserImp } from '../../../app/user-delete/DeleteUserImp';
-import { DeleteUserToken } from '../../../app/user-delete/DeleteUser';
-import { AuthUserImp } from '../../../app/user-auth/AuthUserImp';
-import { AuthUserToken } from '../../../app/user-auth/AuthUser';
+import { USER_REPOSITORY, UserRepository } from 'src/users/core/contracts/UserRepository'; 
+import { HASHED_SERVICE, HashedService } from 'src/users/core/contracts/HashedService';
+import { AUTH_TOKEN_SERVICE, AuthTokenService } from 'src/users/core/contracts/AuthTokenService';
 import { UUID_SERVICE, IUuidService } from 'src/shared/core/interfaces/uuid-service.interface';
+// Casos de Uso
+
+import { GetUserUseCase } from 'src/users/app/get-user/get-user.use-case';
+import { GetUsersUseCase } from 'src/users/app/get-users/get-users.use-case';
+import { AuthUserUseCase } from 'src/users/app/auth-user/auth-user.use-case';
+import { CreateUserUseCase } from 'src/users/app/create-user/create-user.use-case';
+import { UpdateUserUseCase } from 'src/users/app/update-user/update-user.use-case';
+import { DeleteUserUseCase } from 'src/users/app/delete-user/delete-user.use-case';
 
 
 export const UseCases = [
     {
-        provide: CreateUserToken,
-        useFactory: (repo: UserRepositoryImp, uuid: IUuidService, hash: HashedServiceImp) =>
-            new CreateUserImp(repo, uuid, hash),
-        inject: [UserRepositoryImp, UUID_SERVICE, HashedServiceImp],
+        provide: GetUserUseCase,
+        useFactory: (repo: UserRepository) => new GetUserUseCase(repo),
+        inject: [USER_REPOSITORY],
     },
     {
-        provide: UpdateUserToken,
-        useFactory: (repo: UserRepositoryImp) => new UpdateUserImp(repo),
-        inject: [UserRepositoryImp],
+        provide: CreateUserUseCase,
+        useFactory: (repo: UserRepository, uuid: IUuidService, hash: HashedService) =>
+            new CreateUserUseCase(repo, uuid, hash),
+        inject: [USER_REPOSITORY, UUID_SERVICE, HASHED_SERVICE],
     },
     {
-        provide: GetUsersToken,
-        useFactory: (repo: UserRepositoryImp) => new GetUsersImp(repo),
-        inject: [UserRepositoryImp],
+        provide: UpdateUserUseCase,
+        useFactory: (repo: UserRepository) => new UpdateUserUseCase(repo),
+        inject: [USER_REPOSITORY],
     },
     {
-        provide: DeleteUserToken,
-        useFactory: (repo: UserRepositoryImp) => new DeleteUserImp(repo),
-        inject: [UserRepositoryImp],
+        provide: GetUsersUseCase,
+        useFactory: (repo: UserRepository) => new GetUsersUseCase(repo),
+        inject: [USER_REPOSITORY],
     },
     {
-        provide: AuthUserToken,
-        useFactory: (repo: UserRepositoryImp, authToken: AuthTokenServiceImp, hashed: HashedServiceImp) =>
-            new AuthUserImp(repo, authToken, hashed),
-        inject: [UserRepositoryImp, AuthTokenServiceImp, HashedServiceImp],
+        provide: DeleteUserUseCase,
+        useFactory: (repo: UserRepository) => new DeleteUserUseCase(repo),
+        inject: [USER_REPOSITORY],
+    },
+    {
+        provide: AuthUserUseCase,
+        useFactory: (repo: UserRepository, authToken: AuthTokenService, hashed: HashedService) =>
+            new AuthUserUseCase(repo, authToken, hashed),
+        inject: [USER_REPOSITORY, AUTH_TOKEN_SERVICE, HASHED_SERVICE],
     },
 ];
 

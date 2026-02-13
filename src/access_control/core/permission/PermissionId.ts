@@ -2,13 +2,13 @@
 
 export class PermissionID {
     
-    constructor(private value : number){}
-
-    static create(newValue : number): PermissionID {
-        return new PermissionID(newValue);
+    constructor(private value : number){
+        
     }
 
-    toString(): number{
+    
+
+    getValue(): number{
         return this.value;
     }
 }

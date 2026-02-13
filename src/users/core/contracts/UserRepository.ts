@@ -1,13 +1,12 @@
+import { IBaseRepository } from "src/shared/core/interfaces/base-repository.interface";
 import { User } from "src/users/core/entities/User";
 
-export interface UserRepository {
+export const USER_REPOSITORY = Symbol("UserRepository");
+
+export interface UserRepository extends IBaseRepository<User, string> {
 
     create(user: User): Promise<boolean>;
-    update(id:string, user: User): Promise<boolean>
-    getAll(): Promise<User[]>
-    getOneById(id: string): Promise<User | null>
-    getOneByUsername(username: string): Promise<User | null>
-    delete(id: string) : Promise<boolean>
+    findByUsername(username: string): Promise<User | null>
     usernameExists(username: string): Promise<boolean>;
     emailExists(email: string): Promise<boolean>;
 }

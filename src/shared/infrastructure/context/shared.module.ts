@@ -1,29 +1,50 @@
 import { Module } from "@nestjs/common";
+//ORMS
+import { TypeOrmModuleConfig } from "../persistence/typeorm/typeorm.config"; // TypeORM
+import { SequelizeConfigService } from "../persistence/sequelize/sequealize.config"; // Sequelize
+
+// PATRON COMMAND BUS
+import { COMMAND_BUS } from "src/shared/app/bus/command-bus";
+import { NestCommandBus } from "../bus/nestjs-bus/nest-command-bus"; // Nestjs
+
+// PATRON  QUERY BUS
+import { QUERY_BUS } from "src/shared/app/bus/query-bus";
+import { NestQueryBus } from "../bus/nestjs-bus/nest-query-bus"; // Nestjs
+
+// PATRON UNIT OF WORK
+import { UNIT_OF_WORK } from "../../core/interfaces/unit-of-work.interface";
+import { SequelizeUnitOfWork } from "../persistence/sequelize/sequealize.unit-of-work"; // Sequelize
+
+// SERVICIOS PERZONALIZADOS
 import { UuidServiceImp } from "../services/UuidServiceImp";
 import { UUID_SERVICE } from "src/shared/core/interfaces/uuid-service.interface";
 
 
-
-import { SequealizeModule } from "../persistence/sequelize/sequealize.module";
-import { UNIT_OF_WORK } from "../../core/interfaces/unit-of-work.interface";
-import { SequelizeUnitOfWork } from "../persistence/sequelize/sequealize-unit-of-work.service";
-
-
 @Module({
     imports: [
-        SequealizeModule,
+        SequelizeConfigService,
+        TypeOrmModuleConfig,
     ],
     providers: [
+        {
+            provide: UNIT_OF_WORK,
+            useClass: SequelizeUnitOfWork,
+        },
+        {
+            provide: COMMAND_BUS,
+            useClass: NestCommandBus,
+        },
+        {
+            provide: QUERY_BUS,
+            useClass: NestQueryBus,
+        },
         {
             provide: UUID_SERVICE,
             useClass: UuidServiceImp,
         },
-        {
-            provide: UNIT_OF_WORK,
-            useClass: SequelizeUnitOfWork,
-        }
+
     ],
-    exports: [UUID_SERVICE, UNIT_OF_WORK],
+    exports: [UNIT_OF_WORK, UUID_SERVICE, COMMAND_BUS, QUERY_BUS],
 
 })
 export class SharedModule { }

@@ -1,14 +1,14 @@
 
 import {MapperService} from "src/shared/infrastructure/mappers/MapperService";
 import { User } from "src/users/core/entities/User";
-import { UserModel } from "../models/user.sequelize";
+import { UserModel } from "../models/sequelize/user.sequelize";
 import { UserID } from "src/users/core/entities/value-objects/UserID";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class UserMapper extends MapperService<UserModel, User> {
+export class UserMapper extends MapperService< User, UserModel> {
 
-    toEntity(model: UserModel): User {
+    toDomain(model: UserModel): User {
 
         const roles = model.roles ? model.roles.map(r => r.name) : [];
         const permissions = model.roles ? model.roles.flatMap(r => r.permissions.map(perm => perm.name)) : [];
@@ -25,7 +25,7 @@ export class UserMapper extends MapperService<UserModel, User> {
         return user;
     }
 
-    toModel(entity: User): UserModel {
+    toPersistence(entity: User): UserModel {
         const model = UserModel.build({
             id: entity.getId().toString(),
             username: entity.getUsername(),

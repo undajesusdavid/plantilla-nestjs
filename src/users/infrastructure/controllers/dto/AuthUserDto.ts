@@ -1,8 +1,9 @@
 import { Transform } from "class-transformer";
 import { IsDefined, IsString } from "class-validator";
-import { AuthUserPropsInput, AuthUserPropsOutput } from "src/users/app/user-auth/AuthUserProps";
+import { AuthUserResponse } from "src/users/app/auth-user/auth-user.response";
 
-export class AuthUserDtoRequest implements AuthUserPropsInput {
+
+export class AuthUserDtoRequest {
 
     //--------------------------------------------------------------------------
     @IsDefined({ message: 'El nombre de usuario es obligatorio' })
@@ -23,7 +24,7 @@ export class AuthUserDtoResponse {
     id: string;
     username: string;
 
-    constructor(auth: AuthUserPropsOutput) {
+    constructor(auth: AuthUserResponse) {
         this.token = auth.token;
         this.id = auth.id;
         this.username = auth.username;

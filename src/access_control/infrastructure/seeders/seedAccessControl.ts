@@ -3,8 +3,8 @@ import { Op, Transaction } from "sequelize";
 import { PERMISSIONS } from "../../core/rules/Permission.seeds";
 import { ROLES } from "../../core/rules/roles.seeds";
 //MODELS
-import { RoleModel } from "../models/role.sequelize";
-import { PermissionModel } from "../models/permission.sequelize";
+import { RoleModel } from "../models/sequelize/role.sequelize";
+import { PermissionModel } from "../models/sequelize/permission.sequelize";
 import { UuidServiceImp } from "src/shared/infrastructure/services/UuidServiceImp";
 
 export const seedAccessControlToken = "seedAccessControl";
@@ -29,9 +29,9 @@ export async function seedAccessControl(transaction: Transaction) {
 
 const populateTables = async (transaction: Transaction) => {
     // Poblar permisos con UPSERT (Postgres)
-    const permissionsData = Object.values(PERMISSIONS).map((p) => ({
-        name: p.name,
-        description: p.description,
+    const permissionsData = Object.values(PERMISSIONS).map((permitions) => ({
+        name: permitions.name,
+        description: permitions.description,
         isActive: true,
     }));
 

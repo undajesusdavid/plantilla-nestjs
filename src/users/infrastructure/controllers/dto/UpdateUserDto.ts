@@ -2,10 +2,10 @@ import { Transform } from "class-transformer";
 import { IsBoolean, IsDefined, IsEmail, IsOptional, IsString, MinLength } from "class-validator";
 import { ToBoolean } from "src/shared/infrastructure/decorators/transform/ToBoolean";
 import { IsUUIDv7 } from "src/shared/infrastructure/decorators/validation/IsUUIDv7";
-import { UpdateUserProps } from "src/users/app/user-update/UpdateUserProps";
+
 import { User } from "src/users/core/entities/User";
 
-export class UpdateUserDtoRequest implements UpdateUserProps {
+export class UpdateUserDtoRequest {
     
     @IsDefined({ message: 'El id es obligatorio' })
     @IsString({ message: 'El id debe ser de tipo string' })

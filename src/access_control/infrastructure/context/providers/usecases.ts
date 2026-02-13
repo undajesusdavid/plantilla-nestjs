@@ -5,18 +5,14 @@ import { PERMISSION_REPOSITORY, PermissionRepository } from "src/access_control/
 import { UUID_SERVICE, IUuidService } from "src/shared/core/interfaces/uuid-service.interface";
 
 // Use Cases
-import { CREATE_ROLE } from "src/access_control/app/create-role/create-role.constants";
 import { CreateRoleUseCase } from "src/access_control/app/create-role/create-role.use-case";
-
-import { DELETE_ROLE } from "src/access_control/app/delete-role/delete-role.constants";
 import { DeleteRoleUseCase } from "src/access_control/app/delete-role/delete-role.use-case";
-import { UPDATE_ROLE } from "src/access_control/app/role-update/update-role.constants";
-import { UpdateRoleUseCase } from "src/access_control/app/role-update/update-role.use-case";
+import { UpdateRoleUseCase } from "src/access_control/app/update-role/update-role.use-case";
 
 
 export const UseCases = [
     {
-        provide: CREATE_ROLE,
+        provide: CreateRoleUseCase,
         useFactory: (
             uow: IUnitOfWork,
             uuid: IUuidService, 
@@ -27,7 +23,7 @@ export const UseCases = [
         inject: [UNIT_OF_WORK, UUID_SERVICE, ROLE_REPOSITORY, PERMISSION_REPOSITORY],
     },
     {
-        provide: UPDATE_ROLE,
+        provide: UpdateRoleUseCase,
         useFactory: (
             r: RoleRepository,
             p: PermissionRepository,
@@ -35,14 +31,14 @@ export const UseCases = [
         inject: [ROLE_REPOSITORY, PERMISSION_REPOSITORY, UNIT_OF_WORK],
     },
     {
-        provide: DELETE_ROLE,
+        provide: DeleteRoleUseCase,
         useFactory: (roleRepo: RoleRepository) => new DeleteRoleUseCase(roleRepo),
         inject: [ROLE_REPOSITORY],
     },
 ];
 
 export const UseCaseExport = [
-    CREATE_ROLE,
-    UPDATE_ROLE,
-    DELETE_ROLE
+    CreateRoleUseCase,
+    UpdateRoleUseCase,
+    DeleteRoleUseCase
 ]

@@ -1,13 +1,12 @@
-import { PermissionID } from "src/access_control/core/permission/PermissionId";
-import { PermissionModel } from "src/access_control/infrastructure/models/permission.sequelize";
+import { Permission } from "./Permission";
+import { IBaseRepository } from "src/shared/core/interfaces/base-repository.interface";
 
 export const PERMISSION_REPOSITORY = Symbol("PermissionRepository");
 
-export interface PermissionRepository {
-    getAll(): Promise<PermissionModel[]>;
-    getOneById(id: PermissionID): Promise<PermissionModel | null>;
-    getOneByName(name: string): Promise<PermissionModel | null>;
-    changePermissionStatus(id: PermissionID, status: boolean): Promise<boolean>;
+export interface PermissionRepository extends IBaseRepository<Permission, number> {
+  
+    findByName(name: string): Promise<Permission | null>;
+    changePermissionStatus(id: string, status: boolean): Promise<boolean>;
     findExistingIds(ids: number[]): Promise<number[]>;
 }
 

@@ -1,5 +1,5 @@
-import { PermissionRepositoryImp } from '../../services/PermissionRepositoryImp';
-import { RoleRepositoryImp } from '../../services/RoleRepositoryImp';
+import { PermissionRepositoryImp } from '../../repositories/sequelize/PermissionRepositoryImp';
+import { RoleRepositoryImp } from '../../repositories/sequelize/RoleRepositoryImp';
 import { ROLE_REPOSITORY } from 'src/access_control/core/role/RoleRepository';
 import { PERMISSION_REPOSITORY } from 'src/access_control/core/permission/PermissionRepository';
 

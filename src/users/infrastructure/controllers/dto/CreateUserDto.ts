@@ -1,9 +1,9 @@
-import { CreateUserProps } from "src/users/app/user-create/CreateUserProps";
+
 import { IsString, IsEmail, MinLength,  IsDefined } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { User } from "src/users/core/entities/User";
 
-export class CreateUserDtoRequest implements CreateUserProps {
+export class CreateUserDtoRequest {
   //--------------------------------------------------------------------------------
   @IsDefined({ message: 'El nombre de usuario es obligatorio' })
   @IsString({ message: 'El nombre de usuario debe ser de tipo string' })

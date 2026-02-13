@@ -1,31 +1,29 @@
 import { RoleRepository } from "src/access_control/core/role/RoleRepository";
-import { ErrorUseCase } from "src/shared/app/errors/ErrorUseCase";
 import { Role } from "../../core/role/Role";
 import { BaseUseCase } from "src/shared/app/use-cases/base.use-case";
+import { DeleteRoleCommand } from "./delete-role.command";
+import { NotFoundError } from "src/shared/core/errors/app-error";
 
-export class DeleteRoleUseCase extends BaseUseCase<string, Role> {
+export class DeleteRoleUseCase extends BaseUseCase<DeleteRoleCommand, Role> {
 
     constructor(
-        private readonly roleRepo : RoleRepository
-    ){
+        private readonly roleRepo: RoleRepository
+    ) {
         super();
     }
 
-    protected async internalExecute(id: string): Promise<Role> {
+    protected async internalExecute(command: DeleteRoleCommand): Promise<Role> {
 
-        const role = await this.roleRepo.getOneById(id);
+        const { id } = command.props;
+        const role = await this.roleRepo.findById(id);
 
-        if(!role) {
-            throw new ErrorUseCase("No existe el Role que desea eliminar");
+        if (!role) {
+            throw new NotFoundError("Role", id);
         }
 
-        const processDelete = await this.roleRepo.delete(id);
-
-        if(!processDelete){
-            throw new ErrorUseCase("Ocurrio un error, no se pudo eliminar");
-        }
+        await this.roleRepo.delete(command.props.id);
 
         return role;
     }
-} 
+}
 

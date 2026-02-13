@@ -18,3 +18,10 @@ export class AlreadyExistsError extends AppError {
         super(`${entity} con valor "${value}" ya existe.`, 'ALREADY_EXISTS');
     }
 }
+
+// Recurso no encontrado (404)
+export class NotFoundError extends AppError {
+    constructor(entity: string, value: string) {
+        super(`${entity} con valor "${value}" no fue encontrado.`, 'NOT_FOUND');
+    }
+}

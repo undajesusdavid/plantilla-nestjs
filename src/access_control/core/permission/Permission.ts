@@ -22,7 +22,7 @@ export class Permission {
     }
 
     getId(): number {
-        return this.id.toString();
+        return this.id.getValue();
     }
 
     getName(): string {
