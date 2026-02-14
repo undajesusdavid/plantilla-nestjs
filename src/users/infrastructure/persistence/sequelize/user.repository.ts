@@ -50,7 +50,7 @@ export class SequelizeUserRepository extends BaseSequelizeRepository<User, UserM
       throw new ErrorRepositoryService(
         'Error al intentar obtener el usuario por por la propiedad username',
         'USER_GET_BY_USERNAME_FAILED',
-        { originalError: error, class: this.constructor.name, method: "getOneByUsername" }
+        { originalError: error, class: this.constructor.name, method: "findByUsername" }
       );
     }
 

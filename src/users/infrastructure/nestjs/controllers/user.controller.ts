@@ -8,13 +8,13 @@ import { AuthUserRequestDto, AuthUserDtoResponse } from '../dto/auth-user-reques
 
 // Import Guards
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { AccessGuard } from 'src/access_control/infrastructure/nestjs/guards/access.guard';
+import { AccessGuard } from 'src/roles/infrastructure/nestjs/guards/access.guard';
 // Import Pipes
 import { UserIdPipe } from '../pipes/user-id.pipe';
 // Custom decorators
-import { Permissions } from 'src/access_control/infrastructure/nestjs/decorators/permissions.decorator';
+import { Permissions } from 'src/permissions/infrastructure/nestjs/decorators/permissions.decorator';
 // Import Permissions
-import { PERMISSIONS } from 'src/access_control/core/rules/Permission.seeds';
+import { PERMISSIONS } from 'src/roles/core/Permission.seeds';
 // import uses case
 
 // Import CommandBus and QueryBus
@@ -60,7 +60,6 @@ export class UserController {
     async login(@Body() dto: AuthUserRequestDto): Promise<AuthUserDtoResponse> {
         const authUser = await this.command.execute<AuthUserResponse>(new AuthUserCommand(dto.username, dto.password));
         return new AuthUserDtoResponse(authUser);
-
     }
 
     @Post("/create")
@@ -76,12 +75,15 @@ export class UserController {
         return new CreateUserDtoResponse(user);
     }
 
-    @Put("/update")
+    @Put("update/:id")
     @Permissions(PERMISSIONS.UPDATE_USER.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
-    async update(@Body() dto: UpdateUserRequestDto): Promise<UpdateUserDtoResponse> {
+    async update(
+        @Param('id', UserIdPipe) id: string, 
+        @Body() dto: UpdateUserRequestDto
+    ): Promise<UpdateUserDtoResponse> {
         const user = await this.command.execute<User>(new UpdateUserCommand({
-            id: dto.id, 
+            id: id, 
             data: {
                 username: dto.username,
                 email: dto.email,
@@ -91,7 +93,7 @@ export class UserController {
         return new UpdateUserDtoResponse(user);
     }
 
-    @Delete(":id")
+    @Delete("delete/:id")
     @Permissions(PERMISSIONS.DELETE_USER.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
     async delete(@Param('id', UserIdPipe) id: string): Promise<GetUserDtoResponse> {

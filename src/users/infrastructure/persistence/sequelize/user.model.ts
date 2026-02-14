@@ -1,5 +1,5 @@
 import { Table, Column, Model, DataType, Unique, BelongsToMany } from 'sequelize-typescript';
-import { SequelizeRoleModel } from 'src/access_control/infrastructure/persistence/sequelize/role.model';
+import { SequelizeRoleModel } from 'src/roles/infrastructure/persistence/sequelize/role.model';
 import { SequelizeUserRoleModel } from './user_roles.model';
 
 export interface UserModelAttributes {

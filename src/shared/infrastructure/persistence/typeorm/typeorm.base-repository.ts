@@ -2,14 +2,14 @@
 import { Repository, ObjectLiteral, EntityManager, In } from 'typeorm';
 import { IBaseRepository } from "src/shared/core/interfaces/base-repository.interface";
 import { transactionStorage } from 'src/shared/infrastructure/persistence/sequelize/sequealize.transaction-context';
-import { MapperService } from '../../mappers/MapperService';
+import { BaseMapper } from '../../base/mapper/base.mapper';
 
 export abstract class BaseTypeOrmRepository<TDomain, TEntity extends ObjectLiteral, ID = string | number>
     implements IBaseRepository<TDomain, ID> {
 
     constructor(
         protected readonly repository: Repository<TEntity>,
-        protected readonly mapper: MapperService<TDomain, TEntity>
+        protected readonly mapper: BaseMapper<TDomain, TEntity>
     ) { }
 
 

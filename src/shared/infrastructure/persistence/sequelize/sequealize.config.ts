@@ -21,6 +21,16 @@ export const SequelizeConfigService = SequelizeModule.forRootAsync({
             //database: config.get<string>('DB_NAME'),
             autoLoadModels: true,
             synchronize: true,
+            logging: (sql: string) => {
+                const uppercaseSql = sql.toUpperCase();
+                if (
+                    uppercaseSql.includes('BEGIN') ||
+                    uppercaseSql.includes('COMMIT') ||
+                    uppercaseSql.includes('ROLLBACK')
+                ) {
+                    console.log(`[DB-TX] ${sql}`);
+                }
+            }
         }
     },
 })

@@ -1,10 +1,10 @@
-import { Inject, Logger, Module, OnModuleInit } from '@nestjs/common';
+import { Inject, Module } from '@nestjs/common';
 
 // CONTROLLERS
 import { UserController } from '../controllers/user.controller';
 
 // IMPORTS
-import { SharedModule } from 'src/shared/infrastructure/context/shared.module';
+import { SharedModule } from "src/shared/infrastructure/nestjs-api/context/shared.module";
 import { PersistenceModels } from './imports/persistence-models.import';
 
 // EXPORTS
@@ -18,9 +18,9 @@ import { MappersProvider } from './providers/mappers.provider';
 
 
 //PATRON BUS
-import { NestCommandBus } from 'src/shared/infrastructure/bus/nestjs-bus/nest-command-bus';
+import { NestCommandBus } from 'src/shared/infrastructure/nestjs-api/bus/nest-command-bus';
 import { COMMAND_BUS } from 'src/shared/app/bus/command-bus';
-import { NestQueryBus } from 'src/shared/infrastructure/bus/nestjs-bus/nest-query-bus';
+import { NestQueryBus } from 'src/shared/infrastructure/nestjs-api/bus/nest-query-bus';
 import { QUERY_BUS } from 'src/shared/app/bus/query-bus';
 
 // QUERYS, COMMANDS Y USE-CASES PARA EL PATRON BUS
@@ -36,11 +36,12 @@ import { UpdateUserCommand } from 'src/users/app/update-user/update-user.command
 import { UpdateUserUseCase } from 'src/users/app/update-user/update-user.use-case';
 import { DeleteUserCommand } from 'src/users/app/delete-user/delete-user.command';
 import { DeleteUserUseCase } from 'src/users/app/delete-user/delete-user.use-case';
+import { NestBaseModule } from 'src/shared/infrastructure/nestjs-api/bus/base-module';
 
 
 @Module({
   imports: [
-    SharedModule, 
+    SharedModule,
     ...PersistenceModels
   ],
   controllers: [
@@ -52,33 +53,26 @@ import { DeleteUserUseCase } from 'src/users/app/delete-user/delete-user.use-cas
     ...MappersProvider
   ],
   exports: [
-    ...ServiceExports, 
+    ...ServiceExports,
     ...UseCaseExports
   ]
 })
-export class UserModule implements OnModuleInit {
+export class UserModule extends NestBaseModule {
 
   constructor(
-    @Inject(COMMAND_BUS) private readonly commandBus: NestCommandBus,
-    @Inject(QUERY_BUS) private readonly queryBus: NestQueryBus
-  ) { }
-
-  onModuleInit() {
-    this.commandBusRegister();
-    this.queryBusRegister();
-    const logger = new Logger('Module');
-    logger.log('Modulo usuarios inicializado');
-  }
+    @Inject(COMMAND_BUS) commandBus: NestCommandBus,
+    @Inject(QUERY_BUS) queryBus: NestQueryBus
+  ) { super("Usuarios", commandBus, queryBus) }
 
 
-  commandBusRegister() {
+  protected registerCommands() {
     this.commandBus.register(AuthUserCommand, AuthUserUseCase);
     this.commandBus.register(CreateUserCommand, CreateUserUseCase);
     this.commandBus.register(UpdateUserCommand, UpdateUserUseCase);
     this.commandBus.register(DeleteUserCommand, DeleteUserUseCase);
   }
 
-  queryBusRegister() {
+  protected registerQueries() {
     this.queryBus.register(GetUserQuery, GetUserUseCase);
     this.queryBus.register(GetUsersQuery, GetUsersUseCase);
   }

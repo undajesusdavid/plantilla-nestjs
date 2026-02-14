@@ -46,6 +46,7 @@ export class User {
     getEmail(): string {
         return this.email;
     }
+    
     getRoles(): string[] {
         return this.roles;
     }

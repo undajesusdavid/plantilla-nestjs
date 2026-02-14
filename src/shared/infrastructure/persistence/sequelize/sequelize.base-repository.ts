@@ -1,15 +1,15 @@
 import { Model, ModelStatic } from 'sequelize-typescript';
-import { Transaction } from 'sequelize';
+import { Op, Transaction } from 'sequelize';
 import { IBaseRepository } from "src/shared/core/interfaces/base-repository.interface";
 import { transactionStorage } from './sequealize.transaction-context';
-import { MapperService } from '../../mappers/MapperService';
+import { BaseMapper } from '../../base/mapper/base.mapper';
 
 export abstract class BaseSequelizeRepository<TDomain, TAttributes, TModel extends Model, ID = string | number>
     implements IBaseRepository<TDomain, ID> {
 
     constructor(
         protected readonly model: ModelStatic<TModel>,
-        protected readonly mapper: MapperService<TDomain, TAttributes>,
+        protected readonly mapper: BaseMapper<TDomain, TAttributes>,
     ) { }
 
 
@@ -30,7 +30,7 @@ export abstract class BaseSequelizeRepository<TDomain, TAttributes, TModel exten
         return this.mapper.toDomainList(records.map(record => record.get({ plain: true })));
     }
 
-    findAllPaginated(limit: number, offset: number): Promise<{ rows: TDomain[]; count: number; }> {
+    async findAllPaginated(limit: number, offset: number): Promise<{ rows: TDomain[]; count: number; }> {
         throw new Error('Method not implemented.');
     }
 
@@ -43,8 +43,11 @@ export abstract class BaseSequelizeRepository<TDomain, TAttributes, TModel exten
 
     async checkIdsExistence(ids: ID[]): Promise<{ existingIds: ID[]; missingIds: ID[]; }> {
         const records = await this.modelEntity.findAll({
-            where: { id: ids },
+            where: {
+                id: { [Op.in]: ids }
+            },
             attributes: ['id'],
+            raw: true,
             transaction: this.currentTransaction
         });
 

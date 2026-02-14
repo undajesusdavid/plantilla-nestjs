@@ -6,7 +6,7 @@ import {
     ManyToMany,
     JoinTable
 } from 'typeorm';
-import { TypeormRoleModel } from '../../../../access_control/infrastructure/persistence/typeorm/role.model';
+import { TypeormRoleModel } from '../../../../roles/infrastructure/persistence/typeorm/role.model';
 
 @Entity('usuarios')
 export class UserOrmEntity {

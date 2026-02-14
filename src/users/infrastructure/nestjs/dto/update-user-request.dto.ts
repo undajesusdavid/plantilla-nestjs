@@ -1,17 +1,17 @@
 import { Transform } from "class-transformer";
 import { IsBoolean, IsDefined, IsEmail, IsOptional, IsString, MinLength } from "class-validator";
-import { ToBoolean } from "src/shared/infrastructure/decorators/transform/ToBoolean";
-import { IsUUIDv7 } from "src/shared/infrastructure/decorators/validation/IsUUIDv7";
+import { ToBoolean } from "src/shared/infrastructure/base/decorators/transform/ToBoolean";
+//import { IsUUIDv7 } from "src/shared/infrastructure/base/decorators/validation/IsUUIDv7";
 
 import { User } from "src/users/core/entities/User";
 
 export class UpdateUserRequestDto {
     
-    @IsDefined({ message: 'El id es obligatorio' })
+    /*@IsDefined({ message: 'El id es obligatorio' })
     @IsString({ message: 'El id debe ser de tipo string' })
     @IsUUIDv7({ message: 'El id debe ser un UUID válido' })
     @Transform(({ value }) => typeof value === 'string' ? value.trim() : value)
-    id: string;
+    id: string;*/
     //--------------------------------------------------------------------------------
     @IsOptional()
     @IsString({ message: 'El nombre de usuario debe ser de tipo string' })
