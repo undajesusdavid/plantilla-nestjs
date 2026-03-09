@@ -1,11 +1,15 @@
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator';
 import validator from 'validator';
 
 /**
  * Decorador personalizado para validar que un campo sea UUID versión 7
  */
 export function IsUUIDv7(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'isUUIDv7',
       target: object.constructor,

@@ -5,12 +5,9 @@ import { SequelizePermissionModel } from '../../../../../permissions/infrastruct
 import { SequelizeRolePermissionModel } from '../../../persistence/sequelize/role_permission.model';
 
 const SequelizeModels = SequelizeModule.forFeature([
-    SequelizeRoleModel,
-    SequelizePermissionModel,
-    SequelizeRolePermissionModel
-])
+  SequelizeRoleModel,
+  SequelizePermissionModel,
+  SequelizeRolePermissionModel,
+]);
 
-
-export const PersistenceModels = [
-    SequelizeModels
-]
+export const PersistenceModels = [SequelizeModels];

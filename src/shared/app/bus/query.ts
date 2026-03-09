@@ -1,3 +1,3 @@
 export interface Query {
-    // Interfaz marcadora para consultas (lecturas)
+  // Interfaz marcadora para consultas (lecturas)
 }

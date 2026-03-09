@@ -1,8 +1,7 @@
-import { Query } from "./query";
+import { Query } from './query';
 
 export const QUERY_BUS = Symbol('QueryBus');
 
-
 export interface QueryBus {
-    execute<T>(query: Query): Promise<T>; 
+  execute<T>(query: Query): Promise<T>;
 }

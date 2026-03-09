@@ -1,3 +1,3 @@
 export interface Command {
-    // Interfaz marcadora
+  // Interfaz marcadora
 }

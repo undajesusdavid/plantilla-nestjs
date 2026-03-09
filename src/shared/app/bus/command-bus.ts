@@ -1,9 +1,7 @@
-import { Command } from "./command";
+import { Command } from './command';
 
 export const COMMAND_BUS = Symbol('CommandBus');
 
-
-
 export interface CommandBus {
-    execute<T>(command: Command): Promise<T>;
+  execute<T>(command: Command): Promise<T>;
 }

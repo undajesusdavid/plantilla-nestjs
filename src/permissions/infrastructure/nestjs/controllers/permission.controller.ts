@@ -1,9 +1,6 @@
 import { Controller } from '@nestjs/common';
 
-
 @Controller('permission')
 export class PermissionController {
-    constructor(){ }
-
-
+  constructor() {}
 }

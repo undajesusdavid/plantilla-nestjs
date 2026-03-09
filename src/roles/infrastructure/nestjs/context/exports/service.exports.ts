@@ -1,6 +1,3 @@
+import { ROLE_REPOSITORY } from 'src/roles/core/contracts/RoleRepository';
 
-import { ROLE_REPOSITORY } from "src/roles/core/RoleRepository";
-
-export const ServiceExports = [
-    ROLE_REPOSITORY
-]
+export const ServiceExports = [ROLE_REPOSITORY];

@@ -1,9 +1,9 @@
-import { Model } from "sequelize-typescript";
-import { BelongsToMany, Column, DataType, Table } from "sequelize-typescript";
-import { SequelizePermissionModel } from '../../../../permissions/infrastructure/persistence/sequelize/permission.model';
-import { SequelizeUserModel } from "src/users/infrastructure/persistence/sequelize/user.model";
-import { SequelizeUserRoleModel } from "src/users/infrastructure/persistence/sequelize/user_roles.model";
-import { SequelizeRolePermissionModel } from "./role_permission.model";
+import { Model } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, Table } from 'sequelize-typescript';
+import { SequelizePermissionModel } from 'src/permissions/infrastructure/persistence/sequelize/permission.model';
+import { SequelizeUserModel } from 'src/users/infrastructure/persistence/sequelize/user.model';
+import { SequelizeUserRoleModel } from 'src/users/infrastructure/persistence/sequelize/user_roles.model';
+import { SequelizeRolePermissionModel } from './role_permission.model';
 
 export interface RoleModelAttributes {
   id: string;
@@ -16,8 +16,7 @@ export interface RoleModelAttributes {
 
 @Table({ tableName: 'ac_roles' })
 export class SequelizeRoleModel extends Model<RoleModelAttributes> {
-
- @Column({
+  @Column({
     type: DataType.UUID,
     primaryKey: true,
     allowNull: false,
@@ -33,9 +32,12 @@ export class SequelizeRoleModel extends Model<RoleModelAttributes> {
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: true })
   declare isActive: boolean;
 
-  @BelongsToMany(() => SequelizePermissionModel, () => SequelizeRolePermissionModel) 
+  @BelongsToMany(
+    () => SequelizePermissionModel,
+    () => SequelizeRolePermissionModel,
+  )
   declare permissions: SequelizePermissionModel[];
 
-  @BelongsToMany(() => SequelizeUserModel, () => SequelizeUserRoleModel) 
+  @BelongsToMany(() => SequelizeUserModel, () => SequelizeUserRoleModel)
   declare users: SequelizeUserModel[];
 }

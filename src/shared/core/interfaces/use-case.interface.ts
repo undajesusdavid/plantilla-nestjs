@@ -1,5 +1,5 @@
-export const USE_CASE = Symbol("UseCase");
+export const USE_CASE = Symbol('UseCase');
 
 export interface IUseCase<TRequest, TResponse> {
-    execute(request: TRequest): Promise<TResponse>;
+  execute(request: TRequest): Promise<TResponse>;
 }

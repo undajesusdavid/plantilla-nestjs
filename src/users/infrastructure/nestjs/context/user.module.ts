@@ -4,7 +4,7 @@ import { Inject, Module } from '@nestjs/common';
 import { UserController } from '../controllers/user.controller';
 
 // IMPORTS
-import { SharedModule } from "src/shared/infrastructure/nestjs-api/context/shared.module";
+import { SharedModule } from 'src/shared/infrastructure/adapters/nest/context/shared.module';
 import { PersistenceModels } from './imports/persistence-models.import';
 
 // EXPORTS
@@ -16,11 +16,10 @@ import { ServicesProvider } from './providers/services.provider';
 import { UseCasesProvider } from './providers/use-cases.provider';
 import { MappersProvider } from './providers/mappers.provider';
 
-
 //PATRON BUS
-import { NestCommandBus } from 'src/shared/infrastructure/nestjs-api/bus/nest-command-bus';
+import { NestCommandBus } from 'src/shared/infrastructure/adapters/nest/bus/nest-command-bus';
 import { COMMAND_BUS } from 'src/shared/app/bus/command-bus';
-import { NestQueryBus } from 'src/shared/infrastructure/nestjs-api/bus/nest-query-bus';
+import { NestQueryBus } from 'src/shared/infrastructure/adapters/nest/bus/nest-query-bus';
 import { QUERY_BUS } from 'src/shared/app/bus/query-bus';
 
 // QUERYS, COMMANDS Y USE-CASES PARA EL PATRON BUS
@@ -36,34 +35,21 @@ import { UpdateUserCommand } from 'src/users/app/update-user/update-user.command
 import { UpdateUserUseCase } from 'src/users/app/update-user/update-user.use-case';
 import { DeleteUserCommand } from 'src/users/app/delete-user/delete-user.command';
 import { DeleteUserUseCase } from 'src/users/app/delete-user/delete-user.use-case';
-import { NestBaseModule } from 'src/shared/infrastructure/nestjs-api/bus/base-module';
-
+import { NestBaseModule } from 'src/shared/infrastructure/adapters/nest/bus/base-module';
 
 @Module({
-  imports: [
-    SharedModule,
-    ...PersistenceModels
-  ],
-  controllers: [
-    UserController
-  ],
-  providers: [
-    ...ServicesProvider,
-    ...UseCasesProvider,
-    ...MappersProvider
-  ],
-  exports: [
-    ...ServiceExports,
-    ...UseCaseExports
-  ]
+  imports: [SharedModule, ...PersistenceModels],
+  controllers: [UserController],
+  providers: [...ServicesProvider, ...UseCasesProvider, ...MappersProvider],
+  exports: [...ServiceExports, ...UseCaseExports],
 })
 export class UserModule extends NestBaseModule {
-
   constructor(
     @Inject(COMMAND_BUS) commandBus: NestCommandBus,
-    @Inject(QUERY_BUS) queryBus: NestQueryBus
-  ) { super("Usuarios", commandBus, queryBus) }
-
+    @Inject(QUERY_BUS) queryBus: NestQueryBus,
+  ) {
+    super('Usuarios', commandBus, queryBus);
+  }
 
   protected registerCommands() {
     this.commandBus.register(AuthUserCommand, AuthUserUseCase);

@@ -1,7 +1,3 @@
-import { SequelizeUserMapper } from "../../../persistence/sequelize/user.mapper";
+import { SequelizeUserMapper } from '../../../persistence/sequelize/user.mapper';
 
-
-export const MappersProvider = [
-   SequelizeUserMapper,
-]
-
+export const MappersProvider = [SequelizeUserMapper];

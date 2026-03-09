@@ -1,6 +1,3 @@
-import { PERMISSION_REPOSITORY } from "src/permissions/core/PermissionRepository";
+import { PERMISSION_REPOSITORY } from 'src/permissions/core/contracts/PermissionRepository';
 
-
-export const ServiceExports = [
-    PERMISSION_REPOSITORY
-]
+export const ServiceExports = [PERMISSION_REPOSITORY];

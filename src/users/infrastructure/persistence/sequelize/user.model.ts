@@ -1,4 +1,11 @@
-import { Table, Column, Model, DataType, Unique, BelongsToMany } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  Unique,
+  BelongsToMany,
+} from 'sequelize-typescript';
 import { SequelizeRoleModel } from 'src/roles/infrastructure/persistence/sequelize/role.model';
 import { SequelizeUserRoleModel } from './user_roles.model';
 
@@ -14,10 +21,13 @@ export interface UserModelAttributes {
 @Table({
   createdAt: false,
   updatedAt: false,
-  tableName: "usuarios"
+  tableName: 'usuarios',
   // opcional, si no usas createdAt/updatedAt
 })
-export class SequelizeUserModel extends Model<UserModelAttributes> implements UserModelAttributes {
+export class SequelizeUserModel
+  extends Model<UserModelAttributes>
+  implements UserModelAttributes
+{
   @Column({
     type: DataType.UUID,
     primaryKey: true,
@@ -39,7 +49,6 @@ export class SequelizeUserModel extends Model<UserModelAttributes> implements Us
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: true })
   declare active: boolean;
 
-  @BelongsToMany(() => SequelizeRoleModel, () => SequelizeUserRoleModel) 
+  @BelongsToMany(() => SequelizeRoleModel, () => SequelizeUserRoleModel)
   declare roles: SequelizeRoleModel[];
-
 }

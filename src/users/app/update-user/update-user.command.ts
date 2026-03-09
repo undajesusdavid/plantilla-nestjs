@@ -1,4 +1,4 @@
-import { Command } from "src/shared/app/bus/command";
+import { Command } from 'src/shared/app/bus/command';
 
 interface UpdateUserProps {
   readonly id: string;
@@ -10,7 +10,5 @@ interface UpdateUserProps {
 }
 
 export class UpdateUserCommand implements Command {
-    constructor(
-        public readonly props: UpdateUserProps
-    ) {}   
+  constructor(public readonly props: UpdateUserProps) {}
 }
