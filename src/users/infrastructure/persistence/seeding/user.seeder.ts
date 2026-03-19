@@ -22,7 +22,7 @@ export class UserSeeder implements Seeder {
     private readonly roleRepository: RoleRepository,
     @Inject(UUID_SERVICE)
     private readonly uuidService: IUuidService,
-  ) {}
+  ) { }
 
   async run(): Promise<void> {
     const users = Object.values(USERS);
@@ -30,21 +30,22 @@ export class UserSeeder implements Seeder {
     for (const u of users) {
       const existing = await this.userRepository.findByUsername(u.username);
       if (!existing) {
-        // Buscamos el ID del rol por su nombre
-        const role = await this.roleRepository.findByName(u.role);
-        if (!role) {
-          throw new Error(`Rol ${u.role} no encontrado para el usuario ${u.username}`);
-        }
 
         const user = new User({
           id: this.uuidService.generateUUID(),
           username: u.username,
           email: u.email,
           password: this.hashedService.hashed(u.password),
-          active: u.active,
-          roles: [role.getId()],
+          active: u.active
         });
         await this.userRepository.save(user);
+
+        // Buscamos el ID del rol por su nombre
+        const role = await this.roleRepository.findByName(u.role);
+        if (!role) {
+          throw new Error(`Rol ${u.role} no encontrado para el usuario ${u.username}`);
+        }
+        await this.userRepository.assingRoles(user.getId(), [role.getId()])
       }
     }
   }

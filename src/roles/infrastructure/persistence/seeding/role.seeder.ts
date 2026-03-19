@@ -18,7 +18,7 @@ export class RoleSeeder implements Seeder {
     private readonly permissionRepository: PermissionRepository,
     @Inject(UUID_SERVICE)
     private readonly uuidService: IUuidService,
-  ) {}
+  ) { }
 
   async run(): Promise<void> {
     const roles = Object.values(ROLES);
@@ -34,11 +34,13 @@ export class RoleSeeder implements Seeder {
         });
         await this.roleRepository.save(role);
 
-        // Si es el rol root, le asignamos todos los permisos disponibles
+        // Si es el rol root, le asignamos el permiso *
         if (r.name === 'root') {
-          const allPermissions = await this.permissionRepository.findAll();
-          const permissionIds = allPermissions.map((p) => p.getId());
-          await this.roleRepository.assignPermissions(role.getId(), permissionIds);
+          const allPermissions = await this.permissionRepository.findByName("*");
+          if (allPermissions) {
+            const permissionId = allPermissions.getId();
+            await this.roleRepository.assignPermissions(role.getId(), [permissionId]);
+          }
         }
       }
     }

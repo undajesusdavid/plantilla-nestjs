@@ -23,6 +23,8 @@ export class AccessGuard implements CanActivate {
       throw new UnauthorizedException('User not authenticated');
     }
 
+    //console.log(user);
+
     if (user?.permissions.includes('*')) {
       return true;
     }
@@ -38,7 +40,7 @@ export class AccessGuard implements CanActivate {
 
     if (!hasPermission()) {
       throw new UnauthorizedException(
-        'El usuario no posee el permiso requerido',
+        `El usuario no posee el permiso requerido`,
       );
     }
 

@@ -15,8 +15,7 @@ export class SequelizeUserRepository
     SequelizeUserModel,
     string
   >
-  implements UserRepository
-{
+  implements UserRepository {
   constructor(
     @InjectModel(SequelizeUserModel)
     private readonly userModel: typeof SequelizeUserModel,
@@ -99,6 +98,27 @@ export class SequelizeUserRepository
           originalError: error,
           class: this.constructor.name,
           method: 'emailExists',
+        },
+      );
+    }
+  }
+
+  async assingRoles(userId: string, RoleIds: string[]): Promise<void> {
+    try {
+      const user = await this.userModel.findByPk(userId);
+      if(!user){
+        throw new Error("No existe el usuario");
+      }
+      await user.$set('roles', RoleIds);
+
+    } catch (error) {
+      throw new ErrorRepositoryService(
+        'Error al intentar asignar roles al usuario',
+        'ASSING_ROLES_FAILED',
+        {
+          originalError: error,
+          class: this.constructor.name,
+          method: 'assingRoles',
         },
       );
     }

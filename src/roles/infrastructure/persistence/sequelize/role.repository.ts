@@ -57,6 +57,7 @@ export class SequelizeRoleRepository
         method: 'assignPermissions',
       });
     }
+    
     try {
       await role.$set('permissions', permissionIds);
     } catch (error) {
