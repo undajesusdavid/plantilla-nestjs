@@ -29,19 +29,21 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       status = HttpStatus.BAD_REQUEST;
       message = 'Error de relación: Referencia no encontrada';
       code = 'DB_FOREIGN_KEY_ERROR';
-    } else if (
-      exception.getStatus &&
-      typeof exception.getStatus === 'function'
-    ) {
+
+    } else if (typeof exception.getStatus === 'function') {
+
       status = exception.getStatus();
-      message = exception.message;
+      const res = exception.getResponse() as any;
+      message = res.message || res;
+      code = res.error || 'VALIDATION_ERROR';
     }
 
+    // Respuesta final
     response.status(status).json({
       success: false,
       error: {
         code,
-        message,
+        message, 
         timestamp: new Date().toISOString(),
       },
     });
