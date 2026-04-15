@@ -4,6 +4,7 @@ import { User } from 'src/users/core/entities/User';
 import { UserRepository } from 'src/users/core/contracts/UserRepository';
 import { IUuidService } from 'src/shared/core/interfaces/uuid-service.interface';
 import { HashedService } from 'src/users/core/contracts/HashedService';
+import { DuplicateUsernameError, DuplicateEmailError } from '../errors';
 
 export class CreateUserUseCase extends BaseUseCase<CreateUserCommand, User> {
   constructor(
@@ -19,12 +20,12 @@ export class CreateUserUseCase extends BaseUseCase<CreateUserCommand, User> {
 
     const usernameExists = await this.userRepo.usernameExists(username);
     if (usernameExists) {
-      throw new Error('El nombre de usuario ya existe');
+      throw new DuplicateUsernameError(username);
     }
 
     const emailExists = await this.userRepo.emailExists(email);
     if (emailExists) {
-      throw new Error('El email ya existe');
+      throw new DuplicateEmailError(email);
     }
 
     const id = this.uuidService.generateUUID();

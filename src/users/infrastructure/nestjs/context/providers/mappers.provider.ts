@@ -1,3 +1,3 @@
-import { SequelizeUserMapper } from '../../../persistence/sequelize/user.mapper';
+import { TypeormUserMapper } from '../../../persistence/typeorm/user.mapper';
 
-export const MappersProvider = [SequelizeUserMapper];
+export const MappersProvider = [TypeormUserMapper];

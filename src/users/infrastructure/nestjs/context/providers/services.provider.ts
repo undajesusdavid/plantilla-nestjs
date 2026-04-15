@@ -1,4 +1,4 @@
-import { SequelizeUserRepository } from '../../../persistence/sequelize/user.repository';
+import { TypeormUserRepository } from '../../../persistence/typeorm/user.repository';
 import { USER_REPOSITORY } from 'src/users/core/contracts/UserRepository';
 
 import { HashedServiceImp } from '../../../services/HashedServiceImp';
@@ -10,7 +10,7 @@ import { AUTH_TOKEN_SERVICE } from 'src/users/core/contracts/AuthTokenService';
 export const ServicesProvider = [
   {
     provide: USER_REPOSITORY,
-    useClass: SequelizeUserRepository,
+    useClass: TypeormUserRepository,
   },
   {
     provide: HASHED_SERVICE,

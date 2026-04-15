@@ -4,6 +4,11 @@ import { AuthUserResponse } from './auth-user.response';
 import { UserRepository } from 'src/users/core/contracts/UserRepository';
 import { AuthTokenService } from 'src/users/core/contracts/AuthTokenService';
 import { HashedService } from 'src/users/core/contracts/HashedService';
+import {
+  UserNotFoundError,
+  UserInactiveError,
+  InvalidCredentialsError,
+} from '../errors';
 
 export class AuthUserUseCase extends BaseUseCase<
   AuthUserCommand,
@@ -22,15 +27,15 @@ export class AuthUserUseCase extends BaseUseCase<
 
     const user = await this.userRepo.findByUsername(username);
     if (!user) {
-      throw new Error('Nombre de usuario invalido');
+      throw new UserNotFoundError(username);
     }
     if (!user.isActive()) {
-      throw new Error('El usuario no esta activo');
+      throw new UserInactiveError(user.getId());
     }
 
     const isPassword = this.hashed.compare(password, user.getPassword());
     if (!isPassword) {
-      throw new Error('La contraseña es invalida');
+      throw new InvalidCredentialsError();
     }
 
     const userId = user.getId();

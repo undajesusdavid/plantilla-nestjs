@@ -1,7 +1,6 @@
-//Models de Sequelize
-import { SequelizeModule } from '@nestjs/sequelize';
-import { SequelizePermissionModel } from '../../../../../permissions/infrastructure/persistence/sequelize/permission.model';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeormPermissionModel } from '../../../persistence/typeorm/permission.model';
 
-const SequelizeModels = SequelizeModule.forFeature([SequelizePermissionModel]);
+const TypeormModels = TypeOrmModule.forFeature([TypeormPermissionModel]);
 
-export const PersistenceModels = [SequelizeModels];
+export const PersistenceModels = [TypeormModels];

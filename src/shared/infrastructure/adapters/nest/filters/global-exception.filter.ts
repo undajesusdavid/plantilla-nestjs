@@ -21,11 +21,13 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       status = HttpStatus.BAD_REQUEST;
       message = exception.message;
       code = exception.code;
-    } else if (exception.name === 'SequelizeUniqueConstraintError') {
+    } else if (exception.code === 'ER_DUP_ENTRY' || exception.message?.includes('duplicate')) {
+      // TypeORM: Unique constraint violation
       status = HttpStatus.CONFLICT;
       message = 'Conflicto de duplicidad en la base de datos';
       code = 'DB_UNIQUE_CONSTRAINT';
-    } else if (exception.name === 'SequelizeForeignKeyConstraintError') {
+    } else if (exception.code === 'ER_NO_REFERENCED_ROW' || exception.message?.includes('FOREIGN KEY constraint fails')) {
+      // TypeORM: Foreign key constraint violation
       status = HttpStatus.BAD_REQUEST;
       message = 'Error de relación: Referencia no encontrada';
       code = 'DB_FOREIGN_KEY_ERROR';

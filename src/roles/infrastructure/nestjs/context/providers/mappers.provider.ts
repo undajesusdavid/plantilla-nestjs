@@ -1,3 +1,3 @@
-import { SequelizeRoleMapper } from '../../../persistence/sequelize/role.mapper';
+import { TypeormRoleMapper } from '../../../persistence/typeorm/role.mapper';
 
-export const MappersProvider = [SequelizeRoleMapper];
+export const MappersProvider = [TypeormRoleMapper];

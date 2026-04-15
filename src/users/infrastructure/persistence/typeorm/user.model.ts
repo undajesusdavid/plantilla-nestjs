@@ -24,7 +24,7 @@ export class UserOrmEntity {
    * Definimos @JoinTable aquí para que al guardar un usuario
    * podamos persistir sus roles fácilmente.
    */
-  @ManyToMany(() => TypeormRoleModel, (role) => role.users)
+  @ManyToMany(() => TypeormRoleModel, (role) => role.users, {eager: true})
   @JoinTable({
     name: 'user_roles', // Nombre de la tabla intermedia
     joinColumn: { name: 'userId', referencedColumnName: 'id' },
