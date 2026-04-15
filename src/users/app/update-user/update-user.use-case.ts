@@ -1,10 +1,12 @@
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { UpdateUserCommand } from './update-user.command';
 import { User } from 'src/users/core/entities/User';
-import { UserRepository } from 'src/users/core/contracts/UserRepository';
+import type { UserRepository } from 'src/users/core/contracts/UserRepository';
 import { UserNotFoundError, DuplicateUsernameError, DuplicateEmailError } from '../errors';
 
 export class UpdateUserUseCase extends BaseUseCase<UpdateUserCommand, User> {
+  static readonly HANDLED_COMMAND = UpdateUserCommand;
+
   constructor(private userRepo: UserRepository) {
     super();
   }

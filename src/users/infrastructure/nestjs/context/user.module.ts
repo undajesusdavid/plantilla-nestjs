@@ -48,18 +48,14 @@ export class UserModule extends NestBaseModule {
     @Inject(COMMAND_BUS) commandBus: NestCommandBus,
     @Inject(QUERY_BUS) queryBus: NestQueryBus,
   ) {
-    super('Usuarios', commandBus, queryBus);
+    super('Usuarios', commandBus, queryBus, UseCasesProvider);
   }
 
   protected registerCommands() {
-    this.commandBus.register(AuthUserCommand, AuthUserUseCase);
-    this.commandBus.register(CreateUserCommand, CreateUserUseCase);
-    this.commandBus.register(UpdateUserCommand, UpdateUserUseCase);
-    this.commandBus.register(DeleteUserCommand, DeleteUserUseCase);
+    // Los comandos se registran automáticamente mediante el decorador @CommandHandler
   }
 
   protected registerQueries() {
-    this.queryBus.register(GetUserQuery, GetUserUseCase);
-    this.queryBus.register(GetUsersQuery, GetUsersUseCase);
+    // Las consultas se registran automáticamente mediante el decorador @QueryHandler
   }
 }

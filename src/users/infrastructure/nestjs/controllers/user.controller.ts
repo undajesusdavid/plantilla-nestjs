@@ -32,6 +32,7 @@ import { AccessGuard } from 'src/shared/infrastructure/adapters/nest/security/gu
 import { UserIdPipe } from '../pipes/user-id.pipe';
 // Custom decorators
 import { Permissions } from 'src/shared/infrastructure/adapters/nest/security/decorators/permissions.decorator';
+import { CurrentUser } from 'src/shared/infrastructure/adapters/nest/security/decorators/current-user.decorator';
 // Import Permissions
 import { PERMISSIONS } from 'src/permissions/core/seeds/Permission.seeds';
 // import uses case
@@ -47,6 +48,8 @@ import { AuthUserResponse } from 'src/users/app/auth-user/auth-user.response';
 import { CreateUserCommand } from 'src/users/app/create-user/create-user.command';
 import { DeleteUserCommand } from 'src/users/app/delete-user/delete-user.command';
 import { UpdateUserCommand } from 'src/users/app/update-user/update-user.command';
+import { GetMyPermissionsQuery } from 'src/users/app/get-my-permissions/get-my-permissions.query';
+import { MyPermissionsResponse } from 'src/users/app/get-my-permissions/get-my-permissions.use-case';
 
 @Controller('users')
 export class UserController {
@@ -54,6 +57,16 @@ export class UserController {
     @Inject(COMMAND_BUS) private readonly command: CommandBus,
     @Inject(QUERY_BUS) private readonly query: QueryBus,
   ) {}
+
+  @Get('/me/permissions')
+  @UseGuards(JwtAuthGuard)
+  async getMyPermissions(
+    @CurrentUser() user: any,
+  ): Promise<MyPermissionsResponse> {
+    return await this.query.execute<MyPermissionsResponse>(
+      new GetMyPermissionsQuery(user.id),
+    );
+  }
 
   @Get()
   @Permissions(PERMISSIONS.READ_USERS.name)

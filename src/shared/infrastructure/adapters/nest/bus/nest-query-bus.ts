@@ -13,6 +13,18 @@ export class NestQueryBus implements QueryBus {
     this.handlers.set(query.name, handler);
   }
 
+  autoRegister(providers: any[]) {
+    providers.forEach((provider) => {
+      const target = typeof provider === 'function' ? provider : provider.provide;
+      if (!target) return;
+
+      const query = target.HANDLED_QUERY;
+      if (query) {
+        this.register(query, target);
+      }
+    });
+  }
+
   async execute<T>(query: Query): Promise<T> {
     const queryName = query.constructor.name;
     const handlerType = this.handlers.get(queryName);

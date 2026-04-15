@@ -38,6 +38,26 @@ export class TypeormUserRepository
     }
   }
 
+  async findById(id: string): Promise<User | null> {
+    try {
+      const record = await this.entityRepository.findOne({
+        where: { id } as any,
+        relations: ['roles', 'roles.permissions'],
+      });
+      return record ? this.mapper.toDomain(record) : null;
+    } catch (error) {
+      throw new ErrorRepositoryService(
+        'Error al intentar obtener el usuario por ID',
+        'USER_GET_BY_ID_FAILED',
+        {
+          originalError: error,
+          class: this.constructor.name,
+          method: 'findById',
+        },
+      );
+    }
+  }
+
   async findByUsername(username: string): Promise<User | null> {
     try {
       const record = await this.entityRepository

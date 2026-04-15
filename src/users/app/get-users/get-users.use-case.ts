@@ -1,8 +1,11 @@
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { User } from 'src/users/core/entities/User';
-import { UserRepository } from '../../core/contracts/UserRepository';
+import type { UserRepository } from '../../core/contracts/UserRepository';
+import { GetUsersQuery } from './get-users.query';
 
-export class GetUsersUseCase extends BaseUseCase<void, User[]> {
+export class GetUsersUseCase extends BaseUseCase<GetUsersQuery, User[]> {
+  static readonly HANDLED_QUERY = GetUsersQuery;
+
   constructor(private readonly userRepository: UserRepository) {
     super();
   }

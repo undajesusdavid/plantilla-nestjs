@@ -1,10 +1,12 @@
-import { RoleRepository } from 'src/roles/core/contracts/RoleRepository';
+import type { RoleRepository } from 'src/roles/core/contracts/RoleRepository';
 import { Role } from '../../core/entities/Role';
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { DeleteRoleCommand } from './delete-role.command';
 import { NotFoundError } from 'src/shared/core/errors/app-error';
 
 export class DeleteRoleUseCase extends BaseUseCase<DeleteRoleCommand, Role> {
+  static readonly HANDLED_COMMAND = DeleteRoleCommand;
+
   constructor(private readonly roleRepo: RoleRepository) {
     super();
   }

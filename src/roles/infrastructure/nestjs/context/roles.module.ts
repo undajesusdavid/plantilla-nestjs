@@ -44,13 +44,11 @@ export class RolesModule extends NestBaseModule {
     @Inject(COMMAND_BUS) commandBus: NestCommandBus,
     @Inject(QUERY_BUS) queryBus: NestQueryBus,
   ) {
-    super('Roles', commandBus, queryBus);
+    super('Roles', commandBus, queryBus, UseCasesProvider);
   }
 
   protected registerCommands(): void {
-    this.commandBus.register(CreateRoleCommand, CreateRoleUseCase);
-    this.commandBus.register(DeleteRoleCommand, DeleteRoleUseCase);
-    this.commandBus.register(UpdateRoleCommand, UpdateRoleUseCase);
+    // Los comandos se registran automáticamente mediante el decorador @CommandHandler
   }
 
   protected registerQueries(): void {}

@@ -13,6 +13,18 @@ export class NestCommandBus implements CommandBus {
     this.handlers.set(command.name, useCase);
   }
 
+  autoRegister(providers: any[]) {
+    providers.forEach((provider) => {
+      const target = typeof provider === 'function' ? provider : provider.provide;
+      if (!target) return;
+
+      const command = target.HANDLED_COMMAND;
+      if (command) {
+        this.register(command, target);
+      }
+    });
+  }
+
   async execute<T>(command: Command): Promise<T> {
     const useCaseType = this.handlers.get(command.constructor.name);
     if (!useCaseType) {

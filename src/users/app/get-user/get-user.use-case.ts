@@ -1,12 +1,14 @@
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { User } from 'src/users/core/entities/User';
-import { UserRepository } from '../../core/contracts/UserRepository';
+import type { UserRepository } from '../../core/contracts/UserRepository';
 import { NotFoundError } from 'src/shared/core/errors/app-error';
 import { GetUserQuery } from './get-user.query';
 
 export const GETUSER_USERCASE = Symbol('GetUserUseCase');
 
 export class GetUserUseCase extends BaseUseCase<GetUserQuery, User> {
+  static readonly HANDLED_QUERY = GetUserQuery;
+
   constructor(private readonly userRepository: UserRepository) {
     super();
   }

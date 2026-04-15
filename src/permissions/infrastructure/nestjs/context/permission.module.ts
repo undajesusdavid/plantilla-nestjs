@@ -32,7 +32,7 @@ export class PermissionModule extends NestBaseModule {
     @Inject(COMMAND_BUS) commandBus: NestCommandBus,
     @Inject(QUERY_BUS) queryBus: NestQueryBus,
   ) {
-    super('Permissions', commandBus, queryBus);
+    super('Permissions', commandBus, queryBus, UseCasesProvider);
   }
 
   protected registerCommands(): void {

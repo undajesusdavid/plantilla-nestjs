@@ -1,13 +1,15 @@
 import { Role } from '../../core/entities/Role';
-import { PermissionRepository } from 'src/permissions/core/contracts/PermissionRepository';
+import type { PermissionRepository } from 'src/permissions/core/contracts/PermissionRepository';
 
-import { RoleRepository } from 'src/roles/core/contracts/RoleRepository';
-import { IUnitOfWork } from 'src/shared/core/interfaces/unit-of-work.interface';
+import type { RoleRepository } from 'src/roles/core/contracts/RoleRepository';
+import type { IUnitOfWork } from 'src/shared/core/interfaces/unit-of-work.interface';
 import { ErrorUseCase } from 'src/shared/app/errors/ErrorUseCase';
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { UpdateRoleCommand } from './update-role.command';
 
 export class UpdateRoleUseCase extends BaseUseCase<UpdateRoleCommand, Role> {
+  static readonly HANDLED_COMMAND = UpdateRoleCommand;
+
   constructor(
     private roleRepo: RoleRepository,
     private permissionRepo: PermissionRepository,

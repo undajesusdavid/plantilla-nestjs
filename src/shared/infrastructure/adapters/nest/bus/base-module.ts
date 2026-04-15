@@ -8,11 +8,14 @@ export abstract class NestBaseModule implements OnModuleInit {
     protected readonly moduleName: string,
     protected readonly commandBus: NestCommandBus,
     protected readonly queryBus: NestQueryBus,
+    protected readonly providers: any[] = [],
   ) {
     this.logger = new Logger(moduleName);
   }
 
   onModuleInit() {
+    this.commandBus.autoRegister(this.providers);
+    this.queryBus.autoRegister(this.providers);
     this.registerCommands();
     this.registerQueries();
     this.logger.log(`Módulo ${this.moduleName} inicializado`);

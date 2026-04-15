@@ -1,12 +1,14 @@
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { CreateUserCommand } from './create-user.command';
 import { User } from 'src/users/core/entities/User';
-import { UserRepository } from 'src/users/core/contracts/UserRepository';
-import { IUuidService } from 'src/shared/core/interfaces/uuid-service.interface';
-import { HashedService } from 'src/users/core/contracts/HashedService';
+import type { UserRepository } from 'src/users/core/contracts/UserRepository';
+import type { IUuidService } from 'src/shared/core/interfaces/uuid-service.interface';
+import type { HashedService } from 'src/users/core/contracts/HashedService';
 import { DuplicateUsernameError, DuplicateEmailError } from '../errors';
 
 export class CreateUserUseCase extends BaseUseCase<CreateUserCommand, User> {
+  static readonly HANDLED_COMMAND = CreateUserCommand;
+
   constructor(
     private userRepo: UserRepository,
     private uuidService: IUuidService,

@@ -1,9 +1,9 @@
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { AuthUserCommand } from './auth-user.command';
 import { AuthUserResponse } from './auth-user.response';
-import { UserRepository } from 'src/users/core/contracts/UserRepository';
-import { AuthTokenService } from 'src/users/core/contracts/AuthTokenService';
-import { HashedService } from 'src/users/core/contracts/HashedService';
+import type { UserRepository } from 'src/users/core/contracts/UserRepository';
+import type { AuthTokenService } from 'src/users/core/contracts/AuthTokenService';
+import type { HashedService } from 'src/users/core/contracts/HashedService';
 import {
   UserNotFoundError,
   UserInactiveError,
@@ -14,6 +14,8 @@ export class AuthUserUseCase extends BaseUseCase<
   AuthUserCommand,
   AuthUserResponse
 > {
+  static readonly HANDLED_COMMAND = AuthUserCommand;
+
   constructor(
     private userRepo: UserRepository,
     private authToken: AuthTokenService,
@@ -43,7 +45,6 @@ export class AuthUserUseCase extends BaseUseCase<
     const token = await this.authToken.auth({
       id: userId,
       username: userName,
-      permissions: user.getPermissions(),
     });
 
     return {

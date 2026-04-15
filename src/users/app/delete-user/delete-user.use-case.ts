@@ -1,10 +1,12 @@
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { DeleteUserCommand } from './delete-user.command';
 import { User } from 'src/users/core/entities/User';
-import { UserRepository } from 'src/users/core/contracts/UserRepository';
+import type { UserRepository } from 'src/users/core/contracts/UserRepository';
 import { NotFoundError } from 'src/shared/core/errors/app-error';
 
 export class DeleteUserUseCase extends BaseUseCase<DeleteUserCommand, User> {
+  static readonly HANDLED_COMMAND = DeleteUserCommand;
+
   constructor(private userRepo: UserRepository) {
     super();
   }

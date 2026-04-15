@@ -25,8 +25,14 @@ import { AuthUserUseCase } from 'src/users/app/auth-user/auth-user.use-case';
 import { CreateUserUseCase } from 'src/users/app/create-user/create-user.use-case';
 import { UpdateUserUseCase } from 'src/users/app/update-user/update-user.use-case';
 import { DeleteUserUseCase } from 'src/users/app/delete-user/delete-user.use-case';
+import { GetMyPermissionsUseCase } from 'src/users/app/get-my-permissions/get-my-permissions.use-case';
 
 export const UseCasesProvider = [
+  {
+    provide: GetMyPermissionsUseCase,
+    useFactory: (repo: UserRepository) => new GetMyPermissionsUseCase(repo),
+    inject: [USER_REPOSITORY],
+  },
   {
     provide: GetUserUseCase,
     useFactory: (repo: UserRepository) => new GetUserUseCase(repo),

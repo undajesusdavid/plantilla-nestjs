@@ -1,12 +1,14 @@
-import { RoleRepository } from 'src/roles/core/contracts/RoleRepository';
-import { PermissionRepository } from 'src/permissions/core/contracts/PermissionRepository';
-import { IUuidService } from 'src/shared/core/interfaces/uuid-service.interface';
+import type { RoleRepository } from 'src/roles/core/contracts/RoleRepository';
+import type { PermissionRepository } from 'src/permissions/core/contracts/PermissionRepository';
+import type { IUuidService } from 'src/shared/core/interfaces/uuid-service.interface';
 import { Role } from '../../core/entities/Role';
-import { IUnitOfWork } from 'src/shared/core/interfaces/unit-of-work.interface';
+import type { IUnitOfWork } from 'src/shared/core/interfaces/unit-of-work.interface';
 import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
 import { CreateRoleCommand } from './create-role.command';
 
 export class CreateRoleUseCase extends BaseUseCase<CreateRoleCommand, Role> {
+  static readonly HANDLED_COMMAND = CreateRoleCommand;
+
   constructor(
     private uow: IUnitOfWork,
     private uuidService: IUuidService,
