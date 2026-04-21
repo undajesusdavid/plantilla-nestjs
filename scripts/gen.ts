@@ -50,11 +50,10 @@ fs.writeFileSync(path.join(baseDir, 'core/entities', `${pascalCase(featureName)}
 // Template: Command
 const commandContent = `import { Command } from '@shared/app/bus/command';
 
-export class Create${pascalCase(featureName)}Command extends Command {
+export class Create${pascalCase(featureName)}Command implements Command {
   readonly name: string;
 
   constructor(props: { name: string }) {
-    super();
     this.name = props.name;
   }
 }
