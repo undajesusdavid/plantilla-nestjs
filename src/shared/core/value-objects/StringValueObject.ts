@@ -20,3 +20,5 @@ export abstract class StringValueObject {
     return this.value;
   }
 }
+
+

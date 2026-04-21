@@ -1,7 +1,7 @@
 import { Injectable, Type } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { CommandBus } from 'src/shared/app/bus/command-bus';
-import { Command } from 'src/shared/app/bus/command';
+import { CommandBus } from '@shared/app/bus/command-bus';
+import { Command } from '@shared/app/bus/command';
 
 @Injectable()
 export class NestCommandBus implements CommandBus {
@@ -34,3 +34,5 @@ export class NestCommandBus implements CommandBus {
     return useCase.execute(command);
   }
 }
+
+

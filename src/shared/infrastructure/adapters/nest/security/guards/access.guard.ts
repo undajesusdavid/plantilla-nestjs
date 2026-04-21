@@ -6,10 +6,10 @@ import {
   Inject,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { PERMISSIONS_KEY } from 'src/shared/infrastructure/adapters/nest/security/decorators/permissions.decorator';
-import { QUERY_BUS, type QueryBus } from 'src/shared/app/bus/query-bus';
-import { GetMyPermissionsQuery } from 'src/users/app/get-my-permissions/get-my-permissions.query';
-import { MyPermissionsResponse } from 'src/users/app/get-my-permissions/get-my-permissions.use-case';
+import { PERMISSIONS_KEY } from '@shared/infrastructure/adapters/nest/security/decorators/permissions.decorator';
+import { QUERY_BUS, type QueryBus } from '@shared/app/bus/query-bus';
+import { GetMyPermissionsQuery } from '@modules/users/app/get-my-permissions/get-my-permissions.query';
+import { MyPermissionsResponse } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
 
 @Injectable()
 export class AccessGuard implements CanActivate {
@@ -68,3 +68,5 @@ export class AccessGuard implements CanActivate {
     return true;
   }
 }
+
+

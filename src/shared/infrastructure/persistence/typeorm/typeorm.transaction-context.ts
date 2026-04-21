@@ -7,3 +7,5 @@ import { EntityManager } from 'typeorm';
  * Guardaremos aquí el EntityManager (que contiene la transacción).
  */
 export const transactionStorage = new AsyncLocalStorage<EntityManager>();
+
+

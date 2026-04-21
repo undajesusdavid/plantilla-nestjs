@@ -14,3 +14,5 @@ export function ToBoolean() {
     return value; // si ya es boolean o no coincide, se deja igual
   });
 }
+
+

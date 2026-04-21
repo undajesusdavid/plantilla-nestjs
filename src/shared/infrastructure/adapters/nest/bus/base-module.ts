@@ -24,3 +24,5 @@ export abstract class NestBaseModule implements OnModuleInit {
   protected abstract registerCommands(): void;
   protected abstract registerQueries(): void;
 }
+
+

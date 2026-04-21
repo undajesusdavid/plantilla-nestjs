@@ -4,3 +4,5 @@ export interface IUuidService {
   generateUUID(): string;
   isValidUUID(uuid: string): boolean;
 }
+
+

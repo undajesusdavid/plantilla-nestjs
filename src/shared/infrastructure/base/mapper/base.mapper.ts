@@ -9,3 +9,5 @@ export abstract class BaseMapper<Domain, Persistence> {
     return entities.map((entity) => this.toPersistence(entity));
   }
 }
+
+

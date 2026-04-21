@@ -28,3 +28,5 @@ export class NotFoundError extends AppError {
     super(`${entity} con valor "${value}" no fue encontrado.`, 'NOT_FOUND');
   }
 }
+
+

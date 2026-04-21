@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SharedModule } from './shared.module';
-import { UserModule } from 'src/users/infrastructure/nestjs/context/user.module';
-import { RolesModule } from 'src/roles/infrastructure/nestjs/context/roles.module';
-import { PermissionModule } from 'src/permissions/infrastructure/nestjs/context/permission.module';
-import { PermissionSeeder } from 'src/permissions/infrastructure/persistence/seeding/permission.seeder';
-import { RoleSeeder } from 'src/roles/infrastructure/persistence/seeding/role.seeder';
-import { UserSeeder } from 'src/users/infrastructure/persistence/seeding/user.seeder';
+import { UserModule } from '@modules/users/infrastructure/nestjs/context/user.module';
+import { RolesModule } from '@modules/roles/infrastructure/nestjs/context/roles.module';
+import { PermissionModule } from '@modules/permissions/infrastructure/nestjs/context/permission.module';
+import { PermissionSeeder } from '@modules/permissions/infrastructure/persistence/seeding/permission.seeder';
+import { RoleSeeder } from '@modules/roles/infrastructure/persistence/seeding/role.seeder';
+import { UserSeeder } from '@modules/users/infrastructure/persistence/seeding/user.seeder';
 
 @Module({
   imports: [
@@ -20,3 +20,5 @@ import { UserSeeder } from 'src/users/infrastructure/persistence/seeding/user.se
   exports: [PermissionSeeder, RoleSeeder, UserSeeder],
 })
 export class SeederModule {}
+
+

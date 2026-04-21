@@ -1,7 +1,7 @@
 // src/shared/infrastructure/persistence/typeorm/typeorm-unit-of-work.ts
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { IUnitOfWork } from 'src/shared/core/interfaces/unit-of-work.interface';
+import { IUnitOfWork } from '@shared/core/interfaces/unit-of-work.interface';
 import { transactionStorage } from './typeorm.transaction-context'; // Importamos el storage
 
 @Injectable()
@@ -33,3 +33,5 @@ export class TypeOrmUnitOfWork implements IUnitOfWork {
     }
   }
 }
+
+

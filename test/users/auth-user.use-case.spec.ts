@@ -1,14 +1,14 @@
-import { AuthUserUseCase } from 'src/users/app/auth-user/auth-user.use-case';
-import { AuthUserCommand } from 'src/users/app/auth-user/auth-user.command';
-import { UserRepository } from 'src/users/core/contracts/UserRepository';
-import { AuthTokenService } from 'src/users/core/contracts/AuthTokenService';
-import { HashedService } from 'src/users/core/contracts/HashedService';
-import { User } from 'src/users/core/entities/User';
+import { AuthUserUseCase } from '@modules/users/app/auth-user/auth-user.use-case';
+import { AuthUserCommand } from '@modules/users/app/auth-user/auth-user.command';
+import { UserRepository } from '@modules/users/core/contracts/UserRepository';
+import { AuthTokenService } from '@modules/users/core/contracts/AuthTokenService';
+import { HashedService } from '@modules/users/core/contracts/HashedService';
+import { User } from '@modules/users/core/entities/User';
 import {
   UserNotFoundError,
   InvalidCredentialsError,
   UserInactiveError,
-} from 'src/users/app/errors';
+} from '@modules/users/app/errors';
 
 // Generate a valid UUIDv7
 function generateMockUUID(): string {
@@ -135,3 +135,5 @@ describe('AuthUserUseCase', () => {
     });
   });
 });
+
+

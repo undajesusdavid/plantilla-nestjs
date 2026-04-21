@@ -1,8 +1,8 @@
 import { ArgumentsHost, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
-import { GlobalExceptionFilter } from 'src/shared/infrastructure/adapters/nest/filters/global-exception.filter';
-import { AppError } from 'src/shared/core/errors/app-error';
-import { InvalidCredentialsError } from 'src/users/app/errors';
+import { GlobalExceptionFilter } from '@shared/infrastructure/adapters/nest/filters/global-exception.filter';
+import { AppError } from '@shared/core/errors/app-error';
+import { InvalidCredentialsError } from '@modules/users/app/errors';
 
 describe('GlobalExceptionFilter', () => {
   let filter: GlobalExceptionFilter;
@@ -76,3 +76,5 @@ describe('GlobalExceptionFilter', () => {
     });
   });
 });
+
+

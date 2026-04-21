@@ -1,5 +1,5 @@
 // src/shared/app/use-cases/base.use-case.ts
-import { IUseCase } from '../../core/interfaces/use-case.interface';
+import { IUseCase } from '@shared/core/interfaces/use-case.interface';
 import { Logger, InternalServerErrorException } from '@nestjs/common';
 
 export abstract class BaseUseCase<I, O> implements IUseCase<I, O> {
@@ -43,3 +43,5 @@ export abstract class BaseUseCase<I, O> implements IUseCase<I, O> {
     throw new InternalServerErrorException('Error inesperado en el servidor');
   }
 }
+
+

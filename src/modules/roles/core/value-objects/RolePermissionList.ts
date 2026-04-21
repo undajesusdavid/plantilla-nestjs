@@ -1,0 +1,5 @@
+import { NumberListValueObject } from '@shared/core/value-objects/NumberListValueObject';
+
+export class RolePermissionList extends NumberListValueObject {}
+
+

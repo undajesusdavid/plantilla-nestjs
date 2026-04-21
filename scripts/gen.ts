@@ -11,7 +11,7 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const camelCase = (s: string) => s.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 const pascalCase = (s: string) => capitalize(camelCase(s));
 
-const baseDir = path.join(process.cwd(), 'src', featureName);
+const baseDir = path.join(process.cwd(), 'src', 'modules', featureName);
 
 const dirs = [
   'app/create-' + featureName,
@@ -48,7 +48,7 @@ export class ${pascalCase(featureName)} {
 fs.writeFileSync(path.join(baseDir, 'core/entities', `${pascalCase(featureName)}.ts`), entityContent);
 
 // Template: Command
-const commandContent = `import { Command } from 'src/shared/app/bus/command';
+const commandContent = `import { Command } from '@shared/app/bus/command';
 
 export class Create${pascalCase(featureName)}Command extends Command {
   readonly name: string;
@@ -62,9 +62,9 @@ export class Create${pascalCase(featureName)}Command extends Command {
 fs.writeFileSync(path.join(baseDir, 'app/create-' + featureName, `create-${featureName}.command.ts`), commandContent);
 
 // Template: UseCase
-const useCaseContent = `import { BaseUseCase } from 'src/shared/app/use-cases/base.use-case';
+const useCaseContent = `import { BaseUseCase } from '@shared/app/use-cases/base.use-case';
 import { Create${pascalCase(featureName)}Command } from './create-${featureName}.command';
-import { ${pascalCase(featureName)} } from '../../core/entities/${pascalCase(featureName)}';
+import { ${pascalCase(featureName)} } from '@modules/${featureName}/core/entities/${pascalCase(featureName)}';
 
 export class Create${pascalCase(featureName)}UseCase extends BaseUseCase<Create${pascalCase(featureName)}Command, ${pascalCase(featureName)}> {
   static readonly HANDLED_COMMAND = Create${pascalCase(featureName)}Command;
@@ -81,4 +81,6 @@ export class Create${pascalCase(featureName)}UseCase extends BaseUseCase<Create$
 `;
 fs.writeFileSync(path.join(baseDir, 'app/create-' + featureName, `create-${featureName}.use-case.ts`), useCaseContent);
 
-console.log(`✅ Estructura de "${featureName}" creada exitosamente en src/${featureName}`);
+console.log(`✅ Estructura de "${featureName}" creada exitosamente en src/modules/${featureName}`);
+
+

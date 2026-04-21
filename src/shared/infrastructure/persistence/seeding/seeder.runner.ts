@@ -24,3 +24,5 @@ export class SeederRunner {
     this.logger.log('🏁 Proceso de seeding finalizado.');
   }
 }
+
+

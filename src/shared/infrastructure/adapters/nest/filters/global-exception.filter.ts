@@ -5,7 +5,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { AppError } from 'src/shared/core/errors/app-error';
+import { AppError } from '@shared/core/errors/app-error';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -51,3 +51,5 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     });
   }
 }
+
+

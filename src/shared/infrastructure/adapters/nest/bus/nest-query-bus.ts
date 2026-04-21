@@ -1,7 +1,7 @@
 import { Injectable, Type } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { QueryBus } from 'src/shared/app/bus/query-bus';
-import { Query } from 'src/shared/app/bus/query';
+import { QueryBus } from '@shared/app/bus/query-bus';
+import { Query } from '@shared/app/bus/query';
 
 @Injectable()
 export class NestQueryBus implements QueryBus {
@@ -35,3 +35,5 @@ export class NestQueryBus implements QueryBus {
     return handlerInstance.execute(query);
   }
 }
+
+

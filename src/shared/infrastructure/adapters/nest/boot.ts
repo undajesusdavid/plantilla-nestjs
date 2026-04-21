@@ -1,7 +1,7 @@
 import { Logger, UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './context/app.module';
-import { GlobalExceptionFilter } from 'src/shared/infrastructure/adapters/nest/filters/global-exception.filter';
+import { GlobalExceptionFilter } from '@shared/infrastructure/adapters/nest/filters/global-exception.filter';
 
 export async function BootNest() {
   const logger = new Logger('Bootstrap');
@@ -34,3 +34,5 @@ export async function BootNest() {
     `🚀 Boilerplate API is running on: http://localhost:${port}/api/v1`,
   );
 }
+
+

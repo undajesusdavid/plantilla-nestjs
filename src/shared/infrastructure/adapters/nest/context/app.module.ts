@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SharedModule } from './shared.module';
-import { UserModule } from 'src/users/infrastructure/nestjs/context/user.module';
-import { RolesModule } from 'src/roles/infrastructure/nestjs/context/roles.module';
-import { PermissionModule } from 'src/permissions/infrastructure/nestjs/context/permission.module';
+import { UserModule } from '@modules/users/infrastructure/nestjs/context/user.module';
+import { RolesModule } from '@modules/roles/infrastructure/nestjs/context/roles.module';
+import { PermissionModule } from '@modules/permissions/infrastructure/nestjs/context/permission.module';
 
 @Module({
   imports: [
@@ -20,3 +20,5 @@ import { PermissionModule } from 'src/permissions/infrastructure/nestjs/context/
   providers: [],
 })
 export class AppModule {}
+
+

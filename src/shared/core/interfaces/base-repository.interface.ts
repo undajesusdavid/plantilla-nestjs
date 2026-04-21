@@ -23,3 +23,5 @@ export interface IBaseRepository<T, ID = string | number> {
   delete(id: ID): Promise<void>;
   deleteMany(ids: ID[]): Promise<void>;
 }
+
+

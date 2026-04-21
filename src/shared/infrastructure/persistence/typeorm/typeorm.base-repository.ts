@@ -1,8 +1,8 @@
 // src/shared/infrastructure/persistence/typeorm/base-typeorm.repository.ts
 import { Repository, ObjectLiteral, EntityManager, In } from 'typeorm';
-import { IBaseRepository } from 'src/shared/core/interfaces/base-repository.interface';
-import { transactionStorage } from 'src/shared/infrastructure/persistence/typeorm/typeorm.transaction-context';
-import { BaseMapper } from '../../base/mapper/base.mapper';
+import { IBaseRepository } from '@shared/core/interfaces/base-repository.interface';
+import { transactionStorage } from '@shared/infrastructure/persistence/typeorm/typeorm.transaction-context';
+import { BaseMapper } from '@shared/infrastructure/base/mapper/base.mapper';
 
 export abstract class BaseTypeOrmRepository<
   TDomain,
@@ -133,3 +133,5 @@ export abstract class BaseTypeOrmRepository<
     });
   }
 }
+
+
