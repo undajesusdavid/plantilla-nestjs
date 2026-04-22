@@ -1,28 +1,28 @@
 import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  Post,
-  Put,
-  UseGuards,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Inject,
+    Param,
+    Post,
+    Put,
+    UseGuards,
 } from '@nestjs/common';
 
 // Import DTO
 import {
-  CreateUserRequestDto,
-  CreateUserDtoResponse,
+    CreateUserRequestDto,
+    CreateUserDtoResponse,
 } from '@modules/users/infrastructure/nestjs/dto/create-user-request.dto';
 import {
-  UpdateUserRequestDto,
-  UpdateUserDtoResponse,
+    UpdateUserRequestDto,
+    UpdateUserDtoResponse,
 } from '@modules/users/infrastructure/nestjs/dto/update-user-request.dto';
 import { GetUserDtoResponse } from '@modules/users/infrastructure/nestjs/dto/get-user-request.dto';
 import {
-  AuthUserRequestDto,
-  AuthUserDtoResponse,
+    AuthUserRequestDto,
+    AuthUserDtoResponse,
 } from '@modules/users/infrastructure/nestjs/dto/auth-user-request.dto';
 
 // Import Guards
@@ -53,90 +53,88 @@ import { MyPermissionsResponse } from '@modules/users/app/get-my-permissions/get
 
 @Controller('users')
 export class UserController {
-  constructor(
-    @Inject(COMMAND_BUS) private readonly command: CommandBus,
-    @Inject(QUERY_BUS) private readonly query: QueryBus,
-  ) {}
+    constructor(
+        @Inject(COMMAND_BUS) private readonly command: CommandBus,
+        @Inject(QUERY_BUS) private readonly query: QueryBus,
+    ) { }
 
-  @Get('/me/permissions')
-  @UseGuards(JwtAuthGuard)
-  async getMyPermissions(
-    @CurrentUser() user: any,
-  ): Promise<MyPermissionsResponse> {
-    return await this.query.execute<MyPermissionsResponse>(
-      new GetMyPermissionsQuery(user.id),
-    );
-  }
+    @Get('/me/permissions')
+    @UseGuards(JwtAuthGuard)
+    async getMyPermissions( @CurrentUser() user: any,): Promise<MyPermissionsResponse> {
+        return await this.query.execute<MyPermissionsResponse>(
+            new GetMyPermissionsQuery(user.id),
+        );
+    }
 
-  @Get()
-  @Permissions(PERMISSIONS.READ_USERS.name)
-  @UseGuards(JwtAuthGuard, AccessGuard)
-  async getAll(): Promise<GetUserDtoResponse[]> {
-    const users = await this.query.execute<User[]>(new GetUsersQuery());
-    return users.map((user) => new GetUserDtoResponse(user));
-  }
+    @Get()
+    @Permissions(PERMISSIONS.READ_USERS.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async getAll(): Promise<GetUserDtoResponse[]> {
+        const users = await this.query.execute<User[]>(new GetUsersQuery());
+        return users.map((user) => new GetUserDtoResponse(user));
+    }
 
-  @Get(':id')
-  @Permissions(PERMISSIONS.READ_USERS.name)
-  @UseGuards(JwtAuthGuard, AccessGuard)
-  async getOne(
-    @Param('id', UserIdPipe) id: string,
-  ): Promise<GetUserDtoResponse> {
-    const user = await this.query.execute<User>(new GetUserQuery(id));
-    return new GetUserDtoResponse(user);
-  }
+    @Get(':id')
+    @Permissions(PERMISSIONS.READ_USERS.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async getOne(
+        @Param('id', UserIdPipe) id: string,
+    ): Promise<GetUserDtoResponse> {
+        const user = await this.query.execute<User>(new GetUserQuery(id));
+        return new GetUserDtoResponse(user);
+    }
 
-  @Post('/login')
-  async login(@Body() dto: AuthUserRequestDto): Promise<AuthUserDtoResponse> {
-    const authUser = await this.command.execute<AuthUserResponse>(
-      new AuthUserCommand(dto.username, dto.password),
-    );
-    return new AuthUserDtoResponse(authUser);
-  }
+    @Post('/login')
+    async login(@Body() dto: AuthUserRequestDto): Promise<AuthUserDtoResponse> {
+        const authUser = await this.command.execute<AuthUserResponse>(
+            new AuthUserCommand(dto.username, dto.password),
+        );
+        return new AuthUserDtoResponse(authUser);
+    }
 
-  @Post('/create')
-  @Permissions(PERMISSIONS.CREATE_USER.name)
-  @UseGuards(JwtAuthGuard, AccessGuard)
-  async register(
-    @Body() dto: CreateUserRequestDto,
-  ): Promise<CreateUserDtoResponse> {
-    const user = await this.command.execute<User>(
-      new CreateUserCommand(dto.username, dto.password, dto.email),
-    );
-    return new CreateUserDtoResponse(user);
-  }
+    @Post('/create')
+    @Permissions(PERMISSIONS.CREATE_USER.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async register(
+        @Body() dto: CreateUserRequestDto,
+    ): Promise<CreateUserDtoResponse> {
+        const user = await this.command.execute<User>(
+            new CreateUserCommand(dto.username, dto.password, dto.email),
+        );
+        return new CreateUserDtoResponse(user);
+    }
 
-  @Put('update/:id')
-  @Permissions(PERMISSIONS.UPDATE_USER.name)
-  @UseGuards(JwtAuthGuard, AccessGuard)
-  async update(
-    @Param('id', UserIdPipe) id: string,
-    @Body() dto: UpdateUserRequestDto,
-  ): Promise<UpdateUserDtoResponse> {
-    const user = await this.command.execute<User>(
-      new UpdateUserCommand({
-        id: id,
-        data: {
-          username: dto.username,
-          email: dto.email,
-          active: dto.active,
-        },
-      }),
-    );
-    return new UpdateUserDtoResponse(user);
-  }
+    @Put('update/:id')
+    @Permissions(PERMISSIONS.UPDATE_USER.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async update(
+        @Param('id', UserIdPipe) id: string,
+        @Body() dto: UpdateUserRequestDto,
+    ): Promise<UpdateUserDtoResponse> {
+        const user = await this.command.execute<User>(
+            new UpdateUserCommand({
+                id: id,
+                data: {
+                    username: dto.username,
+                    email: dto.email,
+                    active: dto.active,
+                },
+            }),
+        );
+        return new UpdateUserDtoResponse(user);
+    }
 
-  @Delete('delete/:id')
-  @Permissions(PERMISSIONS.DELETE_USER.name)
-  @UseGuards(JwtAuthGuard, AccessGuard)
-  async delete(
-    @Param('id', UserIdPipe) id: string,
-  ): Promise<GetUserDtoResponse> {
-    const user = await this.command.execute<User>(
-      new DeleteUserCommand({ id }),
-    );
-    return new GetUserDtoResponse(user);
-  }
+    @Delete('delete/:id')
+    @Permissions(PERMISSIONS.DELETE_USER.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async delete(
+        @Param('id', UserIdPipe) id: string,
+    ): Promise<GetUserDtoResponse> {
+        const user = await this.command.execute<User>(
+            new DeleteUserCommand({ id }),
+        );
+        return new GetUserDtoResponse(user);
+    }
 }
 
 
