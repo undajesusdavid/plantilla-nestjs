@@ -51,7 +51,7 @@ export class AccessGuard implements CanActivate {
       }
     }
 
-    if (userPermissions.includes('*')) {
+    if (userPermissions.includes('*:*')) {
       return true;
     }
 

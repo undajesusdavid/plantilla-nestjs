@@ -23,7 +23,7 @@ export class AccessGuard implements CanActivate {
       throw new UnauthorizedException('User not authenticated');
     }
 
-    if (user?.permissions.includes('*')) {
+    if (user?.permissions.includes('*:*')) {
       return true;
     }
 

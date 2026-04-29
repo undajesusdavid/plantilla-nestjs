@@ -1,5 +1,5 @@
 export const PERMISSIONS = {
-  ALL: { name: '*', description: 'Permite todos los permisos' },
+  ALL: { name: '*:*', description: 'Permite todos los permisos' },
   //Control de acceso - Roles
   CREATE_ROLE: {
     name: 'create:role',
