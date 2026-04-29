@@ -32,7 +32,7 @@ import { AccessGuard } from '@shared/infrastructure/adapters/nest/security/guard
 import { UserIdPipe } from '@modules/users/infrastructure/nestjs/pipes/user-id.pipe';
 // Custom decorators
 import { Permissions } from '@shared/infrastructure/adapters/nest/security/decorators/permissions.decorator';
-import { CurrentUser } from '@shared/infrastructure/adapters/nest/security/decorators/current-user.decorator';
+import { type TokenPayload, CurrentUser } from '@shared/infrastructure/adapters/nest/security/decorators/current-user.decorator';
 // Import Permissions
 import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
 // import uses case
@@ -60,7 +60,7 @@ export class UserController {
 
     @Get('/me/permissions')
     @UseGuards(JwtAuthGuard)
-    async getMyPermissions( @CurrentUser() user: any,): Promise<MyPermissionsResponse> {
+    async getMyPermissions( @CurrentUser() user: TokenPayload): Promise<MyPermissionsResponse> {
         return await this.query.execute<MyPermissionsResponse>(
             new GetMyPermissionsQuery(user.id),
         );
