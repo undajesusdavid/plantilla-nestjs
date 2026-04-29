@@ -2,71 +2,86 @@ export const PERMISSIONS = {
   ALL: { name: '*:*', description: 'Permite todos los permisos' },
   //Control de acceso - Roles
   CREATE_ROLE: {
-    name: 'create:role',
+    name: 'role:create',
     description: 'Permite crear nuevos roles',
   },
   READ_ROLES: {
-    name: 'read:role',
+    name: 'role:read',
     description: 'Permite leer la lista de roles',
   },
   UPDATE_ROLE: {
-    name: 'update:role',
+    name: 'role:update',
     description: 'Permite actualizar la información de un rol',
   },
-  DELETE_ROLE: { name: 'delete:role', description: 'Permite eliminar un rol' },
+  DELETE_ROLE: { name: 'role:delete', description: 'Permite eliminar un rol' },
+
   ASSIGN_ROLES: {
-    name: 'assign:role',
+    name: 'role:assign',
     description: 'Permite asignar roles a los usuarios',
   },
   STATUS_ROLE: {
-    name: 'status:role',
+    name: 'role:status',
     description: 'Permite activar o desactivar un rol',
   },
+  ALL_ROLES: {
+    name: 'role:*',
+    description: 'Permite hacer todas las acciones relacionadas con los roles',
+  },
+
   //Control de acceso - Permisos
   CREATE_PERMISSION: {
-    name: 'create:permission',
+    name: 'permission:create',
     description: 'Permite crear nuevos permisos',
   },
   READ_PERMISSIONS: {
-    name: 'read:permission',
+    name: 'permission:read',
     description: 'Permite leer la lista de permisos',
   },
   UPDATE_PERMISSION: {
-    name: 'update:permission',
+    name: 'permission:update',
     description: 'Permite actualizar la información de un permiso',
   },
   DELETE_PERMISSION: {
-    name: 'delete:permission',
+    name: 'permission:delete',
     description: 'Permite eliminar un permiso',
   },
   ASSIGN_PERMISSIONS: {
-    name: 'assign:permission',
+    name: 'permission:assign',
     description: 'Permite asignar permisos a los roles',
   },
   STATUS_PERMISSION: {
-    name: 'status:permission',
+    name: 'permission:status',
     description: 'Permite activar o desactivar un permiso',
+  },
+  ALL_PERMISSIONS: {
+    name: 'permission:*',
+    description: 'Permite hacer todas las acciones relacionadas con los permisos',
   },
   // Usuarios
   CREATE_USER: {
-    name: 'create:user',
+    name: 'user:create',
     description: 'Permite crear nuevos usuarios',
   },
   READ_USERS: {
-    name: 'read:users',
+    name: 'user:read',
     description: 'Permite leer la lista de usuarios',
   },
   UPDATE_USER: {
-    name: 'update:user',
+    name: 'user:update',
     description: 'Permite actualizar la información de un usuario',
   },
   DELETE_USER: {
-    name: 'delete:user',
+    name: 'user:delete',
     description: 'Permite eliminar un usuario',
   },
   STATUS_USER: {
-    name: 'status:user',
+    name: 'user:status',
     description: 'Permite activar o desactivar un usuario',
+  },
+  
+  ALL_USERS: {
+    name: 'user:*',
+    description: 'Permite hacer todas las acciones relacionadas con los usuarios',
   },
 } as const;
 

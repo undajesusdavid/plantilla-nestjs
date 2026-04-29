@@ -8,6 +8,7 @@ import {
   UserNotFoundError,
   UserInactiveError,
   InvalidCredentialsError,
+  InsufficientPermissionsError,
 } from '@modules/users/app/errors';
 
 export class AuthUserUseCase extends BaseUseCase<
@@ -39,6 +40,13 @@ export class AuthUserUseCase extends BaseUseCase<
     if (!isPassword) {
       throw new InvalidCredentialsError();
     }
+
+    const permissions = user.getPermissions();
+    if (permissions.length === 0) {
+      throw new InsufficientPermissionsError();
+    }
+
+
 
     const userId = user.getId();
     const userName = user.getUsername();
