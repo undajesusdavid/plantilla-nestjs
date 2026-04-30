@@ -5,7 +5,7 @@ import type { UserRepository } from '@modules/users/core/contracts/UserRepositor
 import type { AuthTokenService } from '@modules/users/core/contracts/AuthTokenService';
 import type { HashedService } from '@modules/users/core/contracts/HashedService';
 import {
-  UserNotFoundError,
+  //UserNotFoundError,
   UserInactiveError,
   InvalidCredentialsError,
   InsufficientPermissionsError,
@@ -30,15 +30,16 @@ export class AuthUserUseCase extends BaseUseCase<
 
     const user = await this.userRepo.findByUsername(username);
     if (!user) {
-      throw new UserNotFoundError(username);
+      throw new InvalidCredentialsError();
     }
-    if (!user.isActive()) {
-      throw new UserInactiveError(user.getId());
-    }
-
+  
     const isPassword = this.hashed.compare(password, user.getPassword());
     if (!isPassword) {
       throw new InvalidCredentialsError();
+    }
+
+    if (!user.isActive()) {
+      throw new UserInactiveError(user.getUsername());
     }
 
     const permissions = user.getPermissions();

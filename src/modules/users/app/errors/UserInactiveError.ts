@@ -1,9 +1,9 @@
 import { AppError } from '@shared/core/errors/app-error';
 
 export class UserInactiveError extends AppError {
-  constructor(userId: string) {
+  constructor(username: string) {
     super(
-      `Usuario ${userId} está inactivo`,
+      `El usuario "${username}" se encuentra inactivo`,
       'USER_INACTIVE',
     );
   }
