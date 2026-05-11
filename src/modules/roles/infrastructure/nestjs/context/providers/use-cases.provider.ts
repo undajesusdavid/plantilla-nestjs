@@ -17,8 +17,14 @@ import {
 import { CreateRoleUseCase } from '@modules/roles/app/create-role/create-role.use-case';
 import { DeleteRoleUseCase } from '@modules/roles/app/delete-role/delete-role.use-case';
 import { UpdateRoleUseCase } from '@modules/roles/app/update-role/update-role.use-case';
+import { GetRolesUseCase } from '@modules/roles/app/get-roles/get-roles.use-case';
 
 export const UseCasesProvider = [
+  {
+    provide: GetRolesUseCase,
+    useFactory: (repo: RoleRepository) => new GetRolesUseCase(repo),
+    inject: [ROLE_REPOSITORY],
+  },
   {
     provide: CreateRoleUseCase,
     useFactory: (

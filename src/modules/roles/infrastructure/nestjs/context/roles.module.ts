@@ -1,4 +1,4 @@
-import { Inject, Logger, Module, OnModuleInit } from '@nestjs/common';
+import { Inject, Module } from '@nestjs/common';
 
 //CONTROLLERS
 import { RoleController } from '@modules/roles/infrastructure/nestjs/controllers/role.controller';
@@ -24,13 +24,7 @@ import { QUERY_BUS } from '@shared/app/bus/query-bus';
 import { NestCommandBus } from '@shared/infrastructure/adapters/nest/bus/nest-command-bus';
 import { NestQueryBus } from '@shared/infrastructure/adapters/nest/bus/nest-query-bus';
 
-// CASOS DE USOS Y COMMANDS
-import { CreateRoleCommand } from '@modules/roles/app/create-role/create-role.command';
-import { CreateRoleUseCase } from '@modules/roles/app/create-role/create-role.use-case';
-import { DeleteRoleCommand } from '@modules/roles/app/delete-role/delete-role.command';
-import { DeleteRoleUseCase } from '@modules/roles/app/delete-role/delete-role.use-case';
-import { UpdateRoleCommand } from '@modules/roles/app/update-role/update-role.command';
-import { UpdateRoleUseCase } from '@modules/roles/app/update-role/update-role.use-case';
+
 import { NestBaseModule } from '@shared/infrastructure/adapters/nest/bus/base-module';
 
 @Module({
@@ -46,12 +40,6 @@ export class RolesModule extends NestBaseModule {
   ) {
     super('Roles', commandBus, queryBus, UseCasesProvider);
   }
-
-  protected registerCommands(): void {
-    // Los comandos se registran automáticamente mediante el decorador @CommandHandler
-  }
-
-  protected registerQueries(): void {}
 }
 
 

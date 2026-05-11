@@ -34,18 +34,6 @@ export class PermissionModule extends NestBaseModule {
   ) {
     super('Permissions', commandBus, queryBus, UseCasesProvider);
   }
-
-  protected registerCommands(): void {
-    // Register command handlers here if needed
-    // Example:
-    // this.registerCommandHandler(CreatePermissionCommand, CreatePermissionHandler);
-  }
-
-  protected registerQueries(): void {
-    // Register query handlers here if needed
-    // Example:
-    // this.registerQueryHandler(GetPermissionQuery, GetPermissionHandler);
-  }
 }
 
 

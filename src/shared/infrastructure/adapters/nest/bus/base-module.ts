@@ -16,13 +16,8 @@ export abstract class NestBaseModule implements OnModuleInit {
   onModuleInit() {
     this.commandBus.autoRegister(this.providers);
     this.queryBus.autoRegister(this.providers);
-    this.registerCommands();
-    this.registerQueries();
     this.logger.log(`Módulo ${this.moduleName} inicializado`);
   }
-
-  protected abstract registerCommands(): void;
-  protected abstract registerQueries(): void;
 }
 
 
