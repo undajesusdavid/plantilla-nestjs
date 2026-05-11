@@ -6,18 +6,21 @@ import {
   ArrayNotEmpty,
   IsInt,
   Min,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class CreateRoleRequestDto {
+  @IsNotEmpty()
   @IsDefined({ message: 'El nombre del rol es obligatorio' })
   @IsString({ message: 'El nombre del rol debe ser de tipo string' })
   @Transform(({ value }) => value.toLowerCase())
-  name: string;
+  name!: string;
 
+  @IsNotEmpty()
   @IsDefined({ message: 'La descripción del rol es obligatoria' })
   @IsString({ message: 'La descripción del rol debe ser de tipo string' })
   @Transform(({ value }) => value.toLowerCase())
-  description: string;
+  description!: string;
 
   @IsArray({
     message: 'El campo "permissions" debe ser un arreglo de números.',
@@ -32,7 +35,8 @@ export class CreateRoleRequestDto {
     message: 'Los IDs de permisos deben ser mayores o iguales a 1.',
   })
   @Type(() => Number)
-  permissions: number[];
+  permissions!: number[];
+
 }
 
 

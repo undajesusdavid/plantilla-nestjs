@@ -14,4 +14,6 @@ export class RoleResponseDto {
   }
 }
 
-
+export class RoleListResponseDto {
+  roles! : RoleResponseDto[];
+}
