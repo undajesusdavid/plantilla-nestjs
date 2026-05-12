@@ -5,6 +5,7 @@ export class CreateRoleCommand implements Command {
     public readonly props: {
       name: string;
       description?: string;
+      isActive: boolean;
       permissions: number[];
     },
   ) {}

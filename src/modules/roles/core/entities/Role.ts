@@ -29,7 +29,7 @@ export class Role {
 
   // Metodos estaticos para instanciar Role
   public static create(props: RoleProps): Role {
-    return new Role({ ...props, isActive: true });
+    return new Role({ ...props });
   }
 
   public static restore(props: RoleProps): Role {

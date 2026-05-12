@@ -63,6 +63,7 @@ export class RoleController {
       new CreateRoleCommand({
         name: dto.name,
         description: dto.description,
+        isActive: dto.isActive,
         permissions: dto.permissions,
       }),
     );

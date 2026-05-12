@@ -37,7 +37,7 @@ export class CreateRoleUseCase extends BaseUseCase<CreateRoleCommand, Role> {
         id: id,
         name: props.name,
         description: props.description || '',
-        isActive: true,
+        isActive:  props.isActive,
       });
 
       role.setPermissions(props.permissions);

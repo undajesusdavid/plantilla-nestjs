@@ -7,6 +7,7 @@ import {
   IsInt,
   Min,
   IsNotEmpty,
+  IsBoolean,
 } from 'class-validator';
 
 export class CreateRoleRequestDto {
@@ -21,6 +22,9 @@ export class CreateRoleRequestDto {
   @IsString({ message: 'La descripción del rol debe ser de tipo string' })
   @Transform(({ value }) => value.toLowerCase())
   description!: string;
+
+  @IsBoolean()
+  isActive!:boolean;
 
   @IsArray({
     message: 'El campo "permissions" debe ser un arreglo de números.',
