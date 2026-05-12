@@ -7,6 +7,7 @@ export interface RoleProps {
   name: string;
   description: string;
   isActive: boolean;
+
 }
 
 export class Role {
@@ -17,7 +18,7 @@ export class Role {
   private isActive: boolean;
 
   // Datos extra
-  private permissions: RolePermissionList;
+  private permissions!: RolePermissionList;
 
   private constructor(props: RoleProps) {
     this.id = new RoleID(props.id);

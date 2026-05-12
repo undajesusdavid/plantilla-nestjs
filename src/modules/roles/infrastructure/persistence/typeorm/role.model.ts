@@ -14,28 +14,28 @@ import { UserOrmEntity } from '@modules/users/infrastructure/persistence/typeorm
 @Entity('ac_roles')
 export class TypeormRoleModel {
   @PrimaryColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  name: string;
+  name!: string;
 
   @Column()
-  description: string;
+  description!: string;
 
   @Column({ default: true })
-  isActive: boolean;
+  isActive!: boolean;
 
   /**
    * Relación Muchos a Muchos con Permisos
    * @JoinTable define la tabla pivote 'ac_role_permissions'
    */
-  @ManyToMany(() => TypeormPermissionModel, (permission) => permission.roles)
+  @ManyToMany(() => TypeormPermissionModel, (permission) => permission.roles, {eager: true})
   @JoinTable({
     name: 'ac_role_permissions',
     joinColumn: { name: 'roleId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'permissionId', referencedColumnName: 'id' },
   })
-  permissions: TypeormPermissionModel[];
+  permissions!: TypeormPermissionModel[];
 
   /**
    * Relación Muchos a Muchos con Usuarios
@@ -43,13 +43,13 @@ export class TypeormRoleModel {
    * para mantener el control de los roles desde el usuario.
    */
   @ManyToMany(() => UserOrmEntity, (user) => user.roles)
-  users: UserOrmEntity[];
+  users!: UserOrmEntity[];
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }
 
 
