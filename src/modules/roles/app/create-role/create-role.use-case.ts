@@ -5,6 +5,7 @@ import { Role } from '@modules/roles/core/entities/Role';
 import type { IUnitOfWork } from '@shared/core/interfaces/unit-of-work.interface';
 import { BaseUseCase } from '@shared/app/use-cases/base.use-case';
 import { CreateRoleCommand } from './create-role.command';
+import { DuplicateRoleNameError } from '../errors/DuplicateRoleNameError';
 
 export class CreateRoleUseCase extends BaseUseCase<CreateRoleCommand, Role> {
   static readonly HANDLED_COMMAND = CreateRoleCommand;
@@ -25,7 +26,7 @@ export class CreateRoleUseCase extends BaseUseCase<CreateRoleCommand, Role> {
       // Verificamos si ya existe un rol con el mismo nombre
       const existRole = await this.roleRepo.findByName(props.name);
       if (existRole) {
-        throw new Error(`Ya existe un rol con el nombre ${props.name}`);
+        throw new DuplicateRoleNameError(props.name);
       }
 
       // Generamos un nuevo ID para el rol
