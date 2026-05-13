@@ -18,7 +18,7 @@ export class CreateUserUseCase extends BaseUseCase<CreateUserCommand, User> {
   }
 
   async internalExecute(command: CreateUserCommand): Promise<User> {
-    const { username, password, email } = command;
+    const { username, password, email, active } = command;
 
     const usernameExists = await this.userRepo.usernameExists(username);
     if (usernameExists) {
@@ -37,7 +37,7 @@ export class CreateUserUseCase extends BaseUseCase<CreateUserCommand, User> {
       username: username,
       password: this.hashedService.hashed(password),
       email: email,
-      active: true, // aca debo agregar una opcion de configuracion futura
+      active: active, // aca debo agregar una opcion de configuracion futura
     });
 
     const created = await this.userRepo.create(user);

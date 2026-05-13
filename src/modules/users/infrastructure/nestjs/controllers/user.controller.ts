@@ -99,7 +99,7 @@ export class UserController {
         @Body() dto: CreateUserRequestDto,
     ): Promise<CreateUserDtoResponse> {
         const user = await this.command.execute<User>(
-            new CreateUserCommand(dto.username, dto.password, dto.email),
+            new CreateUserCommand(dto.username, dto.password, dto.email, dto.active),
         );
         return new CreateUserDtoResponse(user);
     }

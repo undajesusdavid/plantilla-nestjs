@@ -5,6 +5,7 @@ export class CreateUserCommand implements Command {
     public readonly username: string,
     public readonly password: string,
     public readonly email: string,
+    public readonly active: boolean,
   ) {}
 }
 

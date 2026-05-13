@@ -5,19 +5,19 @@ import { TypeormRoleModel } from '@modules/roles/infrastructure/persistence/type
 @Entity('usuarios')
 export class UserOrmEntity {
   @PrimaryColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ unique: true })
-  username: string;
+  username!: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column({ select: false }) // Seguridad: No devuelve el password por defecto en las consultas
-  password: string;
+  password!: string;
 
-  @Column({ default: true })
-  active: boolean;
+  @Column({default: false})
+  active!: boolean;
 
   /**
    * Relación Muchos a Muchos con Roles
@@ -30,7 +30,7 @@ export class UserOrmEntity {
     joinColumn: { name: 'userId', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'roleId', referencedColumnName: 'id' },
   })
-  roles: TypeormRoleModel[];
+  roles!: TypeormRoleModel[];
 
   // Si decides usar timestamps en el futuro, solo descomenta:
   // @CreateDateColumn()
