@@ -29,8 +29,15 @@ export class CreateRoleUseCase extends BaseUseCase<CreateRoleCommand, Role> {
         throw new DuplicateRoleNameError(props.name);
       }
 
+      // Verificamos y obtenemos los permisos
+      const permissions = await this.permissionRepo.findAllByIds(props.permissions)
+      if(permissions.length !== props.permissions.length ){
+        throw new Error("Uno de los permisos asignados no existen");
+      }
+
       // Generamos un nuevo ID para el rol
       const id = this.uuidService.generateUUID();
+      
 
       // Creamos la entidad del rol
       const role = Role.create({
@@ -40,7 +47,13 @@ export class CreateRoleUseCase extends BaseUseCase<CreateRoleCommand, Role> {
         isActive:  props.isActive,
       });
 
-      role.setPermissions(props.permissions);
+      // Asignamos los permisos al objeto Role
+      role.setPermissions(permissions.map(p => ({
+        id: p.getId(),
+        name: p.getName(),
+        description: p.getDescription(),
+        isActive: p.getIsActive()
+      }) ));
 
       // Guardamos el rol en el repositorio
       await this.roleRepo.create(role);

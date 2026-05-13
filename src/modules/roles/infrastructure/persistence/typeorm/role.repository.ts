@@ -24,11 +24,12 @@ export class TypeormRoleRepository
   async create(role: Role): Promise<void> {
     try {
       const roleEntity = this.mapper.toPersistence(role);
-      if (role.getPermissions().length > 0) {
+      const permissionsId = role.getPermissionsId();
+      if (permissionsId.length > 0) {
         const permissions = await this.roleRepository.manager.findBy(
           TypeormPermissionModel,
           {
-            id: In(role.getPermissions()),
+            id: In(permissionsId),
           },
         );
         roleEntity.permissions = permissions;

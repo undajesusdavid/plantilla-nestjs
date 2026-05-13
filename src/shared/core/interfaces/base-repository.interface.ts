@@ -2,6 +2,7 @@
 export interface IBaseRepository<T, ID = string | number> {
   // Consultas
   findAll(): Promise<T[]>;
+  findAllByIds(ids:ID[]): Promise<T[]>
   findAllPaginated(
     limit: number,
     offset: number,

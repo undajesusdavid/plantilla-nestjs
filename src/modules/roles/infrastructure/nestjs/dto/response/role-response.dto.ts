@@ -1,11 +1,11 @@
-import { Role } from '@modules/roles/core/entities/Role';
+import { Role, RolePermissions } from '@modules/roles/core/entities/Role';
 
 export class RoleResponseDto {
   id: string;
   name: string;
   description: string;
   isActive: boolean;
-  permissions?: number[];
+  permissions?: RolePermissions[];
 
   constructor(role: Role) {
     this.id = role.getId();

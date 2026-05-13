@@ -1,6 +1,14 @@
 import { RoleID } from '@modules/roles/core/value-objects/RoleId';
 import { RoleName } from '@modules/roles/core/value-objects/RoleName';
 import { RolePermissionList } from '@modules/roles/core/value-objects/RolePermissionList';
+import { RolePermissionsL } from '../value-objects/RolePermissionsL';
+
+export interface RolePermissions {
+  id: number;
+  name: string;
+  description: string;
+  isActive: boolean;
+}
 
 export interface RoleProps {
   id: string;
@@ -18,7 +26,8 @@ export class Role {
   private isActive: boolean;
 
   // Datos extra
-  private permissions!: RolePermissionList;
+  //private permissions!: RolePermissionList;
+  private permissions!: RolePermissions[];
 
   private constructor(props: RoleProps) {
     this.id = new RoleID(props.id);
@@ -53,9 +62,18 @@ export class Role {
     return this.isActive;
   }
 
-  getPermissions(): number[] {
+  /*getPermissions(): number[] {
     return this.permissions ? this.permissions.getValue() : [];
+  }*/
+
+  getPermissions(): RolePermissions[] {
+    return this.permissions ? this.permissions : [];
   }
+
+  getPermissionsId(): number[] {
+    return this.permissions ? this.permissions.map(p => p.id) : [];
+  }
+
 
   // Setters
 
@@ -71,8 +89,12 @@ export class Role {
     this.isActive = status;
   }
 
-  setPermissions(permissions: number[]): void {
+  /*setPermissions(permissions: number[]): void {
     this.permissions = new RolePermissionList(permissions);
+  }*/
+
+  setPermissions(permissions: RolePermissions[]): void {
+    this.permissions = permissions;
   }
 }
 

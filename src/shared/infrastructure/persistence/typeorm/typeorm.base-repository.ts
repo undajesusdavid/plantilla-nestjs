@@ -8,12 +8,11 @@ export abstract class BaseTypeOrmRepository<
   TDomain,
   TEntity extends ObjectLiteral,
   ID = string | number,
-> implements IBaseRepository<TDomain, ID>
-{
+> implements IBaseRepository<TDomain, ID> {
   constructor(
     protected readonly repository: Repository<TEntity>,
     protected readonly mapper: BaseMapper<TDomain, TEntity>,
-  ) {}
+  ) { }
 
   protected get entityRepository(): Repository<TEntity> {
     const entityManager = transactionStorage.getStore() as EntityManager;
@@ -27,6 +26,13 @@ export abstract class BaseTypeOrmRepository<
 
   async findAll(): Promise<TDomain[]> {
     const records = await this.entityRepository.find();
+    return this.mapper.toDomainList(records);
+  }
+
+  async findAllByIds(ids: ID[]): Promise<TDomain[]> {
+    const records = await this.entityRepository.find({
+      where: { id: In(ids) } as any,
+    });
     return this.mapper.toDomainList(records);
   }
 
@@ -91,6 +97,8 @@ export abstract class BaseTypeOrmRepository<
     });
     return count === ids.length;
   }
+
+
 
   // COMANDOS
 

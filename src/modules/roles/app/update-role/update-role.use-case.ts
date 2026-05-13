@@ -35,21 +35,27 @@ export class UpdateRoleUseCase extends BaseUseCase<UpdateRoleCommand, Role> {
         throw new Error('No existe el rol que desea actualizar');
       }
       // Validacmos los permisos a asignar (si es que se proporcionan)
-      const permissions = data?.permissions;
-      if (permissions) {
-        if (!Array.isArray(permissions) || permissions.length === 0) {
+      const permissionIds = data?.permissions;
+      if (permissionIds) {
+        if (!Array.isArray(permissionIds) || permissionIds.length === 0) {
           throw new ErrorUseCase(`Debe dejarle al menos un permiso al rol`);
         }
-        const { existingIds, missingIds } =
-          await this.permissionRepo.checkIdsExistence(permissions);
+        const permissions = await this.permissionRepo.findAllByIds(permissionIds);
 
-        if (missingIds.length > 0) {
+        if (permissions.length !== permissionIds.length) {
           throw new ErrorUseCase(
-            `Operación fallida. Los siguientes IDs de permisos no existen: ${missingIds.join(', ')}`,
+            `Operación fallida. uno de los permisos no existen en la base de datos`,
           );
         }
-        await this.roleRepo.assignPermissions(role.getId(), existingIds);
-        role.setPermissions(existingIds);
+        role.setPermissions(permissions.map(p => ({
+          id: p.getId(),
+          name: p.getName(),
+          description: p.getDescription(),
+          isActive: p.getIsActive()
+        })));
+
+        await this.roleRepo.assignPermissions(role.getId(), role.getPermissionsId());
+        
       }
 
       // Actualizamos los datos base del rol

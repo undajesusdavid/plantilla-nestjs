@@ -11,10 +11,11 @@ export class TypeormRoleMapper extends BaseMapper<Role, TypeormRoleModel> {
       isActive: model.isActive,
     });
 
-    const permissionIds = model.permissions
-      ? model.permissions.map((permission) => permission.id)
-      : [];
-    role.setPermissions(permissionIds);
+    const rolePermission = model.permissions? model.permissions.map((p) => { 
+      return { id: p.id, name: p.name, description: p.description, isActive: p.isActive } 
+    }): [];
+
+    role.setPermissions(rolePermission);
     return role;
   }
 
