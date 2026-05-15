@@ -22,7 +22,7 @@ export class GetMyPermissionsUseCase extends BaseUseCase<GetMyPermissionsQuery, 
     }
 
     return {
-      roles: user.getRoles(),
+      roles: user.getRolesId(),
       permissions: user.getPermissions(),
     };
   }

@@ -50,6 +50,8 @@ import { DeleteUserCommand } from '@modules/users/app/delete-user/delete-user.co
 import { UpdateUserCommand } from '@modules/users/app/update-user/update-user.command';
 import { GetMyPermissionsQuery } from '@modules/users/app/get-my-permissions/get-my-permissions.query';
 import { MyPermissionsResponse } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
+import { UpdateUserRolesRequestDto } from '../dto/update-user-roles-request.dto';
+import { UpdateUserRolesCommand } from '@src/modules/users/app/update-user-roles/update-user-roles.command';
 
 @Controller('users')
 export class UserController {
@@ -122,6 +124,23 @@ export class UserController {
             }),
         );
         return new UpdateUserDtoResponse(user);
+    }
+
+    @Put('update/roles/:id')
+    @Permissions(PERMISSIONS.UPDATE_USER_ROLES.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async update_roles(
+        @Param('id', UserIdPipe) id: string,
+        @Body() dto: UpdateUserRolesRequestDto,
+    ): Promise<void> {
+        await this.command.execute<User>(
+            new UpdateUserRolesCommand({
+                id: id,
+                data: {
+                   roles: dto.roles
+                },
+            }),
+        );
     }
 
     @Delete('delete/:id')

@@ -14,13 +14,12 @@ export class PermissionSeeder implements Seeder {
 
   async run(): Promise<void> {
     const permissions = Object.values(PERMISSIONS);
-    let count = 1;
 
     for (const p of permissions) {
       const existing = await this.permissionRepository.findByName(p.name);
       if (!existing) {
         const permission = new Permission({
-          id: count++,
+          id: p.id,
           name: p.name,
           description: p.description,
           isActive: true,

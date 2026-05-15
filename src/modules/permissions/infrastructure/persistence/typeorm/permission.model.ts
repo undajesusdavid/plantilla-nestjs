@@ -1,16 +1,16 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToMany,
+  PrimaryColumn,
 } from 'typeorm';
 import { TypeormRoleModel } from '@modules/roles/infrastructure/persistence/typeorm/role.model';
 
 @Entity('ac_permisos')
 export class TypeormPermissionModel {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: number;
 
   @Column({ unique: true })

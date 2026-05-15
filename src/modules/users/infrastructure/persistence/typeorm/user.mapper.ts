@@ -6,7 +6,7 @@ import { UserOrmEntity } from './user.model';
 @Injectable()
 export class TypeormUserMapper extends BaseMapper<User, UserOrmEntity> {
   toDomain(model: UserOrmEntity): User {
-    const roles = model.roles ? model.roles.map((role) => role.name) : [];
+    const roles = model.roles ? model.roles.map((role) => ({id:role.id, name:role.name}) ) : [];
     const permissions = model.roles
       ? model.roles.flatMap((role) =>
           role.permissions ? role.permissions.map((permission) => permission.name) : [],

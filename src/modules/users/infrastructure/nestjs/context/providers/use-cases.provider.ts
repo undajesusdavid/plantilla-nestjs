@@ -26,11 +26,17 @@ import { CreateUserUseCase } from '@modules/users/app/create-user/create-user.us
 import { UpdateUserUseCase } from '@modules/users/app/update-user/update-user.use-case';
 import { DeleteUserUseCase } from '@modules/users/app/delete-user/delete-user.use-case';
 import { GetMyPermissionsUseCase } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
+import { UpdateUserRolesUseCase } from '@src/modules/users/app/update-user-roles/update-user-roles.use-case';
 
 export const UseCasesProvider = [
   {
     provide: GetMyPermissionsUseCase,
     useFactory: (repo: UserRepository) => new GetMyPermissionsUseCase(repo),
+    inject: [USER_REPOSITORY],
+  },
+  {
+    provide: UpdateUserRolesUseCase,
+    useFactory: (repo: UserRepository) => new UpdateUserRolesUseCase(repo),
     inject: [USER_REPOSITORY],
   },
   {

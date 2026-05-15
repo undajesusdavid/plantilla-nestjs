@@ -33,15 +33,8 @@ export class RoleSeeder implements Seeder {
           isActive: r.isActive,
         });
         await this.roleRepository.save(role);
-
-        // Si es el rol root, le asignamos el permiso *
-        if (r.name === 'root') {
-          const allPermissions = await this.permissionRepository.findByName("*");
-          if (allPermissions) {
-            const permissionId = allPermissions.getId();
-            await this.roleRepository.assignPermissions(role.getId(), [permissionId]);
-          }
-        }
+        const {existingIds} = await this.permissionRepository.checkIdsExistence([...r.permissions]);
+        await this.roleRepository.assignPermissions(role.getId(), [...existingIds]);
       }
     }
   }

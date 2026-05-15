@@ -1,12 +1,17 @@
 import { UserID } from '@modules/users/core/value-objects/UserID';
 
+export interface UserRoles {
+  id: string,
+  name: string
+}
+
 export interface UserPropsInput {
   id: string;
   username: string;
   password: string;
   email: string;
   active: boolean;
-  roles?: string[];
+  roles?: UserRoles[];
   permissions?: string[];
 }
 
@@ -16,7 +21,7 @@ export class User {
   private password: string;
   private email: string;
   private active: boolean;
-  private roles: string[];
+  private roles: UserRoles[];
   private permissions: string[];
 
   constructor(props: UserPropsInput) {
@@ -46,8 +51,12 @@ export class User {
     return this.email;
   }
 
-  getRoles(): string[] {
+  getRoles(): UserRoles[] {
     return this.roles;
+  }
+
+  getRolesId(): string[] {
+    return this.roles.map(r => r.id);
   }
 
   getPermissions(): string[] {

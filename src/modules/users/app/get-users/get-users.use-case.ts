@@ -10,10 +10,13 @@ export class GetUsersUseCase extends BaseUseCase<GetUsersQuery, User[]> {
     super();
   }
 
+  private isRoot = (user: User) => user.getRoles().some(r => r.name === 'root');
+
   protected async internalExecute(): Promise<User[]> {
   
     const users = await this.userRepository.findAll();
-    return users.filter((user) => !user.getRoles().includes('root')); 
+    
+    return users.filter(user => !this.isRoot(user)); 
    
   }
 }
