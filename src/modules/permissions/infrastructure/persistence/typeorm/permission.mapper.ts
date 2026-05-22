@@ -1,4 +1,4 @@
-import { BaseMapper } from '@src/shared/infrastructure/persistence/mapper/base.mapper';
+import { BaseMapper } from '@src/shared/infrastructure/persistence/base/base.mapper';
 import { Permission } from '@modules/permissions/core/entities/Permission';
 import { TypeormPermissionModel } from '@modules/permissions/infrastructure/persistence/typeorm/permission.model';
 

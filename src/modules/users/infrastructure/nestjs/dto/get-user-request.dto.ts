@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsDefined, IsString } from 'class-validator';
-import { IsUUIDv7 } from '@shared/infrastructure/base/decorators/validation/IsUUIDv7';
+import { IsUUIDv7 } from '@src/shared/infrastructure/validations/IsUUIDv7';
 import { User, UserRoles } from '@modules/users/core/entities/User';
 
 export class GetUserRequestDto {

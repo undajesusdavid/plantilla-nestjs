@@ -1,4 +1,4 @@
-import { BaseMapper } from '@src/shared/infrastructure/persistence/mapper/base.mapper';
+import { BaseMapper } from '@src/shared/infrastructure/persistence/base/base.mapper';
 import { Role } from '@modules/roles/core/entities/Role';
 import { TypeormRoleModel } from './role.model';
 

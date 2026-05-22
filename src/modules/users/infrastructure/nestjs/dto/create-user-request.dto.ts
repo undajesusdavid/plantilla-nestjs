@@ -1,7 +1,7 @@
 import { IsString, IsEmail, MinLength, IsDefined, IsBoolean } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { User } from '@modules/users/core/entities/User';
-import { Match } from '@shared/infrastructure/base/decorators/validation/match-constraint';
+import { Match } from '@src/shared/infrastructure/validations/match-constraint';
 
 export class CreateUserRequestDto {
   //--------------------------------------------------------------------------------

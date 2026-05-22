@@ -9,7 +9,7 @@ import {
   isDefined,
   IsBoolean,
 } from 'class-validator';
-import { ToBoolean } from '@shared/infrastructure/base/decorators/transform/ToBoolean';
+import { ToBoolean } from '@src/shared/infrastructure/transformers/ToBoolean';
 
 export class UpdateRoleRequestDto {
   @IsOptional()

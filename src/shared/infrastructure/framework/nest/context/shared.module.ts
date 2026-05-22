@@ -6,7 +6,7 @@ import { QUERY_BUS } from '@shared/app/bus/query-bus';
 import { NestQueryBus } from '../bus/nest-query-bus';
 import { UNIT_OF_WORK } from '@shared/core/interfaces/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from '@shared/infrastructure/persistence/typeorm/typeorm.unit-of.work';
-import { UuidService } from '@shared/infrastructure/base/services/uuid.service';
+import { UuidService } from '@src/shared/infrastructure/services/uuid.service';
 import { UUID_SERVICE } from '@shared/core/interfaces/uuid-service.interface';
 
 @Module({

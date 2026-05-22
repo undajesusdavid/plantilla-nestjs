@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BaseMapper } from '@src/shared/infrastructure/persistence/mapper/base.mapper';
+import { BaseMapper } from '@src/shared/infrastructure/persistence/base/base.mapper';
 import { User } from '@modules/users/core/entities/User';
 import { UserOrmEntity } from './user.model';
 

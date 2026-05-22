@@ -7,7 +7,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { ToBoolean } from '@shared/infrastructure/base/decorators/transform/ToBoolean';
+import { ToBoolean } from '@src/shared/infrastructure/transformers/ToBoolean';
 //import { IsUUIDv7 } from "@shared/infrastructure/base/decorators/validation/IsUUIDv7";
 
 import { User } from '@modules/users/core/entities/User';
