@@ -5,7 +5,7 @@ import { RoleController } from '@modules/roles/infrastructure/nestjs/controllers
 
 //IMPORTS
 
-import { SharedModule } from '@shared/infrastructure/adapters/nest/context/shared.module';
+import { SharedModule } from '@shared/infrastructure/framework/nest/context/shared.module';
 import { PermissionModule } from '@modules/permissions/infrastructure/nestjs/context/permission.module';
 import { PersistenceModels } from './imports/persistence-models.import';
 
@@ -21,11 +21,11 @@ import { MappersProvider } from './providers/mappers.provider';
 // PATRONES DE DISEÑO
 import { COMMAND_BUS } from '@shared/app/bus/command-bus';
 import { QUERY_BUS } from '@shared/app/bus/query-bus';
-import { NestCommandBus } from '@shared/infrastructure/adapters/nest/bus/nest-command-bus';
-import { NestQueryBus } from '@shared/infrastructure/adapters/nest/bus/nest-query-bus';
+import { NestCommandBus } from '@shared/infrastructure/framework/nest/bus/nest-command-bus';
+import { NestQueryBus } from '@shared/infrastructure/framework/nest/bus/nest-query-bus';
 
 
-import { NestBaseModule } from '@src/shared/infrastructure/adapters/nest/base/nest-base-module';
+import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/base/nest-base-module';
 
 @Module({
   imports: [SharedModule, PermissionModule, ...PersistenceModels],

@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '@shared/infrastructure/adapters/nest/security/guards/jwt-auth.guard';
-import { AccessGuard } from '@shared/infrastructure/adapters/nest/security/guards/access.guard';
-import { Permissions } from '@shared/infrastructure/adapters/nest/security/decorators/permissions.decorator';
+import { JwtAuthGuard } from '@shared/infrastructure/framework/nest/security/guards/jwt-auth.guard';
+import { AccessGuard } from '@shared/infrastructure/framework/nest/security/guards/access.guard';
+import { Permissions } from '@shared/infrastructure/framework/nest/security/decorators/permissions.decorator';
 import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
 import { PermissionResponseDto } from '../dto/response/permission-response.dto';
 

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
-import { SeederModule } from '@shared/infrastructure/adapters/nest/context/seeder.module';
+import { SeederModule } from '@shared/infrastructure/framework/nest/context/seeder.module';
 import { SeederRunner } from '@shared/infrastructure/persistence/seeding/seeder.runner';
 import { PermissionSeeder } from '@modules/permissions/infrastructure/persistence/seeding/permission.seeder';
 import { RoleSeeder } from '@modules/roles/infrastructure/persistence/seeding/role.seeder';

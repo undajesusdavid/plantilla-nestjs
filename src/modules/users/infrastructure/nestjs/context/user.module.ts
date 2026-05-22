@@ -4,7 +4,7 @@ import { Inject, Module } from '@nestjs/common';
 import { UserController } from '@modules/users/infrastructure/nestjs/controllers/user.controller';
 
 // IMPORTS
-import { SharedModule } from '@shared/infrastructure/adapters/nest/context/shared.module';
+import { SharedModule } from '@shared/infrastructure/framework/nest/context/shared.module';
 import { PersistenceModels } from './imports/persistence-models.import';
 
 // EXPORTS
@@ -17,12 +17,12 @@ import { UseCasesProvider } from './providers/use-cases.provider';
 import { MappersProvider } from './providers/mappers.provider';
 
 //PATRON BUS
-import { NestCommandBus } from '@shared/infrastructure/adapters/nest/bus/nest-command-bus';
+import { NestCommandBus } from '@shared/infrastructure/framework/nest/bus/nest-command-bus';
 import { COMMAND_BUS } from '@shared/app/bus/command-bus';
-import { NestQueryBus } from '@shared/infrastructure/adapters/nest/bus/nest-query-bus';
+import { NestQueryBus } from '@shared/infrastructure/framework/nest/bus/nest-query-bus';
 import { QUERY_BUS } from '@shared/app/bus/query-bus';
 
-import { NestBaseModule } from '@src/shared/infrastructure/adapters/nest/base/nest-base-module';
+import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/base/nest-base-module';
 
 @Module({
   imports: [SharedModule, ...PersistenceModels],

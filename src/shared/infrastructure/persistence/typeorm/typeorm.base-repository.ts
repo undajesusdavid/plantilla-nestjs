@@ -2,7 +2,7 @@
 import { Repository, ObjectLiteral, EntityManager, In } from 'typeorm';
 import { IBaseRepository } from '@shared/core/interfaces/base-repository.interface';
 import { transactionStorage } from '@shared/infrastructure/persistence/typeorm/typeorm.transaction-context';
-import { BaseMapper } from '@shared/infrastructure/base/mapper/base.mapper';
+import { BaseMapper } from '@src/shared/infrastructure/persistence/mapper/base.mapper';
 
 export abstract class BaseTypeOrmRepository<
   TDomain,

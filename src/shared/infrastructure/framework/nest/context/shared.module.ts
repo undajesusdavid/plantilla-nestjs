@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModuleConfig } from '@shared/infrastructure/persistence/typeorm/typeorm.config';
 import { COMMAND_BUS } from '@shared/app/bus/command-bus';
-import { NestCommandBus } from '@shared/infrastructure/adapters/nest/bus/nest-command-bus';
+import { NestCommandBus } from '../bus/nest-command-bus';
 import { QUERY_BUS } from '@shared/app/bus/query-bus';
-import { NestQueryBus } from '@shared/infrastructure/adapters/nest/bus/nest-query-bus';
+import { NestQueryBus } from '../bus/nest-query-bus';
 import { UNIT_OF_WORK } from '@shared/core/interfaces/unit-of-work.interface';
 import { TypeOrmUnitOfWork } from '@shared/infrastructure/persistence/typeorm/typeorm.unit-of.work';
 import { UuidService } from '@shared/infrastructure/base/services/uuid.service';

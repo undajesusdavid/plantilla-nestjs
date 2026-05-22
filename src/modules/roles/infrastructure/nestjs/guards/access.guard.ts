@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { PERMISSIONS_KEY } from '@shared/security/decorators/permissions.decorator';
+import { PERMISSIONS_KEY } from '@shared/infrastructure/framework/nest/security/decorators/permissions.decorator';
 
 @Injectable()
 export class AccessGuard implements CanActivate {

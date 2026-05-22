@@ -1,5 +1,5 @@
 import { AppModule } from './app.module';
-import { BootNest } from '@src/shared/infrastructure/adapters/nest/base/nest-boot';
+import { BootNest } from '@src/shared/infrastructure/framework/nest/base/nest-boot';
 
 
 async function bootstrap() {
