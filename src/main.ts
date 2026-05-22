@@ -1,7 +1,10 @@
-import { BootNest } from '@shared/infrastructure/adapters/nest/boot';
+import { AppModule } from './app.module';
+import { BootNest } from '@src/shared/infrastructure/adapters/nest/base/nest-boot';
+
 
 async function bootstrap() {
-  await BootNest();
+  //Iniciando Framework Nestjs
+  await BootNest(AppModule);
 }
 
 bootstrap().catch((err) => {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SharedModule } from './shared.module';
+import { SharedModule } from '@shared/infrastructure/adapters/nest/context/shared.module';
 import { UserModule } from '@modules/users/infrastructure/nestjs/context/user.module';
 import { RolesModule } from '@modules/roles/infrastructure/nestjs/context/roles.module';
 import { PermissionModule } from '@modules/permissions/infrastructure/nestjs/context/permission.module';
@@ -20,5 +20,3 @@ import { PermissionModule } from '@modules/permissions/infrastructure/nestjs/con
   providers: [],
 })
 export class AppModule {}
-
-

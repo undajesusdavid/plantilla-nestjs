@@ -1,6 +1,6 @@
 import { Logger, OnModuleInit } from '@nestjs/common';
-import { NestCommandBus } from './nest-command-bus';
-import { NestQueryBus } from './nest-query-bus';
+import { NestCommandBus } from '../bus/nest-command-bus';
+import { NestQueryBus } from '../bus/nest-query-bus';
 
 export abstract class NestBaseModule implements OnModuleInit {
   protected readonly logger: Logger;

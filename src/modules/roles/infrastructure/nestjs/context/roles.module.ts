@@ -25,7 +25,7 @@ import { NestCommandBus } from '@shared/infrastructure/adapters/nest/bus/nest-co
 import { NestQueryBus } from '@shared/infrastructure/adapters/nest/bus/nest-query-bus';
 
 
-import { NestBaseModule } from '@shared/infrastructure/adapters/nest/bus/base-module';
+import { NestBaseModule } from '@src/shared/infrastructure/adapters/nest/base/nest-base-module';
 
 @Module({
   imports: [SharedModule, PermissionModule, ...PersistenceModels],

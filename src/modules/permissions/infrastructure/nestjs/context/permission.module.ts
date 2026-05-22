@@ -15,7 +15,7 @@ import { UseCaseExports } from './exports/use-case.exports';
 import { ServicesProvider } from './providers/services.provider';
 import { UseCasesProvider } from './providers/use-cases.provider';
 import { MappersProvider } from './providers/mappers.provider';
-import { NestBaseModule } from '@shared/infrastructure/adapters/nest/bus/base-module';
+import { NestBaseModule } from '@src/shared/infrastructure/adapters/nest/base/nest-base-module';
 import { COMMAND_BUS } from '@shared/app/bus/command-bus';
 import { QUERY_BUS } from '@shared/app/bus/query-bus';
 import { NestCommandBus } from '@shared/infrastructure/adapters/nest/bus/nest-command-bus';

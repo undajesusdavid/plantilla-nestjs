@@ -22,7 +22,7 @@ import { COMMAND_BUS } from '@shared/app/bus/command-bus';
 import { NestQueryBus } from '@shared/infrastructure/adapters/nest/bus/nest-query-bus';
 import { QUERY_BUS } from '@shared/app/bus/query-bus';
 
-import { NestBaseModule } from '@shared/infrastructure/adapters/nest/bus/base-module';
+import { NestBaseModule } from '@src/shared/infrastructure/adapters/nest/base/nest-base-module';
 
 @Module({
   imports: [SharedModule, ...PersistenceModels],
