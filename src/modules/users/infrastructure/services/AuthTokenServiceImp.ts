@@ -2,9 +2,8 @@ import { AuthTokenService } from '@modules/users/core/contracts/AuthTokenService
 import * as jwt from 'jsonwebtoken';
 import { SignOptions } from 'jsonwebtoken';
 import { ErrorAuthTokenService } from '@modules/users/app/errors/ErrorAuthTokenService';
-import { Injectable } from '@nestjs/common';
 
-@Injectable()
+
 export class AuthTokenServiceImp implements AuthTokenService {
   private readonly secret: string;
   private readonly expiresIn: string | number;

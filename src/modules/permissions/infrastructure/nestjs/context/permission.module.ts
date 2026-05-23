@@ -4,8 +4,8 @@ import { Inject, Module } from '@nestjs/common';
 import { PermissionController } from '@modules/permissions/infrastructure/nestjs/controllers/permission.controller';
 
 //IMPORTS
-import { NestCommandBus } from '@shared/infrastructure/framework/nest/bus/nest-command-bus';
-import { NestQueryBus } from '@shared/infrastructure/framework/nest/bus/nest-query-bus';
+import { NestCommandBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-command-bus';
+import { NestQueryBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-query-bus';
 import { PersistenceModels } from './imports/persistence-models.import';
 //EXPORTS
 import { ServiceExports } from './exports/service.exports';
@@ -15,7 +15,7 @@ import { UseCaseExports } from './exports/use-case.exports';
 import { ServicesProvider } from './providers/services.provider';
 import { UseCasesProvider } from './providers/use-cases.provider';
 import { MappersProvider } from './providers/mappers.provider';
-import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/base/nest-base-module';
+import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module/nest-base-module';
 import { COMMAND_BUS } from '@shared/app/bus/command-bus';
 import { QUERY_BUS } from '@shared/app/bus/query-bus';
 

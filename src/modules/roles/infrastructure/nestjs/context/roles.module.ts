@@ -19,11 +19,11 @@ import { MappersProvider } from './providers/mappers.provider';
 // PATRONES DE DISEÑO
 import { COMMAND_BUS } from '@shared/app/bus/command-bus';
 import { QUERY_BUS } from '@shared/app/bus/query-bus';
-import { NestCommandBus } from '@shared/infrastructure/framework/nest/bus/nest-command-bus';
-import { NestQueryBus } from '@shared/infrastructure/framework/nest/bus/nest-query-bus';
+import { NestCommandBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-command-bus';
+import { NestQueryBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-query-bus';
 
 
-import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/base/nest-base-module';
+import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module/nest-base-module';
 
 @Module({
   imports: [PermissionModule, ...PersistenceModels],

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { SharedModule } from '@shared/infrastructure/framework/nest/context/shared.module';
+import { SharedModule } from '@src/shared/infrastructure/framework/nest/shared.module';
 import { UserModule } from '@modules/users/infrastructure/nestjs/context/user.module';
 import { RolesModule } from '@modules/roles/infrastructure/nestjs/context/roles.module';
 import { PermissionModule } from '@modules/permissions/infrastructure/nestjs/context/permission.module';

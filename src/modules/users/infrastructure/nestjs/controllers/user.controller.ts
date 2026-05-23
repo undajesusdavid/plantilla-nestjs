@@ -26,13 +26,13 @@ import {
 } from '@modules/users/infrastructure/nestjs/dto/auth-user-request.dto';
 
 // Import Guards
-import { JwtAuthGuard } from '@shared/infrastructure/framework/nest/security/guards/jwt-auth.guard';
-import { AccessGuard } from '@shared/infrastructure/framework/nest/security/guards/access.guard';
+import { JwtAuthGuard } from '@shared/infrastructure/framework/nest/controller/guards/jwt-auth.guard';
+import { AccessGuard } from '@shared/infrastructure/framework/nest/controller/guards/access.guard';
 // Import Pipes
 import { UserIdPipe } from '@modules/users/infrastructure/nestjs/pipes/user-id.pipe';
 // Custom decorators
-import { Permissions } from '@shared/infrastructure/framework/nest/security/decorators/permissions.decorator';
-import { type TokenPayload, CurrentUser } from '@shared/infrastructure/framework/nest/security/decorators/current-user.decorator';
+import { Permissions } from '@src/shared/infrastructure/framework/nest/controller/decorators/permissions.decorator';
+import { type TokenPayload, CurrentUser } from '@src/shared/infrastructure/framework/nest/controller/decorators/current-user.decorator';
 // Import Permissions
 import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
 // import uses case

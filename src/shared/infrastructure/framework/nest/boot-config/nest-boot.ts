@@ -1,7 +1,7 @@
 import { Logger, UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 //import { AppModule } from './context/app.module';
-import { GlobalExceptionFilter } from '../filters/global-exception.filter';
+import { GlobalExceptionFilter } from './global-exception.filter';
 
 export async function BootNest(rootModule: any) {
   const logger = new Logger('Bootstrap');

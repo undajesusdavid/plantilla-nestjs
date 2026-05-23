@@ -14,8 +14,8 @@ const baseConfig: DataSourceOptions = {
     'src/**/*.model.ts',
   ],
   migrations: [
-    'dist/database/migrations/*.js',
-    'src/database/migrations/*.ts',
+    'dist/database/migrations/schemas/*.js',
+    'src/database/migrations/schemas/*.ts',
   ],
   migrationsTableName: 'sys_migrations',
   migrationsRun: false,

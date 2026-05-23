@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { Seeder } from './seeder.interface';
+import { Seeder } from '../../shared/infrastructure/persistence/seeding/seeder.interface';
 
 export class SeederRunner {
   private readonly logger = new Logger(SeederRunner.name);

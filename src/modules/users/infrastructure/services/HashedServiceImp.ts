@@ -1,9 +1,8 @@
-import { Injectable } from '@nestjs/common';
 import { HashedService } from '@modules/users/core/contracts/HashedService';
 import * as bcrypt from 'bcrypt';
 import { ErrorHashedService } from '@modules/users/app/errors/ErrorHashedService';
 
-@Injectable()
+
 export class HashedServiceImp implements HashedService {
   private readonly saltRounds = 10;
 
