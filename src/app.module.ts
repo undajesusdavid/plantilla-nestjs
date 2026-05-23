@@ -11,7 +11,7 @@ import { PermissionModule } from '@modules/permissions/infrastructure/nestjs/con
       isGlobal: true,
       envFilePath: '.env',
     }),
-    SharedModule,
+    SharedModule, // global
     UserModule,
     RolesModule,
     PermissionModule,

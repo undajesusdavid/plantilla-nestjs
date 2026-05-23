@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+
 import { BaseMapper } from '@src/shared/infrastructure/persistence/base/base.mapper';
 import { User } from '@modules/users/core/entities/User';
 import { UserOrmEntity } from './user.model';
 
-@Injectable()
+
 export class TypeormUserMapper extends BaseMapper<User, UserOrmEntity> {
   toDomain(model: UserOrmEntity): User {
     const roles = model.roles ? model.roles.map((role) => ({id:role.id, name:role.name}) ) : [];

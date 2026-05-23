@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { UserRepository } from '@modules/users/core/contracts/UserRepository';
@@ -9,7 +8,7 @@ import { BaseTypeOrmRepository } from '@shared/infrastructure/persistence/typeor
 import { TypeormRoleModel } from '@modules/roles/infrastructure/persistence/typeorm/role.model';
 import { ErrorRepositoryService } from '@modules/users/app/errors/ErrorRepositoryService';
 
-@Injectable()
+
 export class TypeormUserRepository
   extends BaseTypeOrmRepository<User, UserOrmEntity, string>
   implements UserRepository

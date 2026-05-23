@@ -28,7 +28,7 @@ import { DeleteUserUseCase } from '@modules/users/app/delete-user/delete-user.us
 import { GetMyPermissionsUseCase } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
 import { UpdateUserRolesUseCase } from '@src/modules/users/app/update-user-roles/update-user-roles.use-case';
 
-export const UseCasesProvider = [
+export const UseCaseProvider = [
   {
     provide: GetMyPermissionsUseCase,
     useFactory: (repo: UserRepository) => new GetMyPermissionsUseCase(repo),

@@ -8,13 +8,15 @@ import { SharedModule } from '@shared/infrastructure/framework/nest/context/shar
 import { PersistenceModels } from './imports/persistence-models.import';
 
 // EXPORTS
-import { ServiceExports } from './exports/service.exports';
-import { UseCaseExports } from './exports/use-case.exports';
+import { PersistenceExport } from './exports/persistence.export';
+import { ServiceExport } from './exports/service.export';
+import { UseCaseExport } from './exports/use-case.export';
 
 // PROVIDERS
-import { ServicesProvider } from './providers/services.provider';
-import { UseCasesProvider } from './providers/use-cases.provider';
-import { MappersProvider } from './providers/mappers.provider';
+import { PersistenceProvider } from './providers/persistence.provider';
+import { ServiceProvider } from './providers/service.provider';
+import { UseCaseProvider } from './providers/use-case.provider';
+
 
 //PATRON BUS
 import { NestCommandBus } from '@shared/infrastructure/framework/nest/bus/nest-command-bus';
@@ -24,18 +26,32 @@ import { QUERY_BUS } from '@shared/app/bus/query-bus';
 
 import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/base/nest-base-module';
 
+
+
 @Module({
-  imports: [SharedModule, ...PersistenceModels],
-  controllers: [UserController],
-  providers: [...ServicesProvider, ...UseCasesProvider, ...MappersProvider],
-  exports: [...ServiceExports, ...UseCaseExports],
+  imports: [
+    ...PersistenceModels
+  ],
+  controllers: [
+    UserController
+  ],
+  providers: [
+    ...ServiceProvider, 
+    ...UseCaseProvider, 
+    ...PersistenceProvider
+  ],
+  exports: [
+    ...ServiceExport, 
+    ...UseCaseExport, 
+    ...PersistenceExport
+  ],
 })
 export class UserModule extends NestBaseModule {
   constructor(
     @Inject(COMMAND_BUS) commandBus: NestCommandBus,
     @Inject(QUERY_BUS) queryBus: NestQueryBus,
   ) {
-    super('Usuarios', commandBus, queryBus, UseCasesProvider);
+    super('Usuarios', commandBus, queryBus, [...UseCaseProvider]);
   }
 }
 

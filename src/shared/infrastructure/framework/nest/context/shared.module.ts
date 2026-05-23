@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModuleConfig } from '@shared/infrastructure/persistence/typeorm/typeorm.config';
 import { COMMAND_BUS } from '@shared/app/bus/command-bus';
 import { NestCommandBus } from '../bus/nest-command-bus';
@@ -9,6 +9,7 @@ import { TypeOrmUnitOfWork } from '@shared/infrastructure/persistence/typeorm/ty
 import { UuidService } from '@src/shared/infrastructure/services/uuid.service';
 import { UUID_SERVICE } from '@shared/core/interfaces/uuid-service.interface';
 
+@Global()
 @Module({
   imports: [TypeOrmModuleConfig],
   providers: [

@@ -1,4 +1,3 @@
-// src/modules/users/infrastructure/persistence/entities/user.orm-entity.ts
 import { Entity, PrimaryColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import { TypeormRoleModel } from '@modules/roles/infrastructure/persistence/typeorm/role.model';
 
