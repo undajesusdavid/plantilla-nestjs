@@ -4,7 +4,6 @@ import { Inject, Module } from '@nestjs/common';
 import { UserController } from '@modules/users/infrastructure/nestjs/controllers/user.controller';
 
 // IMPORTS
-import { SharedModule } from '@src/shared/infrastructure/framework/nest/shared.module';
 import { PersistenceModels } from './imports/persistence-models.import';
 
 // EXPORTS
