@@ -20,8 +20,8 @@ import { UpdateRoleRequestDto } from '@src/modules/roles/infrastructure/nestjs/c
 import { CreateRoleRequestDto } from '@src/modules/roles/infrastructure/nestjs/controllers/dto/request/create-role-request.dto';
 import { RoleResponseDto } from '@src/modules/roles/infrastructure/nestjs/controllers/dto/response/role-response.dto';
 // PATRON BUS
-import { COMMAND_BUS, type CommandBus } from '@shared/app/bus/command-bus';
-import { QUERY_BUS, type QueryBus } from '@shared/app/bus/query-bus';
+import { COMMAND_BUS, type CommandBus } from '@src/shared/app/bus/command-bus';
+import { QUERY_BUS, type QueryBus } from '@src/shared/app/bus/query-bus';
 // COMMANDS
 import { CreateRoleCommand } from '@modules/roles/app/create-role/create-role.command';
 import { DeleteRoleCommand } from '@modules/roles/app/delete-role/delete-role.command';

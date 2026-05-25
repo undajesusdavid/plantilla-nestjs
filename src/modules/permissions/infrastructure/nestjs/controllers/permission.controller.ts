@@ -6,8 +6,8 @@ import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
 import { PermissionResponseDto } from './dto/response/permission-response.dto';
 
 // PATRON BUS
-import { COMMAND_BUS, type CommandBus } from '@shared/app/bus/command-bus';
-import { QUERY_BUS, type QueryBus } from '@shared/app/bus/query-bus';
+import { COMMAND_BUS, type CommandBus } from '@src/shared/app/bus/command-bus';
+import { QUERY_BUS, type QueryBus } from '@src/shared/app/bus/query-bus';
 import { Permission } from '@src/modules/permissions/core/entities/Permission';
 import { GetPermissionsQuery } from '@src/modules/permissions/app/get-permissions/get-permissions.query';
 

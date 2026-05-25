@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module/nest-base-module';
 
 // CONTROLLERS
-import { UserController } from '@modules/users/infrastructure/nestjs/controllers/user.controller';
+import { UserController } from './controllers/user.controller';
+import { UserGateway } from './gateways/user.gateway';
 
 import {
   // IMPORTS
@@ -24,6 +25,7 @@ import {
     ...PersistenceModels
   ],
   providers: [
+    UserGateway,
     ...ServiceProvider, 
     ...UseCaseProvider, 
     ...PersistenceProvider
@@ -38,7 +40,7 @@ import {
   ],
 })
 export class UserModule extends NestBaseModule {
-  constructor() {
+  constructor(private readonly userGateway: UserGateway) {
     super('Usuarios', [...UseCaseProvider]);
   }
 }

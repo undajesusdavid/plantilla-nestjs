@@ -8,7 +8,7 @@ export const TypeOrmModuleConfig = TypeOrmModule.forRootAsync({
     return {
       type: 'postgres',
       url: configService.get<string>('DATABASE_URL'),
-      logging: true,
+      logging: false,
       autoLoadEntities: true,
       ssl: {
         rejectUnauthorized: false,

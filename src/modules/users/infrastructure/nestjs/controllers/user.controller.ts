@@ -38,8 +38,8 @@ import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
 // import uses case
 
 // Import CommandBus and QueryBus
-import { COMMAND_BUS, type CommandBus } from '@shared/app/bus/command-bus';
-import { QUERY_BUS, type QueryBus } from '@shared/app/bus/query-bus';
+import { COMMAND_BUS, type CommandBus } from '@src/shared/app/bus/command-bus';
+import { QUERY_BUS, type QueryBus } from '@src/shared/app/bus/query-bus';
 import { GetUserQuery } from '@modules/users/app/get-user/get-user.query';
 import { User } from '@modules/users/core/entities/User';
 import { GetUsersQuery } from '@modules/users/app/get-users/get-users.query';

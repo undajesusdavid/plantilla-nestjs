@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { PERMISSIONS_KEY } from '../../controller/decorators/permissions.decorator';
-import { QUERY_BUS, type QueryBus } from '@shared/app/bus/query-bus';
+import { QUERY_BUS, type QueryBus } from '@src/shared/app/bus/query-bus';
 import { GetMyPermissionsQuery } from '@modules/users/app/get-my-permissions/get-my-permissions.query';
 import { MyPermissionsResponse } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
 

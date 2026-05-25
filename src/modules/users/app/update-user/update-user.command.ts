@@ -1,4 +1,4 @@
-import { Command } from '@shared/app/bus/command';
+import { Command } from '@src/shared/app/bus/command';
 
 interface UpdateUserProps {
   readonly id: string;
