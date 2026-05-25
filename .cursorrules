@@ -11,6 +11,7 @@
 - Los nombres de las constantes y variables de entorno deben ser en UPPER_SNAKE_CASE (ej: USER_ID).
 
 # Reglas para la creacion de nuevos modulos
+- Los modulos se crearan en el directorio src/modules
 - Cada nuevo módulo debe tener las carpetas: /core, /app, /infrastructure.
 - Guiate de la estructura de los modulos existentes.
 

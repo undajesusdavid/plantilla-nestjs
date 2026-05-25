@@ -1,4 +1,5 @@
-import { Inject, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module/nest-base-module';
 
 //CONTROLLERS
 import { PermissionController } from '@modules/permissions/infrastructure/nestjs/controllers/permission.controller';
@@ -17,14 +18,6 @@ import {
 
 } from "./context";
 
-//PATRON BUS
-import { NestCommandBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-command-bus';
-import { NestQueryBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-query-bus';
-import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module/nest-base-module';
-import { COMMAND_BUS } from '@shared/app/bus/command-bus';
-import { QUERY_BUS } from '@shared/app/bus/query-bus';
-
-
 @Module({
   imports: [
     ...PersistenceModels
@@ -41,11 +34,8 @@ import { QUERY_BUS } from '@shared/app/bus/query-bus';
   ],
 })
 export class PermissionModule extends NestBaseModule {
-  constructor(
-    @Inject(COMMAND_BUS) commandBus: NestCommandBus,
-    @Inject(QUERY_BUS) queryBus: NestQueryBus,
-  ) {
-    super('Permissions', commandBus, queryBus, UseCasesProvider);
+  constructor() {
+    super('Permissions', UseCasesProvider);
   }
 }
 

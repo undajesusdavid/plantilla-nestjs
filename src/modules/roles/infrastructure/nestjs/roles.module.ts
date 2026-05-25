@@ -1,4 +1,5 @@
-import { Inject, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module/nest-base-module';
 
 //CONTROLLERS
 import { RoleController } from './controllers/role.controller';
@@ -16,15 +17,6 @@ import {
   MappersProvider,
 
 } from "./context";
-
-// PATRONES DE DISEÑO
-import { COMMAND_BUS } from '@shared/app/bus/command-bus';
-import { QUERY_BUS } from '@shared/app/bus/query-bus';
-import { NestCommandBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-command-bus';
-import { NestQueryBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-query-bus';
-
-
-import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module/nest-base-module';
 
 @Module({
   imports: [
@@ -44,11 +36,8 @@ import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module
   ],
 })
 export class RolesModule extends NestBaseModule {
-  constructor(
-    @Inject(COMMAND_BUS) commandBus: NestCommandBus,
-    @Inject(QUERY_BUS) queryBus: NestQueryBus,
-  ) {
-    super('Roles', commandBus, queryBus, UseCasesProvider);
+  constructor() {
+    super('Roles', UseCasesProvider);
   }
 }
 
