@@ -114,7 +114,7 @@ export class TypeormUserRepository
     }
   }
 
-  async assingRoles(userId: string, RoleIds: string[]): Promise<void> {
+  async assignRoles(userId: string, RoleIds: string[]): Promise<void> {
     try {
       const user = await this.entityRepository.findOne({
         where: { id: userId },

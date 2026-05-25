@@ -1,47 +1,52 @@
-// src/shared/app/use-cases/base.use-case.ts
 import { IUseCase } from '@shared/core/interfaces/use-case.interface';
-import { Logger, InternalServerErrorException } from '@nestjs/common';
 
 export abstract class BaseUseCase<I, O> implements IUseCase<I, O> {
-  protected readonly logger = new Logger(this.constructor.name);
-  protected readonly sensitiveKeys = [
+  protected readonly sensitiveKeys: string[] = [
     'password',
     'token',
     'contraseña',
     'secret',
     'cvv',
+    'authorization'
   ];
 
-  // El método que los hijos implementarán con la lógica real
+  // El método que los hijos implementarán con la lógica real de negocio
   protected abstract internalExecute(input: I): Promise<O>;
 
-  // El método público que llama el controlador
+  // El método público que ejecuta el flujo controlado
   async execute(input: I): Promise<O> {
     try {
-      this.logger.log(
-        `Ejecutando caso de uso con: ${JSON.stringify(input, this.maskSensitive)}`,
+      console.log(
+        `[${this.constructor.name}] Ejecutando con: ${JSON.stringify(input, this.maskSensitive)}`,
       );
+      
       return await this.internalExecute(input);
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  maskSensitive = (key: string, value: any) => {
-    if (this.sensitiveKeys.includes(key.toLowerCase())) {
+  private maskSensitive = (key: string, value: any): any => {
+    if (typeof key === 'string' && this.sensitiveKeys.includes(key.toLowerCase())) {
       return '*****';
     }
     return value;
   };
 
-  private handleError(error: any): never {
-    this.logger.error(error);
-    // Aquí puedes mapear errores de Dominio a errores de NestJS (HTTP)
-    if (error.isDomainError) {
-      throw error; // O un transformador de excepciones
+  private handleError(error: unknown): never {
+    console.error(`[Error en ${this.constructor.name}]:`, error);
+
+    // Si ya es un error de nuestro propio dominio, lo dejamos pasar intacto
+    if (error && typeof error === 'object' && 'isDomainError' in error) {
+      throw error; 
     }
-    throw new InternalServerErrorException('Error inesperado en el servidor');
+
+    // Si es un error genérico (ej. fallo de conexión a BD, error de sintaxis)
+    // Lanzamos un error nativo de nuestra capa de aplicación, NO de NestJS
+    if (error instanceof Error) {
+      throw error;
+    }
+    
+    throw new Error('Unexpected application error');
   }
 }
-
-

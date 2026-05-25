@@ -45,7 +45,7 @@ export class UserSeeder implements Seeder {
         if (!role) {
           throw new Error(`Rol ${u.role} no encontrado para el usuario ${u.username}`);
         }
-        await this.userRepository.assingRoles(user.getId(), [role.getId()])
+        await this.userRepository.assignRoles(user.getId(), [role.getId()])
       }
     }
   }

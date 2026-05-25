@@ -18,7 +18,7 @@ export class UpdateUserRolesUseCase extends BaseUseCase<UpdateUserRolesCommand, 
       throw new UserNotFoundError(id);
     }
 
-    await this.userRepo.assingRoles(user.getId() , data.roles);
+    await this.userRepo.assignRoles(user.getId() , data.roles);
   }
 }
 
