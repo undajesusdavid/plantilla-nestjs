@@ -3,28 +3,42 @@ import { Inject, Module } from '@nestjs/common';
 //CONTROLLERS
 import { PermissionController } from '@modules/permissions/infrastructure/nestjs/controllers/permission.controller';
 
-//IMPORTS
+
+import {
+  //IMPORTS
+  PersistenceModels,
+  //EXPORTS
+  ServiceExports,
+  UseCaseExports,
+  //PROVIDERS
+  ServicesProvider,
+  UseCasesProvider,
+  MappersProvider
+
+} from "./context";
+
+//PATRON BUS
 import { NestCommandBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-command-bus';
 import { NestQueryBus } from '@src/shared/infrastructure/framework/nest/module/bus/nest-query-bus';
-import { PersistenceModels } from './imports/persistence-models.import';
-//EXPORTS
-import { ServiceExports } from './exports/service.exports';
-import { UseCaseExports } from './exports/use-case.exports';
-
-//PROVIDERS
-import { ServicesProvider } from './providers/services.provider';
-import { UseCasesProvider } from './providers/use-cases.provider';
-import { MappersProvider } from './providers/mappers.provider';
 import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module/nest-base-module';
 import { COMMAND_BUS } from '@shared/app/bus/command-bus';
 import { QUERY_BUS } from '@shared/app/bus/query-bus';
 
 
 @Module({
-  imports: [...PersistenceModels],
+  imports: [
+    ...PersistenceModels
+  ],
+  providers: [
+    ...ServicesProvider, 
+    ...UseCasesProvider, 
+    ...MappersProvider
+  ],
   controllers: [PermissionController],
-  providers: [...ServicesProvider, ...UseCasesProvider, ...MappersProvider],
-  exports: [...ServiceExports, ...UseCaseExports],
+  exports: [
+    ...ServiceExports, 
+    ...UseCaseExports
+  ],
 })
 export class PermissionModule extends NestBaseModule {
   constructor(

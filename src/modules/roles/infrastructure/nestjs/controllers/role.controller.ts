@@ -16,9 +16,9 @@ import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
 // ENTIDAD DEL DOMINIO
 import { Role } from '@modules/roles/core/entities/Role';
 // DTOs request
-import { UpdateRoleRequestDto } from '@src/modules/roles/infrastructure/nestjs/dto/request/update-role-request.dto';
-import { CreateRoleRequestDto } from '@src/modules/roles/infrastructure/nestjs/dto/request/create-role-request.dto';
-import { RoleResponseDto } from '@src/modules/roles/infrastructure/nestjs/dto/response/role-response.dto';
+import { UpdateRoleRequestDto } from '@src/modules/roles/infrastructure/nestjs/controllers/dto/request/update-role-request.dto';
+import { CreateRoleRequestDto } from '@src/modules/roles/infrastructure/nestjs/controllers/dto/request/create-role-request.dto';
+import { RoleResponseDto } from '@src/modules/roles/infrastructure/nestjs/controllers/dto/response/role-response.dto';
 // PATRON BUS
 import { COMMAND_BUS, type CommandBus } from '@shared/app/bus/command-bus';
 import { QUERY_BUS, type QueryBus } from '@shared/app/bus/query-bus';

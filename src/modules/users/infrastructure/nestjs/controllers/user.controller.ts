@@ -14,22 +14,22 @@ import {
 import {
     CreateUserRequestDto,
     CreateUserDtoResponse,
-} from '@modules/users/infrastructure/nestjs/dto/create-user-request.dto';
+} from '@src/modules/users/infrastructure/nestjs/controllers/dto/create-user-request.dto';
 import {
     UpdateUserRequestDto,
     UpdateUserDtoResponse,
-} from '@modules/users/infrastructure/nestjs/dto/update-user-request.dto';
-import { GetUserDtoResponse } from '@modules/users/infrastructure/nestjs/dto/get-user-request.dto';
+} from '@src/modules/users/infrastructure/nestjs/controllers/dto/update-user-request.dto';
+import { GetUserDtoResponse } from '@src/modules/users/infrastructure/nestjs/controllers/dto/get-user-request.dto';
 import {
     AuthUserRequestDto,
     AuthUserDtoResponse,
-} from '@modules/users/infrastructure/nestjs/dto/auth-user-request.dto';
+} from '@src/modules/users/infrastructure/nestjs/controllers/dto/auth-user-request.dto';
 
 // Import Guards
 import { JwtAuthGuard } from '@shared/infrastructure/framework/nest/controller/guards/jwt-auth.guard';
 import { AccessGuard } from '@shared/infrastructure/framework/nest/controller/guards/access.guard';
 // Import Pipes
-import { UserIdPipe } from '@modules/users/infrastructure/nestjs/pipes/user-id.pipe';
+import { UserIdPipe } from '@src/modules/users/infrastructure/nestjs/controllers/pipes/user-id.pipe';
 // Custom decorators
 import { Permissions } from '@src/shared/infrastructure/framework/nest/controller/decorators/permissions.decorator';
 import { type TokenPayload, CurrentUser } from '@src/shared/infrastructure/framework/nest/controller/decorators/current-user.decorator';
@@ -50,7 +50,7 @@ import { DeleteUserCommand } from '@modules/users/app/delete-user/delete-user.co
 import { UpdateUserCommand } from '@modules/users/app/update-user/update-user.command';
 import { GetMyPermissionsQuery } from '@modules/users/app/get-my-permissions/get-my-permissions.query';
 import { MyPermissionsResponse } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
-import { UpdateUserRolesRequestDto } from '../dto/update-user-roles-request.dto';
+import { UpdateUserRolesRequestDto } from './dto/update-user-roles-request.dto';
 import { UpdateUserRolesCommand } from '@src/modules/users/app/update-user-roles/update-user-roles.command';
 
 @Controller('users')

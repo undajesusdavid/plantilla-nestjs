@@ -3,7 +3,7 @@ import { JwtAuthGuard } from '@shared/infrastructure/framework/nest/controller/g
 import { AccessGuard } from '@shared/infrastructure/framework/nest/controller/guards/access.guard';
 import { Permissions } from '@src/shared/infrastructure/framework/nest/controller/decorators/permissions.decorator';
 import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
-import { PermissionResponseDto } from '../dto/response/permission-response.dto';
+import { PermissionResponseDto } from './dto/response/permission-response.dto';
 
 // PATRON BUS
 import { COMMAND_BUS, type CommandBus } from '@shared/app/bus/command-bus';

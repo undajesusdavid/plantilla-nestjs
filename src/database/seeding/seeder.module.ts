@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SharedModule } from '../../shared/infrastructure/framework/nest/shared.module';
-import { UserModule } from '@modules/users/infrastructure/nestjs/context/user.module';
-import { RolesModule } from '@modules/roles/infrastructure/nestjs/context/roles.module';
-import { PermissionModule } from '@modules/permissions/infrastructure/nestjs/context/permission.module';
+import { UserModule } from '@modules/users/infrastructure/nestjs/user.module';
+import { RolesModule } from '@src/modules/roles/infrastructure/nestjs/roles.module';
+import { PermissionModule } from '@src/modules/permissions/infrastructure/nestjs/permission.module';
 import { PermissionSeeder } from '@modules/permissions/infrastructure/persistence/seeding/permission.seeder';
 import { RoleSeeder } from '@modules/roles/infrastructure/persistence/seeding/role.seeder';
 import { UserSeeder } from '@modules/users/infrastructure/persistence/seeding/user.seeder';

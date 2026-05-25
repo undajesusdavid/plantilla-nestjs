@@ -3,18 +3,20 @@ import { Inject, Module } from '@nestjs/common';
 // CONTROLLERS
 import { UserController } from '@modules/users/infrastructure/nestjs/controllers/user.controller';
 
-// IMPORTS
-import { PersistenceModels } from './imports/persistence-models.import';
 
-// EXPORTS
-import { PersistenceExport } from './exports/persistence.export';
-import { ServiceExport } from './exports/service.export';
-import { UseCaseExport } from './exports/use-case.export';
+import {
+  // IMPORTS
+  PersistenceModels,
+  // EXPORTS
+  PersistenceExport,
+  ServiceExport,
+  UseCaseExport,
+  // PROVIDERS
+  PersistenceProvider,
+  ServiceProvider,
+  UseCaseProvider,
 
-// PROVIDERS
-import { PersistenceProvider } from './providers/persistence.provider';
-import { ServiceProvider } from './providers/service.provider';
-import { UseCaseProvider } from './providers/use-case.provider';
+} from "./context";
 
 
 //PATRON BUS
@@ -31,13 +33,13 @@ import { NestBaseModule } from '@src/shared/infrastructure/framework/nest/module
   imports: [
     ...PersistenceModels
   ],
-  controllers: [
-    UserController
-  ],
   providers: [
     ...ServiceProvider, 
     ...UseCaseProvider, 
     ...PersistenceProvider
+  ],
+  controllers: [
+    UserController
   ],
   exports: [
     ...ServiceExport, 
