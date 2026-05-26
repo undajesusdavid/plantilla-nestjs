@@ -28,6 +28,7 @@ import { DeleteUserUseCase } from '@modules/users/app/delete-user/delete-user.us
 import { GetMyPermissionsUseCase } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
 import { UpdateUserRolesUseCase } from '@src/modules/users/app/update-user-roles/update-user-roles.use-case';
 
+
 export const UseCaseProvider = [
   {
     provide: GetMyPermissionsUseCase,
@@ -70,12 +71,12 @@ export const UseCaseProvider = [
   },
   {
     provide: AuthUserUseCase,
+    inject: [USER_REPOSITORY, AUTH_TOKEN_SERVICE, HASHED_SERVICE],
     useFactory: (
       repo: UserRepository,
       authToken: AuthTokenService,
-      hashed: HashedService,
+      hashed: HashedService
     ) => new AuthUserUseCase(repo, authToken, hashed),
-    inject: [USER_REPOSITORY, AUTH_TOKEN_SERVICE, HASHED_SERVICE],
   },
 ];
 

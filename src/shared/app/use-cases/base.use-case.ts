@@ -1,10 +1,7 @@
 import { IUseCase } from '@shared/core/interfaces/use-case.interface';
-import { EventBus } from '../bus/event-bus';
-import { Event } from '../bus/event';
 
 export abstract class BaseUseCase<I, O> implements IUseCase<I, O> {
 
-  public eventBus!: EventBus;
   protected readonly sensitiveKeys: string[] = [
     'password',
     'token',
@@ -37,11 +34,6 @@ export abstract class BaseUseCase<I, O> implements IUseCase<I, O> {
     return value;
   };
 
-  protected async publishEvent(events: Event | Event[]): Promise<void> {
-    if (this.eventBus) {
-      await this.eventBus.publish(events);
-    }
-  }
 
   private handleError(error: unknown): never {
     console.error(`[Error en ${this.constructor.name}]:`, error);

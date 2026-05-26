@@ -40,7 +40,7 @@ import {
   ],
 })
 export class UserModule extends NestBaseModule {
-  constructor(private readonly userGateway: UserGateway) {
+  constructor() {
     super('Usuarios', [...UseCaseProvider]);
   }
 }

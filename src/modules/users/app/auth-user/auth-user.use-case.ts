@@ -10,7 +10,6 @@ import {
   InvalidCredentialsError,
   InsufficientPermissionsError,
 } from '@modules/users/app/errors';
-import { AuthUserEvent } from './auth-user.event';
 
 export class AuthUserUseCase extends BaseUseCase<
   AuthUserCommand,
@@ -54,8 +53,6 @@ export class AuthUserUseCase extends BaseUseCase<
       id: userId,
       username: userName,
     });
-
-    await this.publishEvent(new AuthUserEvent(userId, userName));
 
     return {
       token: token,
