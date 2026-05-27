@@ -1,7 +1,7 @@
 import { CreateUserUseCase } from '@modules/users/app/create-user/create-user.use-case';
 import { CreateUserCommand } from '@modules/users/app/create-user/create-user.command';
 import { UserRepository } from '@modules/users/core/contracts/UserRepository';
-import { IUuidService } from '@shared/core/interfaces/uuid-service.interface';
+import { IUuidService } from '@src/shared/core/interfaces/uuid-service.interface';
 import { HashedService } from '@modules/users/core/contracts/HashedService';
 import {
   DuplicateUsernameError,

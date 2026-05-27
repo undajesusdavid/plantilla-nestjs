@@ -16,7 +16,11 @@ import {
 import {
   UUID_SERVICE,
   IUuidService,
-} from '@shared/core/interfaces/uuid-service.interface';
+} from '@src/shared/core/interfaces/uuid-service.interface';
+import { 
+  EVENT_EMITTER, 
+  IEventEmitter 
+} from '@src/shared/core/interfaces/events/event-emitter';
 // Casos de Uso
 
 import { GetUserUseCase } from '@modules/users/app/get-user/get-user.use-case';
@@ -27,6 +31,7 @@ import { UpdateUserUseCase } from '@modules/users/app/update-user/update-user.us
 import { DeleteUserUseCase } from '@modules/users/app/delete-user/delete-user.use-case';
 import { GetMyPermissionsUseCase } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
 import { UpdateUserRolesUseCase } from '@src/modules/users/app/update-user-roles/update-user-roles.use-case';
+
 
 
 export const UseCaseProvider = [
@@ -71,12 +76,13 @@ export const UseCaseProvider = [
   },
   {
     provide: AuthUserUseCase,
-    inject: [USER_REPOSITORY, AUTH_TOKEN_SERVICE, HASHED_SERVICE],
+    inject: [USER_REPOSITORY, AUTH_TOKEN_SERVICE, HASHED_SERVICE, EVENT_EMITTER],
     useFactory: (
       repo: UserRepository,
       authToken: AuthTokenService,
-      hashed: HashedService
-    ) => new AuthUserUseCase(repo, authToken, hashed),
+      hashed: HashedService,
+      eventEmitter: IEventEmitter
+    ) => new AuthUserUseCase(repo, authToken, hashed, eventEmitter),
   },
 ];
 

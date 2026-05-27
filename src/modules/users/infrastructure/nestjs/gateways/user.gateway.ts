@@ -1,33 +1,33 @@
-import { 
-  WebSocketGateway, 
-  WebSocketServer, 
+import { OnEvent } from '@nestjs/event-emitter';
+import {
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
+import { configGateway } from '@src/shared/infrastructure/framework/nest/gateway/config-gateway';
 import { Server, Socket } from 'socket.io';
-import { Inject } from '@nestjs/common';
-import { COMMAND_BUS } from '@src/shared/app/bus/command-bus';
-import { NestCommandBus } from '@shared/infrastructure/framework/nest/module/bus/nest-command-bus';
 
 @WebSocketGateway({
-  cors: { origin: '*' }, 
-  namespace: 'users'    
+  ...configGateway,
+  namespace: 'users'
 })
 export class UserGateway {
   @WebSocketServer()
   private readonly server!: Server;
 
-  constructor(
-    @Inject(COMMAND_BUS) private readonly commandBus: NestCommandBus
-  ) {}
+  constructor() { }
 
+  // El Gateway escucha el evento del Caso de Uso
+  @OnEvent('auth-user')
+  handleUserAuthenticatedEvent(payload: { userId: string; username: string; occurredAt: Date }) {
+    console.log(`[Gateway] Evento interno recibido. Retransmitiendo vía WebSocket a /users...`);
 
-  // 1. Escuchar cuando un cliente se conecta
-  handleConnection(client: Socket) {
-    console.log(`Cliente conectado a usuarios: ${client.id}`);
-  }
-
-  // 2. Escuchar cuando un cliente se desconecta
-  handleDisconnect(client: Socket) {
-    console.log(`Cliente desconectado: ${client.id}`);
+    // Transmisión masiva (Broadcasting) al frontend en React
+    this.server.emit('user-authenticated', {
+      occurredAt: payload.occurredAt,
+      userId: payload.userId,
+      username: payload.username,
+    });
   }
 
 }

@@ -11,7 +11,7 @@ import {
 import {
   UUID_SERVICE,
   IUuidService,
-} from '@shared/core/interfaces/uuid-service.interface';
+} from '@src/shared/core/interfaces/uuid-service.interface';
 
 // Use Cases
 import { CreateRoleUseCase } from '@modules/roles/app/create-role/create-role.use-case';

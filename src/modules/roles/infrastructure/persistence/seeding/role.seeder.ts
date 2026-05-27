@@ -6,8 +6,8 @@ import { ROLES } from '@modules/roles/core/seeds/roles.seeds';
 import { Role } from '@modules/roles/core/entities/Role';
 import { PERMISSION_REPOSITORY } from '@modules/permissions/core/contracts/PermissionRepository';
 import type { PermissionRepository } from '@modules/permissions/core/contracts/PermissionRepository';
-import { UUID_SERVICE } from '@shared/core/interfaces/uuid-service.interface';
-import type { IUuidService } from '@shared/core/interfaces/uuid-service.interface';
+import { UUID_SERVICE } from '@src/shared/core/interfaces/uuid-service.interface';
+import type { IUuidService } from '@src/shared/core/interfaces/uuid-service.interface';
 
 @Injectable()
 export class RoleSeeder implements Seeder {

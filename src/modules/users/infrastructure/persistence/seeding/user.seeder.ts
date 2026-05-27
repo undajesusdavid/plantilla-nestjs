@@ -8,8 +8,8 @@ import { USERS } from '@modules/users/core/seeds/User.seeds';
 import { User } from '@modules/users/core/entities/User';
 import { ROLE_REPOSITORY } from '@modules/roles/core/contracts/RoleRepository';
 import type { RoleRepository } from '@modules/roles/core/contracts/RoleRepository';
-import { UUID_SERVICE } from '@shared/core/interfaces/uuid-service.interface';
-import type { IUuidService } from '@shared/core/interfaces/uuid-service.interface';
+import { UUID_SERVICE } from '@src/shared/core/interfaces/uuid-service.interface';
+import type { IUuidService } from '@src/shared/core/interfaces/uuid-service.interface';
 
 @Injectable()
 export class UserSeeder implements Seeder {

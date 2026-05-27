@@ -1,6 +1,6 @@
 import type { RoleRepository } from '@modules/roles/core/contracts/RoleRepository';
 import type { PermissionRepository } from '@modules/permissions/core/contracts/PermissionRepository';
-import type { IUuidService } from '@shared/core/interfaces/uuid-service.interface';
+import type { IUuidService } from '@src/shared/core/interfaces/uuid-service.interface';
 import { Role } from '@modules/roles/core/entities/Role';
 import type { IUnitOfWork } from '@shared/core/interfaces/unit-of-work.interface';
 import { BaseUseCase } from '@shared/app/use-cases/base.use-case';

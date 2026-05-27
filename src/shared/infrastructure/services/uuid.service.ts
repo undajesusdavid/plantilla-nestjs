@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IUuidService } from '@shared/core/interfaces/uuid-service.interface';
+import { IUuidService } from '@src/shared/core/interfaces/uuid-service.interface';
 import { ErrorUuidService } from '@shared/app/errors/ErrorUuidService';
 import { uuidv7 } from 'uuidv7';
 
