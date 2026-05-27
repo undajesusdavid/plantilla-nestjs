@@ -7,12 +7,12 @@ export class AuthUserRequestDto {
   @IsDefined({ message: 'El nombre de usuario es obligatorio' })
   @IsString({ message: 'El nombre de usuario debe ser de tipo string' })
   @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
-  username: string;
+  username!: string;
   //--------------------------------------------------------------------------
   @IsDefined({ message: 'La contraseña es obligatoria' })
   @IsString({ message: 'La contraseña debe ser de tipo string' })
   @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
-  password: string;
+  password!: string;
   //--------------------------------------------------------------------------
 }
 

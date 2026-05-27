@@ -14,16 +14,16 @@ import {
 import {
     CreateUserRequestDto,
     CreateUserDtoResponse,
-} from '@src/modules/users/infrastructure/nestjs/controllers/dto/create-user-request.dto';
+} from '@src/modules/users/infrastructure/nestjs/controllers/dto/request/create-user-request.dto';
 import {
     UpdateUserRequestDto,
     UpdateUserDtoResponse,
-} from '@src/modules/users/infrastructure/nestjs/controllers/dto/update-user-request.dto';
-import { GetUserDtoResponse } from '@src/modules/users/infrastructure/nestjs/controllers/dto/get-user-request.dto';
+} from '@src/modules/users/infrastructure/nestjs/controllers/dto/request/update-user-request.dto';
+import { GetUserDtoResponse } from '@src/modules/users/infrastructure/nestjs/controllers/dto/request/get-user-request.dto';
 import {
     AuthUserRequestDto,
     AuthUserDtoResponse,
-} from '@src/modules/users/infrastructure/nestjs/controllers/dto/auth-user-request.dto';
+} from '@src/modules/users/infrastructure/nestjs/controllers/dto/request/auth-user-request.dto';
 
 // Import Guards
 import { JwtAuthGuard } from '@shared/infrastructure/framework/nest/controller/guards/jwt-auth.guard';
@@ -50,8 +50,13 @@ import { DeleteUserCommand } from '@modules/users/app/delete-user/delete-user.co
 import { UpdateUserCommand } from '@modules/users/app/update-user/update-user.command';
 import { GetMyPermissionsQuery } from '@modules/users/app/get-my-permissions/get-my-permissions.query';
 import { MyPermissionsResponse } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
-import { UpdateUserRolesRequestDto } from './dto/update-user-roles-request.dto';
+import { UpdateUserRolesRequestDto } from './dto/request/update-user-roles-request.dto';
 import { UpdateUserRolesCommand } from '@src/modules/users/app/update-user-roles/update-user-roles.command';
+
+import { 
+    UserResponseDto, 
+    AuthResponseDto 
+} from './dto';
 
 @Controller('users')
 export class UserController {
@@ -59,6 +64,14 @@ export class UserController {
         @Inject(COMMAND_BUS) private readonly command: CommandBus,
         @Inject(QUERY_BUS) private readonly query: QueryBus,
     ) { }
+
+    @Post('/login')
+    async login(@Body() dto: AuthUserRequestDto): Promise<AuthResponseDto> {
+        const authUser = await this.command.execute<AuthUserResponse>(
+            new AuthUserCommand(dto.username, dto.password),
+        );
+        return new AuthResponseDto(authUser);
+    }
 
     @Get('/me/permissions')
     @UseGuards(JwtAuthGuard)
@@ -71,39 +84,39 @@ export class UserController {
     @Get()
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
-    async getAll(): Promise<GetUserDtoResponse[]> {
+    async getAll(): Promise<UserResponseDto[]> {
         const users = await this.query.execute<User[]>(new GetUsersQuery());
-        return users.map((user) => new GetUserDtoResponse(user));
+        return users.map((user) => new UserResponseDto(user));
+    }
+
+    @Get()
+    @Permissions(PERMISSIONS.READ_USERS.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async getWithPagination(): Promise<UserResponseDto[]> {
+        const users = await this.query.execute<User[]>(new GetUsersQuery());
+        return users.map((user) => new UserResponseDto(user));
     }
 
     @Get(':id')
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
-    async getOne(
-        @Param('id', UserIdPipe) id: string,
-    ): Promise<GetUserDtoResponse> {
+    async getOne(@Param('id', UserIdPipe) id: string): Promise<UserResponseDto> {
         const user = await this.query.execute<User>(new GetUserQuery(id));
-        return new GetUserDtoResponse(user);
+        return new UserResponseDto(user);
     }
 
-    @Post('/login')
-    async login(@Body() dto: AuthUserRequestDto): Promise<AuthUserDtoResponse> {
-        const authUser = await this.command.execute<AuthUserResponse>(
-            new AuthUserCommand(dto.username, dto.password),
-        );
-        return new AuthUserDtoResponse(authUser);
-    }
+  
 
     @Post('/create')
     @Permissions(PERMISSIONS.CREATE_USER.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
     async register(
         @Body() dto: CreateUserRequestDto,
-    ): Promise<CreateUserDtoResponse> {
+    ): Promise<UserResponseDto> {
         const user = await this.command.execute<User>(
             new CreateUserCommand(dto.username, dto.password, dto.email, dto.active),
         );
-        return new CreateUserDtoResponse(user);
+        return new UserResponseDto(user);
     }
 
     @Put('update/:id')
@@ -112,7 +125,7 @@ export class UserController {
     async update(
         @Param('id', UserIdPipe) id: string,
         @Body() dto: UpdateUserRequestDto,
-    ): Promise<UpdateUserDtoResponse> {
+    ): Promise<UserResponseDto> {
         const user = await this.command.execute<User>(
             new UpdateUserCommand({
                 id: id,
@@ -123,7 +136,19 @@ export class UserController {
                 },
             }),
         );
-        return new UpdateUserDtoResponse(user);
+        return new UserResponseDto(user);
+    }
+
+    @Delete('delete/:id')
+    @Permissions(PERMISSIONS.DELETE_USER.name)
+    @UseGuards(JwtAuthGuard, AccessGuard)
+    async delete(
+        @Param('id', UserIdPipe) id: string,
+    ): Promise<UserResponseDto> {
+        const user = await this.command.execute<User>(
+            new DeleteUserCommand({ id }),
+        );
+        return new UserResponseDto(user);
     }
 
     @Put('update/roles/:id')
@@ -143,17 +168,7 @@ export class UserController {
         );
     }
 
-    @Delete('delete/:id')
-    @Permissions(PERMISSIONS.DELETE_USER.name)
-    @UseGuards(JwtAuthGuard, AccessGuard)
-    async delete(
-        @Param('id', UserIdPipe) id: string,
-    ): Promise<GetUserDtoResponse> {
-        const user = await this.command.execute<User>(
-            new DeleteUserCommand({ id }),
-        );
-        return new GetUserDtoResponse(user);
-    }
+    
 }
 
 
