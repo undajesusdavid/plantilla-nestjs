@@ -2,7 +2,7 @@ import { ArgumentsHost, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { GlobalExceptionFilter } from '@shared/infrastructure/adapters/nest/filters/global-exception.filter';
 import { AppError } from '@shared/core/errors/app-error';
-import { InvalidCredentialsError } from '@modules/users/app/errors';
+import { InvalidCredentialsError } from '@src/modules/users/core/errors';
 
 describe('GlobalExceptionFilter', () => {
   let filter: GlobalExceptionFilter;

@@ -10,53 +10,45 @@ import {
     UseGuards,
 } from '@nestjs/common';
 
-// Import DTO
-import {
-    CreateUserRequestDto,
-    CreateUserDtoResponse,
-} from '@src/modules/users/infrastructure/nestjs/controllers/dto/request/create-user-request.dto';
-import {
-    UpdateUserRequestDto,
-    UpdateUserDtoResponse,
-} from '@src/modules/users/infrastructure/nestjs/controllers/dto/request/update-user-request.dto';
-import { GetUserDtoResponse } from '@src/modules/users/infrastructure/nestjs/controllers/dto/request/get-user-request.dto';
-import {
-    AuthUserRequestDto,
-    AuthUserDtoResponse,
-} from '@src/modules/users/infrastructure/nestjs/controllers/dto/request/auth-user-request.dto';
+// Shared
+import { PERMISSIONS } from '@shared/core/constants';
+import { JwtAuthGuard, AccessGuard } from '@shared/infrastructure/framework/nest/controller/guards';
+import { Permissions, CurrentUser } from '@shared/infrastructure/framework/nest/controller/decorators';
+import { COMMAND_BUS, type CommandBus } from '@shared/app/bus/command-bus';
+import { QUERY_BUS, type QueryBus } from '@shared/app/bus/query-bus';
 
-// Import Guards
-import { JwtAuthGuard } from '@shared/infrastructure/framework/nest/controller/guards/jwt-auth.guard';
-import { AccessGuard } from '@shared/infrastructure/framework/nest/controller/guards/access.guard';
-// Import Pipes
-import { UserIdPipe } from '@src/modules/users/infrastructure/nestjs/controllers/pipes/user-id.pipe';
-// Custom decorators
-import { Permissions } from '@src/shared/infrastructure/framework/nest/controller/decorators/permissions.decorator';
-import { type TokenPayload, CurrentUser } from '@src/shared/infrastructure/framework/nest/controller/decorators/current-user.decorator';
-// Import Permissions
-import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
-// import uses case
 
-// Import CommandBus and QueryBus
-import { COMMAND_BUS, type CommandBus } from '@src/shared/app/bus/command-bus';
-import { QUERY_BUS, type QueryBus } from '@src/shared/app/bus/query-bus';
-import { GetUserQuery } from '@modules/users/app/get-user/get-user.query';
 import { User } from '@modules/users/core/entities/User';
-import { GetUsersQuery } from '@modules/users/app/get-users/get-users.query';
-import { AuthUserCommand } from '@modules/users/app/auth-user/auth-user.command';
 import { AuthUserResponse } from '@modules/users/app/auth-user/auth-user.response';
-import { CreateUserCommand } from '@modules/users/app/create-user/create-user.command';
-import { DeleteUserCommand } from '@modules/users/app/delete-user/delete-user.command';
-import { UpdateUserCommand } from '@modules/users/app/update-user/update-user.command';
-import { GetMyPermissionsQuery } from '@modules/users/app/get-my-permissions/get-my-permissions.query';
 import { MyPermissionsResponse } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
-import { UpdateUserRolesRequestDto } from './dto/request/update-user-roles-request.dto';
-import { UpdateUserRolesCommand } from '@src/modules/users/app/update-user-roles/update-user-roles.command';
 
-import { 
+
+import {
+    //Queries
+    GetUserQuery,
+    GetUsersQuery,
+    GetMyPermissionsQuery,
+    //Commands
+    AuthUserCommand,
+    CreateUserCommand,
+    DeleteUserCommand,
+    UpdateUserCommand,
+    UpdateUserRolesCommand
+} from '@modules/users/app';
+
+import {
+    //Request
+    CreateUserRequestDto,
+    UpdateUserRequestDto,
+    UpdateUserRolesRequestDto,
+    AuthUserRequestDto,
+    //Response
     UserResponseDto, 
     AuthResponseDto 
 } from './dto';
+
+// PIPES
+import { UserIdPipe } from './pipes/user-id.pipe';
 
 @Controller('users')
 export class UserController {
@@ -75,9 +67,9 @@ export class UserController {
 
     @Get('/me/permissions')
     @UseGuards(JwtAuthGuard)
-    async getMyPermissions( @CurrentUser() user: TokenPayload): Promise<MyPermissionsResponse> {
+    async getMyPermissions( @CurrentUser() userId: string): Promise<MyPermissionsResponse> {
         return await this.query.execute<MyPermissionsResponse>(
-            new GetMyPermissionsQuery(user.id),
+            new GetMyPermissionsQuery(userId),
         );
     }
 
@@ -104,8 +96,6 @@ export class UserController {
         const user = await this.query.execute<User>(new GetUserQuery(id));
         return new UserResponseDto(user);
     }
-
-  
 
     @Post('/create')
     @Permissions(PERMISSIONS.CREATE_USER.name)

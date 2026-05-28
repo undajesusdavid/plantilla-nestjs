@@ -1,6 +1,6 @@
 import { HashedService } from '@modules/users/core/contracts/HashedService';
 import * as bcrypt from 'bcrypt';
-import { ErrorHashedService } from '@modules/users/app/errors/ErrorHashedService';
+import { ErrorHashedService } from '@src/modules/users/core/errors/ErrorHashedService';
 
 
 export class HashedServiceImp implements HashedService {

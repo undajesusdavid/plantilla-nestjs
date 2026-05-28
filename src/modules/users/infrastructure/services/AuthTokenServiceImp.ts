@@ -1,7 +1,7 @@
 import { AuthTokenService } from '@modules/users/core/contracts/AuthTokenService';
 import * as jwt from 'jsonwebtoken';
 import { SignOptions } from 'jsonwebtoken';
-import { ErrorAuthTokenService } from '@modules/users/app/errors/ErrorAuthTokenService';
+import { ErrorAuthTokenService } from '@src/modules/users/core/errors/ErrorAuthTokenService';
 
 
 export class AuthTokenServiceImp implements AuthTokenService {

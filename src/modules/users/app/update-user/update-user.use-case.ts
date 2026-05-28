@@ -2,7 +2,7 @@ import { BaseUseCase } from '@shared/app/use-cases/base.use-case';
 import { UpdateUserCommand } from './update-user.command';
 import { User } from '@modules/users/core/entities/User';
 import type { UserRepository } from '@modules/users/core/contracts/UserRepository';
-import { UserNotFoundError, DuplicateUsernameError, DuplicateEmailError } from '@modules/users/app/errors';
+import { UserNotFoundError, DuplicateUsernameError, DuplicateEmailError } from '@src/modules/users/core/errors';
 
 export class UpdateUserUseCase extends BaseUseCase<UpdateUserCommand, User> {
   static readonly HANDLED_COMMAND = UpdateUserCommand;

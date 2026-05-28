@@ -1,6 +1,5 @@
 import { Transform } from 'class-transformer';
 import { IsDefined, IsString } from 'class-validator';
-import { AuthUserResponse } from '@modules/users/app/auth-user/auth-user.response';
 
 export class AuthUserRequestDto {
   //--------------------------------------------------------------------------
@@ -15,17 +14,4 @@ export class AuthUserRequestDto {
   password!: string;
   //--------------------------------------------------------------------------
 }
-
-export class AuthUserDtoResponse {
-  token: string;
-  id: string;
-  username: string;
-
-  constructor(auth: AuthUserResponse) {
-    this.token = auth.token;
-    this.id = auth.id;
-    this.username = auth.username;
-  }
-}
-
 

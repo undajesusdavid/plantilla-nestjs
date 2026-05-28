@@ -4,7 +4,7 @@ import { User } from '@modules/users/core/entities/User';
 import type { UserRepository } from '@modules/users/core/contracts/UserRepository';
 import type { IUuidService } from '@src/shared/core/interfaces/uuid-service.interface';
 import type { HashedService } from '@modules/users/core/contracts/HashedService';
-import { DuplicateUsernameError, DuplicateEmailError } from '@modules/users/app/errors';
+import { DuplicateUsernameError, DuplicateEmailError } from '@src/modules/users/core/errors';
 
 export class CreateUserUseCase extends BaseUseCase<CreateUserCommand, User> {
   static readonly HANDLED_COMMAND = CreateUserCommand;

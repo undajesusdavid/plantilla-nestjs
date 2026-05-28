@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Seeder } from '@shared/infrastructure/persistence/seeding/seeder.interface';
 import { PERMISSION_REPOSITORY } from '@modules/permissions/core/contracts/PermissionRepository';
 import type { PermissionRepository } from '@modules/permissions/core/contracts/PermissionRepository';
-import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
+import { PERMISSIONS } from '@shared/core/constants';
 import { Permission } from '@modules/permissions/core/entities/Permission';
 
 @Injectable()

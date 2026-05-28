@@ -12,7 +12,7 @@ import {
 import { JwtAuthGuard } from '@shared/infrastructure/framework/nest/controller/guards/jwt-auth.guard';
 import { AccessGuard } from '@shared/infrastructure/framework/nest/controller/guards/access.guard';
 import { Permissions } from '@src/shared/infrastructure/framework/nest/controller/decorators/permissions.decorator';
-import { PERMISSIONS } from '@modules/permissions/core/seeds/Permission.seeds';
+import { PERMISSIONS } from '@shared/core/constants';
 // ENTIDAD DEL DOMINIO
 import { Role } from '@modules/roles/core/entities/Role';
 // DTOs request

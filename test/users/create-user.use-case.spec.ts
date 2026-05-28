@@ -6,7 +6,7 @@ import { HashedService } from '@modules/users/core/contracts/HashedService';
 import {
   DuplicateUsernameError,
   DuplicateEmailError,
-} from '@modules/users/app/errors';
+} from '@src/modules/users/core/errors';
 
 // Generate a valid UUIDv7
 function generateMockUUID(): string {

@@ -1,7 +1,7 @@
 import { BaseUseCase } from '@shared/app/use-cases/base.use-case';
 import { UpdateUserRolesCommand } from './update-user-roles.command';
 import type { UserRepository } from '@modules/users/core/contracts/UserRepository';
-import { UserNotFoundError } from '@modules/users/app/errors';
+import { UserNotFoundError } from '@src/modules/users/core/errors';
 
 export class UpdateUserRolesUseCase extends BaseUseCase<UpdateUserRolesCommand, void> {
   static readonly HANDLED_COMMAND = UpdateUserRolesCommand;

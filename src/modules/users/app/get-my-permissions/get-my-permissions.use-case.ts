@@ -1,7 +1,7 @@
 import { BaseUseCase } from '@shared/app/use-cases/base.use-case';
 import { GetMyPermissionsQuery } from './get-my-permissions.query';
 import type { UserRepository } from '@modules/users/core/contracts/UserRepository';
-import { UserNotFoundError } from '@modules/users/app/errors';
+import { UserNotFoundError } from '@src/modules/users/core/errors';
 
 export interface MyPermissionsResponse {
   roles: string[];

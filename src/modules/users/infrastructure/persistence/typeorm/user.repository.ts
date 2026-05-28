@@ -6,7 +6,7 @@ import { UserOrmEntity } from './user.model';
 import { TypeormUserMapper } from './user.mapper';
 import { BaseTypeOrmRepository } from '@shared/infrastructure/persistence/typeorm/typeorm.base-repository';
 import { TypeormRoleModel } from '@modules/roles/infrastructure/persistence/typeorm/role.model';
-import { ErrorRepositoryService } from '@modules/users/app/errors/ErrorRepositoryService';
+import { ErrorRepositoryService } from '@src/modules/users/core/errors/ErrorRepositoryService';
 
 
 export class TypeormUserRepository

@@ -9,7 +9,7 @@ import {
   UserInactiveError,
   InvalidCredentialsError,
   InsufficientPermissionsError,
-} from '@modules/users/app/errors';
+} from '@src/modules/users/core/errors';
 import { IEventEmitter } from '@src/shared/core/interfaces/events/event-emitter';
 import { AuthUserEvent } from './auth-user.event';
 

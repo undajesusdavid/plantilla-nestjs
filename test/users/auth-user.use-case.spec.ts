@@ -8,7 +8,7 @@ import {
   UserNotFoundError,
   InvalidCredentialsError,
   UserInactiveError,
-} from '@modules/users/app/errors';
+} from '@src/modules/users/core/errors';
 
 // Generate a valid UUIDv7
 function generateMockUUID(): string {
