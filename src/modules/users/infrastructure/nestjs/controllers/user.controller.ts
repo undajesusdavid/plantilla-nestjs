@@ -3,33 +3,28 @@ import {
     Controller,
     Delete,
     Get,
-    Inject,
     Param,
     Post,
     Put,
     UseGuards,
 } from '@nestjs/common';
-
+import { NestBaseController } from '@src/shared/infrastructure/framework/nest/controller/nest-base-controller';
 // Shared
 import { PERMISSIONS } from '@shared/core/constants';
 import { JwtAuthGuard, AccessGuard } from '@shared/infrastructure/framework/nest/controller/guards';
 import { Permissions, CurrentUser } from '@shared/infrastructure/framework/nest/controller/decorators';
-import { COMMAND_BUS, type CommandBus } from '@shared/app/bus/command-bus';
-import { QUERY_BUS, type QueryBus } from '@shared/app/bus/query-bus';
-
 
 import { User } from '@modules/users/core/entities/User';
-import { AuthUserResponse } from '@modules/users/app/auth-user/auth-user.response';
-import { MyPermissionsResponse } from '@modules/users/app/get-my-permissions/get-my-permissions.use-case';
-
 
 import {
     //Queries
     GetUserQuery,
     GetUsersQuery,
     GetMyPermissionsQuery,
+    MyPermissionsResponse,
     //Commands
     AuthUserCommand,
+    AuthUserResponse,
     CreateUserCommand,
     DeleteUserCommand,
     UpdateUserCommand,
@@ -50,16 +45,16 @@ import {
 // PIPES
 import { UserIdPipe } from './pipes/user-id.pipe';
 
+
 @Controller('users')
-export class UserController {
-    constructor(
-        @Inject(COMMAND_BUS) private readonly command: CommandBus,
-        @Inject(QUERY_BUS) private readonly query: QueryBus,
-    ) { }
+export class UserController extends NestBaseController {
+    constructor() {
+        super();
+    }
 
     @Post('/login')
     async login(@Body() dto: AuthUserRequestDto): Promise<AuthResponseDto> {
-        const authUser = await this.command.execute<AuthUserResponse>(
+        const authUser = await this.commandBus.execute<AuthUserResponse>(
             new AuthUserCommand(dto.username, dto.password),
         );
         return new AuthResponseDto(authUser);
@@ -68,7 +63,7 @@ export class UserController {
     @Get('/me/permissions')
     @UseGuards(JwtAuthGuard)
     async getMyPermissions( @CurrentUser() userId: string): Promise<MyPermissionsResponse> {
-        return await this.query.execute<MyPermissionsResponse>(
+        return await this.queryBus.execute<MyPermissionsResponse>(
             new GetMyPermissionsQuery(userId),
         );
     }
@@ -77,7 +72,7 @@ export class UserController {
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
     async getAll(): Promise<UserResponseDto[]> {
-        const users = await this.query.execute<User[]>(new GetUsersQuery());
+        const users = await this.queryBus.execute<User[]>(new GetUsersQuery());
         return users.map((user) => new UserResponseDto(user));
     }
 
@@ -85,7 +80,7 @@ export class UserController {
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
     async getWithPagination(): Promise<UserResponseDto[]> {
-        const users = await this.query.execute<User[]>(new GetUsersQuery());
+        const users = await this.queryBus.execute<User[]>(new GetUsersQuery());
         return users.map((user) => new UserResponseDto(user));
     }
 
@@ -93,7 +88,7 @@ export class UserController {
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
     async getOne(@Param('id', UserIdPipe) id: string): Promise<UserResponseDto> {
-        const user = await this.query.execute<User>(new GetUserQuery(id));
+        const user = await this.queryBus.execute<User>(new GetUserQuery(id));
         return new UserResponseDto(user);
     }
 
@@ -103,7 +98,7 @@ export class UserController {
     async register(
         @Body() dto: CreateUserRequestDto,
     ): Promise<UserResponseDto> {
-        const user = await this.command.execute<User>(
+        const user = await this.commandBus.execute<User>(
             new CreateUserCommand(dto.username, dto.password, dto.email, dto.active),
         );
         return new UserResponseDto(user);
@@ -116,7 +111,7 @@ export class UserController {
         @Param('id', UserIdPipe) id: string,
         @Body() dto: UpdateUserRequestDto,
     ): Promise<UserResponseDto> {
-        const user = await this.command.execute<User>(
+        const user = await this.commandBus.execute<User>(
             new UpdateUserCommand({
                 id: id,
                 data: {
@@ -135,7 +130,7 @@ export class UserController {
     async delete(
         @Param('id', UserIdPipe) id: string,
     ): Promise<UserResponseDto> {
-        const user = await this.command.execute<User>(
+        const user = await this.commandBus.execute<User>(
             new DeleteUserCommand({ id }),
         );
         return new UserResponseDto(user);
@@ -148,7 +143,7 @@ export class UserController {
         @Param('id', UserIdPipe) id: string,
         @Body() dto: UpdateUserRolesRequestDto,
     ): Promise<void> {
-        await this.command.execute<User>(
+        await this.commandBus.execute<User>(
             new UpdateUserRolesCommand({
                 id: id,
                 data: {
@@ -157,8 +152,6 @@ export class UserController {
             }),
         );
     }
-
-    
 }
 
 
