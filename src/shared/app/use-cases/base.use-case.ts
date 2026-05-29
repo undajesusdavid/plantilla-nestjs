@@ -1,7 +1,9 @@
 import { IUseCase } from '@shared/core/interfaces/use-case.interface';
+import { IEventEmitter } from '@src/shared/core/interfaces/events/event-emitter';
 
 export abstract class BaseUseCase<I, O> implements IUseCase<I, O> {
 
+  protected eventEmitter! : IEventEmitter;
   protected readonly sensitiveKeys: string[] = [
     'password',
     'token',
@@ -34,6 +36,8 @@ export abstract class BaseUseCase<I, O> implements IUseCase<I, O> {
     return value;
   };
 
+  
+
 
   private handleError(error: unknown): never {
     console.error(`[Error en ${this.constructor.name}]:`, error);
@@ -50,5 +54,10 @@ export abstract class BaseUseCase<I, O> implements IUseCase<I, O> {
     }
     
     throw new Error('Unexpected application error');
+  }
+
+
+  setEventEmitter(eventEmitter: IEventEmitter) {
+    this.eventEmitter = eventEmitter;
   }
 }

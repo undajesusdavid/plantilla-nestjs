@@ -10,7 +10,6 @@ import {
   InvalidCredentialsError,
   InsufficientPermissionsError,
 } from '@src/modules/users/core/errors';
-import { IEventEmitter } from '@src/shared/core/interfaces/events/event-emitter';
 import { AuthUserEvent } from './auth-user.event';
 
 export class AuthUserUseCase extends BaseUseCase<
@@ -22,8 +21,7 @@ export class AuthUserUseCase extends BaseUseCase<
   constructor(
     private userRepo: UserRepository,
     private authToken: AuthTokenService,
-    private hashed: HashedService,
-    private eventEmitter: IEventEmitter
+    private hashed: HashedService
   ) {
     super();
   }
@@ -57,10 +55,8 @@ export class AuthUserUseCase extends BaseUseCase<
       username: userName,
     });
 
-    const event = new AuthUserEvent(userId,username);
-    console.log(event.payload);
-    this.eventEmitter.emit(event);
-
+    this.eventEmitter.emit(new AuthUserEvent(userId,username));
+  
     return {
       token: token,
       id: userId,

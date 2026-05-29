@@ -17,12 +17,8 @@ import {
   UUID_SERVICE,
   IUuidService,
 } from '@src/shared/core/interfaces/uuid-service.interface';
-import { 
-  EVENT_EMITTER, 
-  IEventEmitter 
-} from '@src/shared/core/interfaces/events/event-emitter';
-// Casos de Uso
 
+// Casos de Uso
 import { GetUserUseCase } from '@modules/users/app/get-user/get-user.use-case';
 import { GetUsersUseCase } from '@modules/users/app/get-users/get-users.use-case';
 import { AuthUserUseCase } from '@modules/users/app/auth-user/auth-user.use-case';
@@ -76,13 +72,12 @@ export const UseCaseProvider = [
   },
   {
     provide: AuthUserUseCase,
-    inject: [USER_REPOSITORY, AUTH_TOKEN_SERVICE, HASHED_SERVICE, EVENT_EMITTER],
+    inject: [USER_REPOSITORY, AUTH_TOKEN_SERVICE, HASHED_SERVICE],
     useFactory: (
       repo: UserRepository,
       authToken: AuthTokenService,
       hashed: HashedService,
-      eventEmitter: IEventEmitter
-    ) => new AuthUserUseCase(repo, authToken, hashed, eventEmitter),
+    ) => new AuthUserUseCase(repo, authToken, hashed),
   },
 ];
 

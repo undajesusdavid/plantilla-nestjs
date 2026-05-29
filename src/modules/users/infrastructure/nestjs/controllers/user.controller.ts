@@ -13,7 +13,6 @@ import { NestBaseController } from '@src/shared/infrastructure/framework/nest/co
 import { PERMISSIONS } from '@shared/core/constants';
 import { JwtAuthGuard, AccessGuard } from '@shared/infrastructure/framework/nest/controller/guards';
 import { Permissions, CurrentUser } from '@shared/infrastructure/framework/nest/controller/decorators';
-
 import { User } from '@modules/users/core/entities/User';
 
 import {
