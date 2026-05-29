@@ -12,10 +12,7 @@ import {
 } from '@src/modules/users/core/errors';
 import { AuthUserEvent } from './auth-user.event';
 
-export class AuthUserUseCase extends BaseUseCase<
-  AuthUserCommand,
-  AuthUserResponse
-> {
+export class AuthUserUseCase extends BaseUseCase<AuthUserCommand, AuthUserResponse> {
   static readonly HANDLED_COMMAND = AuthUserCommand;
 
   constructor(
