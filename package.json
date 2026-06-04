@@ -41,6 +41,7 @@
     "cls-hooked": "^4.2.2",
     "dotenv": "^17.4.2",
     "jsonwebtoken": "^9.0.2",
+    "pdfmake": "^0.3.9",
     "pg": "^8.18.0",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.2.2",
