@@ -11,7 +11,7 @@ export class UserReportsController extends NestBaseController {
 
     @Get('user-list')
     @Header('Content-Type', 'application/pdf')
-    @Header('Content-Disposition', 'inline; filename="user-list.pdf"')
+    @Header('Content-Disposition', 'inline; filename="lista_de_usuarios.pdf"')
     async UserListReport(): Promise<StreamableFile> {
         const pdfStream = await this.queryBus.execute(new UserListReportQuery()) as Readable;
         return new StreamableFile(pdfStream);
