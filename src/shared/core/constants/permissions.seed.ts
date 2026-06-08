@@ -20,6 +20,7 @@ export const PERMISSIONS = {
   },
   
   /**--------------------------------------------------------------------------- */
+
   /** --------------------------------- ROLES ---------------------------------*/
 
   CREATE_ROLE: {
@@ -76,9 +77,17 @@ export const PERMISSIONS = {
     id: 304,
     name: 'user:delete',
     description: 'Permite eliminar un usuario',
-  }
+  },
 
   /**--------------------------------------------------------------------------- */
+  /** --------------------------------- REPORTES ---------------------------------*/
+  REPORT_USER_LIST: {
+    id: 305,
+    name: 'user_list_report:read',
+    description: 'Permite leer el reporte de la lista de usuarios',
+  }
+
+
 
 } as const;
 

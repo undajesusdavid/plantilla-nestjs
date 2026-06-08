@@ -4,6 +4,7 @@ import { SharedModule } from '@src/shared/infrastructure/framework/nest/shared.m
 import { UserModule } from '@modules/users/infrastructure/nestjs/user.module';
 import { RolesModule } from '@src/modules/roles/infrastructure/nestjs/roles.module';
 import { PermissionModule } from '@src/modules/permissions/infrastructure/nestjs/permission.module';
+import { ReportModule } from './modules/reports/infrastructure/nestjs/report.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { PermissionModule } from '@src/modules/permissions/infrastructure/nestjs
       envFilePath: '.env',
     }),
     SharedModule, // global
+    ReportModule,
     UserModule,
     RolesModule,
     PermissionModule,

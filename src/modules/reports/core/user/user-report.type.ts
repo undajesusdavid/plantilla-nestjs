@@ -1,7 +1,6 @@
-export interface User {
+export interface UserReport {
   id: string;
   username: string;
   email: string;
-  password: string;
   active: boolean;
 }
