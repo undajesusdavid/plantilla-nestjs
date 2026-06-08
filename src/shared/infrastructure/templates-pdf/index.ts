@@ -1,0 +1,1 @@
+export { ReportWrapperPdf } from './report-wrapper.pdf';

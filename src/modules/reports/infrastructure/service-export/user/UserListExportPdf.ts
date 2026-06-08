@@ -2,10 +2,12 @@ import { IUserListExportPdf } from "@src/modules/reports/app/user-reports/user-l
 import { UserListDataType } from "@src/modules/reports/app/user-reports/user-list/user-list-data.type";
 import { Readable } from "stream";
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { ReportWrapperPdf } from "@src/shared/infrastructure/templates-pdf/report-wrapper.pdf";
 
 export class UserListExportPdf implements IUserListExportPdf {
 
     async export(data: UserListDataType): Promise<Readable> {
+    
         const pdfDoc = await PDFDocument.create();
 
         const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
