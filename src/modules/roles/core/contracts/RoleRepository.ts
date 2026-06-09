@@ -1,4 +1,4 @@
-import { IBaseRepository } from '@shared/core/interfaces/base-repository.interface';
+import { IBaseRepository } from '@src/shared/core/interfaces/repositories/base-repository.interface';
 import { Role } from '@modules/roles/core/entities/Role';
 
 export const ROLE_REPOSITORY = Symbol('RoleRepository');

@@ -6,6 +6,7 @@ import {
     Param,
     Post,
     Put,
+    Query,
     UseGuards,
 } from '@nestjs/common';
 import { NestBaseController } from '@src/shared/infrastructure/framework/nest/controller/nest-base-controller';
@@ -37,12 +38,15 @@ import {
     UpdateUserRolesRequestDto,
     AuthUserRequestDto,
     //Response
-    UserResponseDto, 
-    AuthResponseDto 
+    UserResponseDto,
+    AuthResponseDto
 } from './dto';
 
 // PIPES
 import { UserIdPipe } from './pipes/user-id.pipe';
+import { GetUsersRequestDto } from './dto/request/get-users-request.dto';
+import { GetUsersResponseDto } from './dto/response/get-users-response.dto';
+import { UserEntityFiltered } from './dto/mappers/UserEntityFiltered';
 
 
 @Controller('users')
@@ -61,7 +65,7 @@ export class UserController extends NestBaseController {
 
     @Get('/me/permissions')
     @UseGuards(JwtAuthGuard)
-    async getMyPermissions( @CurrentUser() userId: string): Promise<MyPermissionsResponse> {
+    async getMyPermissions(@CurrentUser() userId: string): Promise<MyPermissionsResponse> {
         return await this.queryBus.execute<MyPermissionsResponse>(
             new GetMyPermissionsQuery(userId),
         );
@@ -70,18 +74,20 @@ export class UserController extends NestBaseController {
     @Get()
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
-    async getAll(): Promise<UserResponseDto[]> {
-        const users = await this.queryBus.execute<User[]>(new GetUsersQuery());
-        return users.map((user) => new UserResponseDto(user));
+    async getAll(@Query() query: GetUsersRequestDto): Promise<GetUsersResponseDto> {
+        const { search, page, limit } = query;
+
+        const { total, users } = await this.queryBus.execute<{ users: User[], total: number }>(
+            new GetUsersQuery(search, page, limit)
+        );
+        return new GetUsersResponseDto({
+            data: users.map(user => new UserEntityFiltered(user)),
+            total,
+            page,
+            limit
+        });
     }
 
-    @Get()
-    @Permissions(PERMISSIONS.READ_USERS.name)
-    @UseGuards(JwtAuthGuard, AccessGuard)
-    async getWithPagination(): Promise<UserResponseDto[]> {
-        const users = await this.queryBus.execute<User[]>(new GetUsersQuery());
-        return users.map((user) => new UserResponseDto(user));
-    }
 
     @Get(':id')
     @Permissions(PERMISSIONS.READ_USERS.name)
@@ -146,7 +152,7 @@ export class UserController extends NestBaseController {
             new UpdateUserRolesCommand({
                 id: id,
                 data: {
-                   roles: dto.roles
+                    roles: dto.roles
                 },
             }),
         );

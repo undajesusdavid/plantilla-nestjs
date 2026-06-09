@@ -1,4 +1,4 @@
-import { IBaseRepository } from '@shared/core/interfaces/base-repository.interface';
+import { IBaseRepository } from '@src/shared/core/interfaces/repositories/base-repository.interface';
 import { User } from '@modules/users/core/entities/User';
 
 export const USER_REPOSITORY = Symbol('UserRepository');

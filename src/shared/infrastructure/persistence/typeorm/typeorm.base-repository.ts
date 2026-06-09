@@ -1,8 +1,9 @@
 // src/shared/infrastructure/persistence/typeorm/base-typeorm.repository.ts
-import { Repository, ObjectLiteral, EntityManager, In } from 'typeorm';
-import { IBaseRepository } from '@shared/core/interfaces/base-repository.interface';
+import { Repository, ObjectLiteral, EntityManager, In, SelectQueryBuilder } from 'typeorm';
+import { IBaseRepository } from '@src/shared/core/interfaces/repositories/base-repository.interface';
 import { transactionStorage } from '@shared/infrastructure/persistence/typeorm/typeorm.transaction-context';
 import { BaseMapper } from '@src/shared/infrastructure/persistence/base/base.mapper';
+import { PaginatedOptions, PaginatedResult } from '@src/shared/core/interfaces/repositories/read-repository.interface';
 
 export abstract class BaseTypeOrmRepository<
   TDomain,
@@ -23,6 +24,41 @@ export abstract class BaseTypeOrmRepository<
   }
 
   // CONSULTAS
+
+  async findPaginated(options: PaginatedOptions): Promise<PaginatedResult<TDomain>> {
+    const { page, limit, search, filters } = options;
+
+    // 1. Calcular el desajuste (offset) para SQL
+    const skip = (page - 1) * limit;
+
+    // 2. Crear el QueryBuilder nativo de TypeORM
+    const queryBuilder = this.entityRepository.createQueryBuilder();
+
+    // 3. Aplicar filtros específicos y búsqueda por texto si la clase hija define las reglas
+    this.applySearchAndFilters(queryBuilder, search, filters);
+
+    // 4. Ejecutar la consulta de forma eficiente (Paginación a nivel de BD)
+    const [ormEntities, total] = await queryBuilder
+      .skip(skip)
+      .take(limit)
+      .getManyAndCount();
+
+    // 5. Mapear las entidades de Base de Datos de vuelta a Entidades de Dominio
+    const items = this.mapper.toDomainList(ormEntities);
+
+    return {
+      items,
+      total,
+    };
+  }
+
+  protected applySearchAndFilters(
+    queryBuilder: SelectQueryBuilder<TEntity>,
+    search?: string,
+    filters?: Record<string, any>
+  ): void {
+    // Por defecto no hace nada. Se personaliza en cada repositorio específico.
+  }
 
   async findAll(): Promise<TDomain[]> {
     const records = await this.entityRepository.find();

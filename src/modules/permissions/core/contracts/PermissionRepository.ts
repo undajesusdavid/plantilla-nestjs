@@ -1,5 +1,5 @@
 import { Permission } from '@modules/permissions/core/entities/Permission';
-import { IBaseRepository } from '@shared/core/interfaces/base-repository.interface';
+import { IBaseRepository } from '@src/shared/core/interfaces/repositories/base-repository.interface';
 
 export const PERMISSION_REPOSITORY = Symbol('PermissionRepository');
 
