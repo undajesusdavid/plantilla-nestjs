@@ -1,5 +1,12 @@
 // src/pdf-templates/config.ts
+import { imagenToBase64, logosPath } from '@utils/files';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+
+
+
+export async function logoBase64 () {
+    return await imagenToBase64(logosPath('undasystem.png'), 'png');
+}
 
 // Paleta de colores reutilizable
 export const PDF_THEME = {
