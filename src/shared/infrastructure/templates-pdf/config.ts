@@ -3,9 +3,13 @@ import { imagenToBase64, logosPath } from '@utils/files';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 
 
-
+//Logo por defecto
 export async function logoBase64 () {
-    return await imagenToBase64(logosPath('undasystem.png'), 'png');
+    try {
+       return await imagenToBase64(logosPath('logo.png'), 'png');
+    }catch (error) {
+        return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+    }
 }
 
 // Paleta de colores reutilizable

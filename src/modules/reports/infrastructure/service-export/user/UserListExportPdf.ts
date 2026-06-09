@@ -5,15 +5,13 @@ import { ReportWrapperPdf, RenderContext } from "@src/shared/infrastructure/temp
 
 export class UserListExportPdf implements IUserListExportPdf {
 
-
     async export(data: UserListDataType): Promise<Readable> {
-
         const pdfBytes = await ReportWrapperPdf({
             title: data.name,
-            date: data.generatedAt.toLocaleDateString(),
+            date: data.generatedAt,
             user: data.currentUser,
             logoBase64: data.logo,
-            renderContent: (context) => this.contentReport(context)
+            renderContent: (context) => this.contentReport(context, data)
         });
 
         const stream = new Readable();
@@ -23,32 +21,130 @@ export class UserListExportPdf implements IUserListExportPdf {
         return stream;
     }
 
-    contentReport = async (context: RenderContext): Promise<void> => {
+    contentReport = async (context: RenderContext, data: UserListDataType): Promise<void> => {
         const { page, fonts, colors, startY } = context;
-        const { width } = page.getSize();
 
-        // Subtítulo de la sección actual
-        page.drawText('Listado de Usuarios Registrados', {
-            x: 10,
-            y: startY,
-            size: 11,
-            font: fonts.regular,
-            color: colors.primary
+        // --- Configuración de Dimensiones de la Tabla Cerrada ---
+        const tableX = 50;           // Margen izquierdo de la tabla
+        const rowHeight = 20;        // Alto de cada fila (cabecera y datos)
+        const paddingTextX = 8;      // Padding interno izquierdo para el texto de las celdas
+        const paddingTextY = 6;      // Ajuste vertical para centrar el texto en la celda
+
+        // Anchos fijos de cada columna
+        const colWidths = {
+            username: 130,
+            email: 240,
+            status: 125
+        };
+
+        // Posiciones X de inicio absolutas para cada columna
+        const colX = {
+            username: tableX,
+            email: tableX + colWidths.username,
+            status: tableX + colWidths.username + colWidths.email
+        };
+
+        // Ancho total de la tabla (495px)
+        const tableWidth = colWidths.username + colWidths.email + colWidths.status;
+
+        // La tabla inicia directamente en el startY del contenedor (sin subtítulo)
+        let currentY = startY;
+
+        // ==========================================
+        // 1. RENDERIZADO DE LA CABECERA (ENCABEZADOS)
+        // ==========================================
+
+        // Fondo sólido para la cabecera
+        page.drawRectangle({
+            x: tableX,
+            y: currentY - rowHeight,
+            width: tableWidth,
+            height: rowHeight,
+            color: colors.primary,
         });
-        const currentY = startY - 22;
 
-        // --- TABLA (ENCABEZADOS) ---
-        const colWidths = [80, 180, 250]; // Distribución de ancho optimizada para pantallas estándar
-        page.drawText('Usuario', { x: 50 + colWidths[0], y: currentY, size: 10, font: fonts.bold, color: colors.primary });
-        page.drawText('Correo Electrónico', { x: 50 + colWidths[0] + colWidths[1], y: currentY, size: 10, font: fonts.bold, color: colors.primary });
-        const lineY = currentY - 6;
-        page.drawLine({
-            start: { x: 50, y: lineY },
-            end: { x: width - 50, y: lineY },
-            thickness: 1.2,
-            color: colors.primary, // Línea de encabezado de tabla más firme
+        // Textos de la cabecera
+        page.drawText('USUARIO', {
+            x: colX.username + paddingTextX,
+            y: currentY - rowHeight + paddingTextY,
+            size: 8.5,
+            font: fonts.bold,
+            color: colors.textLight
+        });
+        page.drawText('CORREO ELECTRÓNICO', {
+            x: colX.email + paddingTextX,
+            y: currentY - rowHeight + paddingTextY,
+            size: 8.5,
+            font: fonts.bold,
+            color: colors.textLight
+        });
+        page.drawText('ESTADO', {
+            x: colX.status + paddingTextX,
+            y: currentY - rowHeight + paddingTextY,
+            size: 8.5,
+            font: fonts.bold,
+            color: colors.textLight
         });
 
+        // Bordes verticales de la cabecera
+        page.drawLine({ start: { x: colX.username, y: currentY }, end: { x: colX.username, y: currentY - rowHeight }, thickness: 1, color: colors.primary });
+        page.drawLine({ start: { x: colX.email, y: currentY }, end: { x: colX.email, y: currentY - rowHeight }, thickness: 0.8, color: colors.textLight });
+        page.drawLine({ start: { x: colX.status, y: currentY }, end: { x: colX.status, y: currentY - rowHeight }, thickness: 0.8, color: colors.textLight });
+        page.drawLine({ start: { x: tableX + tableWidth, y: currentY }, end: { x: tableX + tableWidth, y: currentY - rowHeight }, thickness: 1, color: colors.primary });
 
+        currentY -= rowHeight;
+
+        // ==========================================
+        // 2. RENDERIZADO DE FILAS (DATOS)
+        // ==========================================
+        for (const user of data.users) {
+            // Control de desbordamiento de página (Límite seguro antes del footer en Y: 50)
+            if (currentY - rowHeight < 70) {
+                break;
+            }
+
+            // Dibujamos el texto de las celdas
+            page.drawText(user.username || 'N/A', {
+                x: colX.username + paddingTextX,
+                y: currentY - rowHeight + paddingTextY,
+                size: 8.5,
+                font: fonts.regular,
+                color: colors.textDark
+            });
+
+            page.drawText(user.email || 'N/A', {
+                x: colX.email + paddingTextX,
+                y: currentY - rowHeight + paddingTextY,
+                size: 8.5,
+                font: fonts.regular,
+                color: colors.textDark
+            });
+
+            const statusText = user.active ? 'Activo' : 'Inactivo';
+            page.drawText(statusText, {
+                x: colX.status + paddingTextX,
+                y: currentY - rowHeight + paddingTextY,
+                size: 8,
+                font: fonts.bold,
+                color: colors.textDark
+            });
+
+            // --- Dibujo de la Cuadrícula Cerrada para esta Fila ---
+            // Línea horizontal inferior de la celda
+            page.drawLine({
+                start: { x: tableX, y: currentY - rowHeight },
+                end: { x: tableX + tableWidth, y: currentY - rowHeight },
+                thickness: 0.6,
+                color: colors.primary
+            });
+
+            // Líneas verticales divisorias y bordes exteriores
+            page.drawLine({ start: { x: colX.username, y: currentY }, end: { x: colX.username, y: currentY - rowHeight }, thickness: 1, color: colors.primary });
+            page.drawLine({ start: { x: colX.email, y: currentY }, end: { x: colX.email, y: currentY - rowHeight }, thickness: 0.6, color: colors.primary });
+            page.drawLine({ start: { x: colX.status, y: currentY }, end: { x: colX.status, y: currentY - rowHeight }, thickness: 0.6, color: colors.primary });
+            page.drawLine({ start: { x: tableX + tableWidth, y: currentY }, end: { x: tableX + tableWidth, y: currentY - rowHeight }, thickness: 1, color: colors.primary });
+
+            currentY -= rowHeight;
+        }
     }
 }

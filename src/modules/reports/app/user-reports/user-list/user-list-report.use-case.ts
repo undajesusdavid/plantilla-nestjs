@@ -19,7 +19,7 @@ export class UserListReportUseCase extends ReportUseCase<UserListReportQuery, Re
     const users = await this.repo.getUserList();
     
     return this.pdf.export({
-      name: 'Usuarios del Sistema',
+      name: 'listado de usuarios',
       generatedAt: new Date(),
       currentUser: 'Admin',
       users,
