@@ -1,20 +1,3 @@
-import { IsOptional, IsString, IsInt, Min } from 'class-validator';
-import { Type } from 'class-transformer';
-
-export class GetUsersRequestDto {
-    @IsOptional()
-    @IsString()
-    search?: string;
-
-    @IsOptional()
-    @Type(() => Number)
-    @IsInt()
-    @Min(1)
-    page?: number = 1;
-
-    @IsOptional()
-    @Type(() => Number)
-    @IsInt()
-    @Min(1)
-    limit?: number = 10;
+import { DataTableRequestDto } from '@src/shared/infrastructure/framework/nest/controller/dto/data-table.request.dto';
+export class GetUsersRequestDto extends DataTableRequestDto {
 }

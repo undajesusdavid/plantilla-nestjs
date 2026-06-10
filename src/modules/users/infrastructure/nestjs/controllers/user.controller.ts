@@ -46,7 +46,7 @@ import {
 import { UserIdPipe } from './pipes/user-id.pipe';
 import { GetUsersRequestDto } from './dto/request/get-users-request.dto';
 import { GetUsersResponseDto } from './dto/response/get-users-response.dto';
-import { UserEntityFiltered } from './dto/mappers/UserEntityFiltered';
+import { PaginatedResponse } from '@src/shared/app/use-cases/response/paginated.response';
 
 
 @Controller('users')
@@ -75,17 +75,10 @@ export class UserController extends NestBaseController {
     @Permissions(PERMISSIONS.READ_USERS.name)
     @UseGuards(JwtAuthGuard, AccessGuard)
     async getAll(@Query() query: GetUsersRequestDto): Promise<GetUsersResponseDto> {
-        const { search, page, limit } = query;
-
-        const { total, users } = await this.queryBus.execute<{ users: User[], total: number }>(
-            new GetUsersQuery(search, page, limit)
+        const response = await this.queryBus.execute<PaginatedResponse<User>>(
+            new GetUsersQuery({...query})
         );
-        return new GetUsersResponseDto({
-            data: users.map(user => new UserEntityFiltered(user)),
-            total,
-            page,
-            limit
-        });
+        return new GetUsersResponseDto(response);
     }
 
 

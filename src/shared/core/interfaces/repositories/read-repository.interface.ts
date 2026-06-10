@@ -1,13 +1,23 @@
 export interface PaginatedOptions<FilterType = Record<string, any>> {
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
   search?: string;
+  searchFields: string[];
+  orderBy?: string;
+  orderDirection?: 'asc' | 'desc';
   filters?: FilterType;
+
 }
 
 export interface PaginatedResult<T> {
   items: T[];
-  total: number;
+  pagination: {
+    totalItems: number,
+    itemCount: number,
+    itemsPerPage: number,
+    totalPages: number,
+    currentPage: number,
+  }
 }
 
 

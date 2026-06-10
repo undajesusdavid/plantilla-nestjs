@@ -1,5 +1,5 @@
 // src/shared/infrastructure/persistence/typeorm/base-typeorm.repository.ts
-import { Repository, ObjectLiteral, EntityManager, In, SelectQueryBuilder } from 'typeorm';
+import { Repository, ObjectLiteral, EntityManager, In, SelectQueryBuilder, Brackets } from 'typeorm';
 import { IBaseRepository } from '@src/shared/core/interfaces/repositories/base-repository.interface';
 import { transactionStorage } from '@shared/infrastructure/persistence/typeorm/typeorm.transaction-context';
 import { BaseMapper } from '@src/shared/infrastructure/persistence/base/base.mapper';
@@ -26,29 +26,49 @@ export abstract class BaseTypeOrmRepository<
   // CONSULTAS
 
   async findPaginated(options: PaginatedOptions): Promise<PaginatedResult<TDomain>> {
-    const { page, limit, search, filters } = options;
+    const { page = 1, limit = 10, search, orderBy, orderDirection, filters, searchFields } = options;
+    const offset = (page - 1) * limit;
 
-    // 1. Calcular el desajuste (offset) para SQL
-    const skip = (page - 1) * limit;
+    const alias = this.entityRepository.metadata.targetName.toLowerCase();
 
-    // 2. Crear el QueryBuilder nativo de TypeORM
-    const queryBuilder = this.entityRepository.createQueryBuilder();
+    const queryBuilder = this.entityRepository.createQueryBuilder(alias);
 
-    // 3. Aplicar filtros específicos y búsqueda por texto si la clase hija define las reglas
+    if (orderBy) {
+      const direction = orderDirection?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+      queryBuilder.orderBy(`${alias}.${orderBy}`, direction);
+    }
+
+    if (search && search.trim() !== '') {
+      const alias = queryBuilder.alias;
+      const searchCondition = searchFields
+        .map(field => `${alias}.${field} LIKE :search`)
+        .join(' OR ');
+      queryBuilder.andWhere(
+        new Brackets(qb => {
+          qb.where(searchCondition, { search: `%${search}%` });
+        })
+      );
+    }
+
     this.applySearchAndFilters(queryBuilder, search, filters);
 
-    // 4. Ejecutar la consulta de forma eficiente (Paginación a nivel de BD)
     const [ormEntities, total] = await queryBuilder
-      .skip(skip)
-      .take(limit)
+      .offset(offset)
+      .limit(limit)
       .getManyAndCount();
 
-    // 5. Mapear las entidades de Base de Datos de vuelta a Entidades de Dominio
+
     const items = this.mapper.toDomainList(ormEntities);
 
     return {
       items,
-      total,
+      pagination: {
+        totalItems: total,
+        itemCount: items.length,
+        itemsPerPage: limit,
+        totalPages: Math.ceil(total / limit),
+        currentPage: page,
+      }
     };
   }
 
